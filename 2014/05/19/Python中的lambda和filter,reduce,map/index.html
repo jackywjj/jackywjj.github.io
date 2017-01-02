@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Python中的lambda和filter,reduce,map | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Python 里有些个特别的技巧，这些技巧很难说是为了应对某些特别的场景，或者说是为了特别的需求而作。但也并不是说这些技巧毫无用处，在某些角度上看了还是很有用的，比如使用lambda可以写出匿名函数，减少代码量，有个比较正规的名词叫做 throw-away 函数，在我理解就是用完即扔，还真有点阅后即焚的味道。
+准备陆续记录下来到博客，这次就暂时写几个大家都知道的，比较有热度的，内建的几个技巧或者说">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python中的lambda和filter,reduce,map">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/19/Python中的lambda和filter,reduce,map/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="Python 里有些个特别的技巧，这些技巧很难说是为了应对某些特别的场景，或者说是为了特别的需求而作。但也并不是说这些技巧毫无用处，在某些角度上看了还是很有用的，比如使用lambda可以写出匿名函数，减少代码量，有个比较正规的名词叫做 throw-away 函数，在我理解就是用完即扔，还真有点阅后即焚的味道。
+准备陆续记录下来到博客，这次就暂时写几个大家都知道的，比较有热度的，内建的几个技巧或者说">
+<meta property="og:updated_time" content="2016-03-03T09:48:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python中的lambda和filter,reduce,map">
+<meta name="twitter:description" content="Python 里有些个特别的技巧，这些技巧很难说是为了应对某些特别的场景，或者说是为了特别的需求而作。但也并不是说这些技巧毫无用处，在某些角度上看了还是很有用的，比如使用lambda可以写出匿名函数，减少代码量，有个比较正规的名词叫做 throw-away 函数，在我理解就是用完即扔，还真有点阅后即焚的味道。
+准备陆续记录下来到博客，这次就暂时写几个大家都知道的，比较有热度的，内建的几个技巧或者说">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Python中的lambda和filter,reduce,map" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/05/19/Python中的lambda和filter,reduce,map/" class="article-date">
+  <time datetime="2014-05-19T09:10:34.000Z" itemprop="datePublished">2014-05-19</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python中的lambda和filter,reduce,map
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>Python 里有些个特别的技巧，这些技巧很难说是为了应对某些特别的场景，或者说是为了特别的需求而作。但也并不是说这些技巧毫无用处，在某些角度上看了还是很有用的，比如使用lambda可以写出匿名函数，减少代码量，有个比较正规的名词叫做 throw-away 函数，在我理解就是用完即扔，还真有点阅后即焚的味道。</p>
+<p>准备陆续记录下来到博客，这次就暂时写几个大家都知道的，比较有热度的，内建的几个技巧或者说是机制，或者说是函数，均可。</p>
+<a id="more"></a>
+<h3 id="lambda-函数"><a href="#lambda-函数" class="headerlink" title="lambda 函数"></a>lambda 函数</h3><p>lambda函数是个机制，可以让程序员写出一行代码的函数。或者说将一行代码的函数，都使用lambda这个机制，以减少代码量。</p>
+<p>首先介绍lambda函数的定义和调用语法：形如</p>
+<pre><code>lambda argument_list: expression
+</code></pre><p>关键字 lambda 跟参数列表，可以是多个， 接着 :(冒号)， 之后就是表达式</p>
+<p>可以将上面的整行赋值给某个变量，变量就类似函数名，如果要调用改函数，可以直接用变量调用，下面是例子</p>
+<pre><code>func = lambda x: x+2
+func(1)
+</code></pre><p>以上func就是lambda 函数， x为函数参数， x+2 为函数表达式， 之后func(1) 把1 作为参数传给lambda函数，输出 3</p>
+<p>lambda函数也可以是匿名的， 修改以上代码如：</p>
+<pre><code>print (lambda x: x+2)(1)
+</code></pre><p>以上代码也输出 3</p>
+<p>需要说明的是，lambda函数是一种机制，更是一种风格，因此并不强制必须要用lambda函数。这让本博想起类C风格的 if 表达式中花括号问题，if 表达式分支中如果只有一行，那么花括号是可以省略的，但是某些人的代码习惯，或者某些公司的代码习惯规定，不论 if 表达式中的分支一行也好，多行也好，必须加上花括号，以免编译出错或者阅读不便，最主要的是避免不必要的bug。 那么，想来，有时候便利或者程序的准确性，都是需要衡量的，最主要的是，对基础的掌握和理解。</p>
+<h3 id="filter-函数"><a href="#filter-函数" class="headerlink" title="filter 函数"></a>filter 函数</h3><p>filter函数，看名字是过滤，形式如下：</p>
+<pre><code>filter(function, iterable)
+</code></pre><p>iterable 可以是任何可遍历的list， 如果是字典，过滤的是key（已亲测，Python 2.7）。 function是针对每个list元素所作的操作函数，主要是条件操作，元素是否大于某个值，或者取余数，取模之类的，将符合条件的元素append到返回的list中， 因此，整个filter函数返回一个list，其中每个元素符合function所作的逻辑判断</p>
+<p>举个栗子：</p>
+<pre><code>l = [1,2,4,6,2,34,6576,56]
+r = filter(lambda x : x &gt; 30, l)
+print l
+print r
+</code></pre><p>输出</p>
+<pre><code>[1, 2, 4, 6, 2, 34, 6576, 56]
+[34, 6576, 56]
+</code></pre><p>r为filter之后的返回值，数组类型，把大于30的元素重新组织成一个list，即所谓的条件过滤。</p>
+<h3 id="map-函数"><a href="#map-函数" class="headerlink" title="map 函数"></a>map 函数</h3><p>map函数于filter很类似，参数都一样，也是function和一个可遍历的序列，返回值也是个list，如下：</p>
+<pre><code>map(function, iterable, ...)
+</code></pre><p>唯一不同的是，function的函数体是个计算过程，将参数中每个list的元素都进行计算，返回一个list</p>
+<p>另外，iterable可以是多个list，重点是 长度 必须一样，例如，有几个list参数，lambda里面就可以有几个参数，分别对应多个list的同一个位置的元素值，这样可以进行多个list间计算。</p>
+<p>举个栗子：</p>
+<pre><code>l = [1,2,3,4,5,6]
+l2 = [7,8,9,10,11,12]
+r = map(lambda x, y : x + y + 1, l, l2)
+print l
+print l2
+print r
+</code></pre><p>输出</p>
+<pre><code>[1, 2, 3, 4, 5, 6]
+[7, 8, 9, 10, 11, 12]
+[9, 11, 13, 15, 17, 19]
+</code></pre><h3 id="reduce-函数"><a href="#reduce-函数" class="headerlink" title="reduce 函数"></a>reduce 函数</h3><p>reduce 函数更关注list本身，返回操作后的一个值，形式如下：</p>
+<pre><code>reduce(function, iterable[, initializer])
+</code></pre><p>function 和 iterable 同上， initializer 是初始值，这个跟reduce的作用有关系，reduce的作用是：</p>
+<p>如果 initializer 为 None， 那么， function的第一个参数即是 list 第一个元素，第二个参数即是 list 的第二个参数</p>
+<p>如果 initializer 不为 None，那么，function的第一个参数即为 initializer ， 第二个参数为list的第一个元素</p>
+<p>之后，就将list循环操作，参数值为list的元素+1位，直至循环结束。 因此， 其中function需要2个参数。</p>
+<p>举个栗子：</p>
+<pre><code>l = [1,2,3,4,5,6]
+r = reduce(lambda x, y : x + y, l, 1)
+print l
+print r
+</code></pre><p>输出：</p>
+<pre><code>[1, 2, 3, 4, 5, 6]
+22
+</code></pre><p>再举个栗子：</p>
+<pre><code>l = [1,2,3,4,5,6]
+r = reduce(lambda x, y : x if x &gt; y else y, l, 1)
+print l
+print r
+</code></pre><p>输出：</p>
+<pre><code>[1, 2, 3, 4, 5, 6]
+6
+</code></pre><p>以上操作是取列表最大值。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/19/Python中的lambda和filter,reduce,map/" data-id="cixfu1661001n5vi4l51hqk8a" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/05/22/MySQL优化四(服务器设置)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL优化四(服务器设置)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/16/服务器任务状态报告命令pidstat的几个参数/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">服务器任务状态报告命令pidstat的几个参数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

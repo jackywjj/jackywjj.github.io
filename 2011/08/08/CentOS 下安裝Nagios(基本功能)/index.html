@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>CentOS 下安裝Nagios(基本功能)md | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文摘自Nagios官方网站， 在CentOS下安装系统监控软件 Nagios
+IntroductionThis guide is intended to provide you with simple instructions on how to install Nagios from source (code) on Fedora and have it monitoring your loc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 下安裝Nagios(基本功能)md">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2011/08/08/CentOS 下安裝Nagios(基本功能)/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="本文摘自Nagios官方网站， 在CentOS下安装系统监控软件 Nagios
+IntroductionThis guide is intended to provide you with simple instructions on how to install Nagios from source (code) on Fedora and have it monitoring your loc">
+<meta property="og:updated_time" content="2016-03-04T09:27:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 下安裝Nagios(基本功能)md">
+<meta name="twitter:description" content="本文摘自Nagios官方网站， 在CentOS下安装系统监控软件 Nagios
+IntroductionThis guide is intended to provide you with simple instructions on how to install Nagios from source (code) on Fedora and have it monitoring your loc">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-CentOS 下安裝Nagios(基本功能)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2011/08/08/CentOS 下安裝Nagios(基本功能)/" class="article-date">
+  <time datetime="2011-08-08T13:19:44.000Z" itemprop="datePublished">2011-08-08</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Server/">Server</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 下安裝Nagios(基本功能)md
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>本文摘自Nagios官方网站， 在CentOS下安装系统监控软件 Nagios</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This guide is intended to provide you with simple instructions on how to install Nagios from source (code) on Fedora and have it monitoring your local machine inside of 20 minutes.</p>
+<p>No advanced installation options are discussed here - just the basics that will work for 95% of users who want to get started.</p>
+<p>本指南提供给您如何在20分钟内基于Fedora平台从源码安装Nagios系统。未涉及到高级配置，但已满足95%的功能。</p>
+<p>These instructions were written based on a standard Fedora Core 6 Linux distribution.</p>
+<p>这些说明均基于标准的Fedora Core 6 发行版。</p>
+<p>What You’ll End Up With<br>If you follow these instructions, here’s what you’ll end up with:</p>
+<p>安装本指南，你将得到：</p>
+<p>Nagios and the plugins will be installed underneath /usr/local/nagios<br>Nagios will be configured to monitor a few aspects of your local system (CPU load, disk usage, etc.)</p>
+<p>The Nagios web interface will be accessible at <a href="http://localhost/nagios/" target="_blank" rel="external">http://localhost/nagios/</a><br>Nagios 和插件将被安装到 /usr/local/nagios 下 （注：此目录可以更改，根据用户要求安装在其他目录亦可以，注意前后统一即可）</p>
+<p>Nagios将被监控本地系统的几个方面，例如 CPU负载，磁盘使用情况等等<br>可以通过<a href="http://localhost/nagios/来访问Nagios" target="_blank" rel="external">http://localhost/nagios/来访问Nagios</a> 的web 操作界面</p>
+<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>During portions of the installation you’ll need to have root access to your machine.</p>
+<p>你必须拥有root权限。</p>
+<p>Make sure you’ve installed the following packages on your Fedora installation before continuing.</p>
+<p>确认系统内已安装下列安装包</p>
+<pre><code>Apache
+PHP
+GCC compiler
+GD development libraries
+</code></pre><p>You can use yum to install these packages by running the following commands (as root):</p>
+<p>可以使用yum安装</p>
+<pre><code>yum install httpd php
+yum install gcc glibc glibc-common
+yum install gd gd-devel
+</code></pre><h5 id="1-Create-Account-Information"><a href="#1-Create-Account-Information" class="headerlink" title="1) Create Account Information"></a>1) Create Account Information</h5><p>Become the root user.</p>
+<p>成为root用户</p>
+<pre><code>su -l
+</code></pre><p>Create a new nagios user account and give it a password.</p>
+<p>建立一个名为  nagios 的用户，并且设置他的密码</p>
+<pre><code>/usr/sbin/useradd -m nagios
+
+passwd nagios
+</code></pre><p>Create a new nagcmd group for allowing external commands to be submitted through the web interface. Add both the nagios user and the apache user to the group.</p>
+<p>建立一个名为 nagcmd 的用户组，将nagios 和apache 2个用户添加进这个用户组</p>
+<pre><code>/usr/sbin/groupadd nagcmd
+/usr/sbin/usermod -a -G nagcmd nagios
+/usr/sbin/usermod -a -G nagcmd apache
+</code></pre><h5 id="2-Download-Nagios-and-the-Plugins"><a href="#2-Download-Nagios-and-the-Plugins" class="headerlink" title="2) Download Nagios and the Plugins"></a>2) Download Nagios and the Plugins</h5><p>Create a directory for storing the downloads.</p>
+<p>建立下载后的临时目录</p>
+<pre><code>mkdir ~/downloads
+cd ~/downloads
+</code></pre><p>Download the source code tarballs of both Nagios and the Nagios plugins (visit <a href="http://www.nagios.org/download/" target="_blank" rel="external">http://www.nagios.org/download/</a> for links to the latest versions). These directions were tested with Nagios 3.1.1 and Nagios Plugins 1.4.11.</p>
+<p>下载Nagios和 Nagios Plugins 的软件包。 本指南只用Nagios 3.1.1 和Nagios  Plugins 1.4.11</p>
+<pre><code>wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.3.tar.gz
+wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.11.tar.gz
+</code></pre><h5 id="3-Compile-and-Install-Nagios"><a href="#3-Compile-and-Install-Nagios" class="headerlink" title="3) Compile and Install Nagios"></a>3) Compile and Install Nagios</h5><p>Extract the Nagios source code tarball.</p>
+<p>解压缩Nagios源代码</p>
+<pre><code>cd ~/downloads
+tar xzf nagios-3.2.3.tar.gz
+cd nagios-3.2.3
+</code></pre><p>Run the Nagios configure script, passing the name of the group you created earlier like so:</p>
+<p>运行Nagios configure命令，并且将之前建立的nagcmd用户组设置为Nagios命令行运行组</p>
+<pre><code>./configure --with-command-group=nagcmd
+</code></pre><p>Compile the Nagios source code.</p>
+<p>编译源码</p>
+<pre><code>make all
+</code></pre><p>Install binaries, init script, sample config files and set permissions on the external command directory.</p>
+<p>安装2进制码，初始化脚本，示例文件，设置权限</p>
+<pre><code>make install
+make install-init
+make install-config
+make install-commandmode
+</code></pre><p>Don’t start Nagios yet - there’s still more that needs to be done…<br>注，此时不要启动nagios，还有很多工作要做</p>
+<h5 id="4-Customize-Configuration"><a href="#4-Customize-Configuration" class="headerlink" title="4) Customize Configuration"></a>4) Customize Configuration</h5><p>Sample configuration files have now been installed in the /usr/local/nagios/etc directory. These sample files should work fine for getting started with Nagios. You’ll need to make just one change before you proceed…</p>
+<p>示例配置文件将被装在/usr/local/nagios/etc 下，这些配置文件可以另Nagios工作，但是需要更改一个地方</p>
+<p>Edit the /usr/local/nagios/etc/objects/contacts.cfg config file with your favorite editor and change the email address associated with the nagiosadmin contact definition to the address you’d like to use for receiving alerts.</p>
+<p>使用你喜欢的文本编辑器打开 /usr/local/nagios/etc/objects/contacts.cfg 文件。更改nagiosadmin  帐号 的email等相关信息</p>
+<pre><code>vi /usr/local/nagios/etc/objects/contacts.cfg
+</code></pre><h5 id="5-Configure-the-Web-Interface"><a href="#5-Configure-the-Web-Interface" class="headerlink" title="5) Configure the Web Interface"></a>5) Configure the Web Interface</h5><p>Install the Nagios web config file in the Apache conf.d directory.</p>
+<p>安装Nagios的apache配置文件 ，此文件位于 apache的conf.d 目录</p>
+<pre><code>make install-webconf
+</code></pre><p>Create a nagiosadmin account for logging into the Nagios web interface. Remember the password you assign to this account - you’ll need it later.</p>
+<p>使用apache的htpasswd命令建立认证用户及密码</p>
+<pre><code>htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+</code></pre><p>Restart Apache to make the new settings take effect.</p>
+<p>重启apache以使Nagios生效</p>
+<pre><code>service httpd restart
+</code></pre><p>Note: Consider implementing the ehanced CGI security measures described here to ensure that your web authentication credentials are not compromised.</p>
+<p>考虑到实现CGI安全的程度，请确保你的web认证证书受到危害</p>
+<h5 id="6-Compile-and-Install-the-Nagios-Plugins"><a href="#6-Compile-and-Install-the-Nagios-Plugins" class="headerlink" title="6) Compile and Install the Nagios Plugins"></a>6) Compile and Install the Nagios Plugins</h5><p>Extract the Nagios plugins source code tarball.</p>
+<p>解压Nagios插件源码</p>
+<pre><code>cd ~/downloads
+tar xzf nagios-plugins-1.4.11.tar.gz
+cd nagios-plugins-1.4.11
+</code></pre><p>Compile and install the plugins.</p>
+<p>编译安装插件， 注意运行的用户组</p>
+<pre><code>./configure --with-nagios-user=nagios --with-nagios-group=nagios
+make
+make install
+</code></pre><h5 id="7-Start-Nagios"><a href="#7-Start-Nagios" class="headerlink" title="7) Start Nagios"></a>7) Start Nagios</h5><p>Add Nagios to the list of system services and have it automatically start when the system boots.</p>
+<p>设置Nagios为系统服务，并且在系统启动时启动Nagios</p>
+<pre><code>chkconfig --add nagios
+chkconfig nagios on
+</code></pre><p>Verify the sample Nagios configuration files.</p>
+<p>检验Nagios的配置文件</p>
+<pre><code>/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+</code></pre><p>If there are no errors, start Nagios.</p>
+<p>如果没有错误，启动Nagios</p>
+<pre><code>service nagios start
+</code></pre><h5 id="8-Modify-SELinux-Settings"><a href="#8-Modify-SELinux-Settings" class="headerlink" title="8) Modify SELinux Settings"></a>8) Modify SELinux Settings</h5><p>Fedora ships with SELinux (Security Enhanced Linux) installed and in Enforcing mode by default. This can result in “Internal Server Error” messages when you attempt to access the Nagios CGIs.<br>See if SELinux is in Enforcing mode.</p>
+<p>Fedora 如果强制打开SELinux ，当访问Nagios 的CGI时，将会出现 “Internal Server Error” 错误，下面命令查看是否打开SELinux</p>
+<pre><code>getenforce
+</code></pre><p>Put SELinux into Permissive mode.</p>
+<p>设置禁用SELinux</p>
+<pre><code>setenforce 0
+</code></pre><p>To make this change permanent, you’ll have to modify the settings in /etc/selinux/config and reboot.</p>
+<p>需要永久禁用SELinux，请编辑 /etc/selinux/配置文件，之后重启。</p>
+<p>Instead of disabling SELinux or setting it to permissive mode, you can use the following command to run the CGIs under SELinux enforcing/targeted mode:</p>
+<p>也可以使用以下命令使CGI在SELinux的合法模式下运行</p>
+<pre><code>chcon -R -t httpd_sys_content_t /usr/local/nagios/sbin/
+chcon -R -t httpd_sys_content_t /usr/local/nagios/share/
+</code></pre><p>For information on running the Nagios CGIs under Enforcing mode with a targeted policy, visit the Nagios Support Portal or Nagios Community Wiki.</p>
+<p>如需要在ENLinux的强制模式下运行Nagios，请访问Nagios的WIKI</p>
+<h5 id="9-Login-to-the-Web-Interface"><a href="#9-Login-to-the-Web-Interface" class="headerlink" title="9) Login to the Web Interface"></a>9) Login to the Web Interface</h5><p>You should now be able to access the Nagios web interface at the URL below. You’ll be prompted for the username (nagiosadmin) and password you specified earlier.</p>
+<p>现在你可以使用之前htpasswd建立的用户登录web界面的nagios</p>
+<pre><code>http://localhost/nagios/
+</code></pre><p>Click on the “Service Detail” navbar link to see details of what’s being monitored on your local machine. It will take a few minutes for Nagios to check all the services associated with your machine, as the checks are spread out over time.</p>
+<p>点击 “Service Detail”查看本地机器的细节部分，需要一定时间来让Nagios关联至本地机器的相关模块。</p>
+<h5 id="10-Other-Modifications"><a href="#10-Other-Modifications" class="headerlink" title="10) Other Modifications"></a>10) Other Modifications</h5><p>Make sure your machine’s firewall rules are configured to allow access to the web server if you want to access the Nagios interface remotely.</p>
+<p>确认防火墙规则。</p>
+<p>Configuring email notifications is out of the scope of this documentation.</p>
+<p>配置email</p>
+<p>While Nagios is currently configured to send you email notifications, your system may not yet have a mail program properly installed or configured. Refer to your system documentation, search the web, or look to the Nagios Support Portal or Nagios Community Wiki for specific instructions on configuring your system to send email messages to external addresses. More information on notifications can be found here.</p>
+<p>确认安装email组件，使之可以在系统发生状况时发送给你email，其他更多咨询，请查看Nagios的WIKI</p>
+<h5 id="11-You’re-Done"><a href="#11-You’re-Done" class="headerlink" title="11) You’re Done"></a>11) You’re Done</h5><p>Congratulations! You sucessfully installed Nagios. Your journey into monitoring is just beginning. You’ll no doubt want to monitor more than just your local machine, so check out the following docs…</p>
+<p>祝贺你！你成功安装了Nagios。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2011/08/08/CentOS 下安裝Nagios(基本功能)/" data-id="cixfu165300055vi4mavx8ha7" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/10/20/使用Python抓取网页的几个工具/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用Python抓取网页的几个工具
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/03/29/MySQL 查询连接数/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL 查询连接数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

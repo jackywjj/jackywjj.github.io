@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>MySQL优化五(Schema和Query的优化) | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySQL部分已经陆陆续续写到第五个章节了。MySQL的学习笔记大都是根据几本关于MySQL的书籍，还有一些网络上的资源，以及其他同行们的学习经验。技术的进步离不开书籍，很巧，技术的拼音正好是书籍拼音反过来写， shuji 和 jishu，感觉自己好无聊。。。
+到了第五个章节，还是继续把记录下的东西进行理论的总结，既然这么说，那么特别的例子不会给出，这个还是放在以后按照实例来记录吧，这也是为了自己">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL优化五(Schema和Query的优化)">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/06/02/MySQL优化五(Schema和Query的优化)/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="MySQL部分已经陆陆续续写到第五个章节了。MySQL的学习笔记大都是根据几本关于MySQL的书籍，还有一些网络上的资源，以及其他同行们的学习经验。技术的进步离不开书籍，很巧，技术的拼音正好是书籍拼音反过来写， shuji 和 jishu，感觉自己好无聊。。。
+到了第五个章节，还是继续把记录下的东西进行理论的总结，既然这么说，那么特别的例子不会给出，这个还是放在以后按照实例来记录吧，这也是为了自己">
+<meta property="og:updated_time" content="2016-03-04T09:34:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL优化五(Schema和Query的优化)">
+<meta name="twitter:description" content="MySQL部分已经陆陆续续写到第五个章节了。MySQL的学习笔记大都是根据几本关于MySQL的书籍，还有一些网络上的资源，以及其他同行们的学习经验。技术的进步离不开书籍，很巧，技术的拼音正好是书籍拼音反过来写， shuji 和 jishu，感觉自己好无聊。。。
+到了第五个章节，还是继续把记录下的东西进行理论的总结，既然这么说，那么特别的例子不会给出，这个还是放在以后按照实例来记录吧，这也是为了自己">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-MySQL优化五(Schema和Query的优化)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/06/02/MySQL优化五(Schema和Query的优化)/" class="article-date">
+  <time datetime="2014-06-02T07:51:52.000Z" itemprop="datePublished">2014-06-02</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Database/">Database</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL优化五(Schema和Query的优化)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>MySQL部分已经陆陆续续写到第五个章节了。MySQL的学习笔记大都是根据几本关于MySQL的书籍，还有一些网络上的资源，以及其他同行们的学习经验。技术的进步离不开书籍，很巧，技术的拼音正好是书籍拼音反过来写， shuji 和 jishu，感觉自己好无聊。。。</p>
+<p>到了第五个章节，还是继续把记录下的东西进行理论的总结，既然这么说，那么特别的例子不会给出，这个还是放在以后按照实例来记录吧，这也是为了自己履行温故而知新的学习方法而做的特别的安排，对于大部分的知识点，最好的方式是自己动手做，然而，必要的基础知识又必不可少，因此，为了强迫自己能非常扎实的掌握技术知识，采取了一些奇怪的方式。</p>
+<p>譬如看书的时候，记忆目录，浏览内容，画出重点，实际用到的时候，再深入，记录经典案例，写总结的时候，却分开写，果真是对付懒人的办法啊。</p>
+<p>废话这么多，开始吧。。。<br><a id="more"></a></p>
+<h3 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h3><h5 id="数据库范式"><a href="#数据库范式" class="headerlink" title="数据库范式"></a>数据库范式</h5><p>70年代的数据库范式，确实是具有指导地位的，当年无论是学生时期，还是自学甚至自己动手做的时候，都是以范式为主导，设计出的结构，清清楚楚，非常漂亮，基本没有冗余字段。</p>
+<p>但是发展到现今，真实世界的各种另类需求，造就了反范式的设计思想，对于反范式，个人理解为就是空间换取时间。正是这点，就是可以利用冗余，来提高数据库的性能，增加了维护冗余的某些成本，但是提高了业务逻辑的响应。</p>
+<p>举个简单的栗子，很多网站都有排行列表，通常都是周排行，月排行等，完全可以做成冗余表，而避免区查询主表。</p>
+<h5 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h5><p>在设计数据库结构是，必须废除清楚各种数据类型的特性，特别是某些比较重要的字段。</p>
+<blockquote>
+<p>整型<br>有好几种，首先清楚他们的存储长度，最大和最小值，这里的最大最小跟有无符号也有关系<br>比如总是将主键设置为无符号，那么，最大值会更大，毕竟负数的主键用不着。<br>一些MySQL工具中要你填写TinyInt时，其实是要你填写它的显示长度，而非长度。</p>
+<p>浮点型<br>Float 是不精确的，Double更好点<br>更有甚之，把浮点的2个部分，做成2个整型的字段，以表示更精确，或者，更符合特别的需求。</p>
+<p>时间类型<br>多数用Unix时间戳，不过据说时间格式已经优化得很好了，可以使用datetime之类的，只是要注意时区问题，来选择更好的。</p>
+<p>文本型<br>text的无法做索引，注意char和varchar的区别</p>
+</blockquote>
+<p>对于所有的类型，除了无法做默认值的字段，都应该在数据层面上设定默认值，因为NULL类型在搜索时是会影响性能的。</p>
+<h5 id="减少join"><a href="#减少join" class="headerlink" title="减少join"></a>减少join</h5><p>减少Join其实是可以使用冗余来解决，在某些情况下，如果数据量特别大，那么单表操作肯定比join表操作要性能上消耗少。</p>
+<h5 id="表的拆分"><a href="#表的拆分" class="headerlink" title="表的拆分"></a>表的拆分</h5><p>OO里面有个对象关系的概念，一对一。一个对象对应另外存在另外一个对象，依赖或者聚合。其实数据库里面也可以如此做，但是本博要说的概念其实被偷换了，准确来说是表的垂直拆分。</p>
+<p>举个栗子，一个表中，有一定数量的字段，但是某些场景，频繁读取其中一部分字段，比如30%的字段，其余的在另一个场景中需要频繁入库， 比如70%的字段， 那么分开吧。</p>
+<p>一方面，保持2个表的关系，其实逻辑上只有一张表，保持逻辑统一。另一方面，操作是分开的，I/O的压力被分开了，甚至于分成两个数据库服务器。</p>
+<p>水平拆分</p>
+<p>某些场景下，并不是字段太多，而是记录数太多，而这个记录数非常巧的因为某个字段或某些字段的内容上分别适用于不同场景。</p>
+<p>举个栗子，某个字段，譬如身份证，可以按照身份证开头几位，辨别出是哪个地区，而恰巧，某个场景就是通过地区来操作身份证，并且读取又非常之频繁，那么，根据身份证这个特定字段，进行表内容的水平拆分，按照地区的不同数据量进行划分，划分为几个不同地区的组合，而这些组合的总记录数和读取量又差不多，那恰好做成不同的表，根据不同应用场景来进行操作。</p>
+<h3 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h3><h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><p>索引的本质是B+树的查询，简单来说，对于某一字段，或者某几个字段进行排序，方便查找，好比很多技术书籍都会有个索引之类的，使用字母表进行排序，方便查找。</p>
+<p>另外，索引是基于原表而建立的，因此，索引肯定会影响入库的操作，比如一个表有N个索引，那么在入库时，这N个索引牵涉到的字段，必须重新排一下序，就是说索引需要rebuild一下，可想而知需要需要牺牲的这些时间。当然，可以用其他方式来减少这些损失，以达到更快的响应，例如，分库。</p>
+<h6 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h6><p>某些数据类型不适合建立索引，整型就比较适合。</p>
+<p>字符型不大好。</p>
+<p>字段中出现NULL，更不好，就是上文所说的，最好字段都有默认值的原因。</p>
+<h6 id="索引使用"><a href="#索引使用" class="headerlink" title="索引使用"></a>索引使用</h6><p>索引和 WHERE 子句关系很密切，以下是一些tips</p>
+<blockquote>
+<p>-不使用 !=  ，这个会让索引失效</p>
+<p>-WHERE 子句中，被索引的字段的位置很重要，例如 WHERE A=x AND B=y， 那么有效索引是 A，A+B，以B开头的，是无效的</p>
+<p>-MySQL函数如果被使用在WHERE 中是，索引无效</p>
+<p>-使用LIKE，模糊匹配在前面，是无效的，例如  ‘%abc’</p>
+<p>-尽量不要使用 SELECT *</p>
+<p>-查询一条记录时，使用LIMIT 1</p>
+<p>-索引是放在内存的，因此配置MySQL的时候，相关的buffer 和 cache 放放大</p>
+</blockquote>
+<p>了解了索引，就可以很好的利用它，以上是一些是整理的小思路，至于何时使用索引，如何使用将在下一个笔记章节中整理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/06/02/MySQL优化五(Schema和Query的优化)/" data-id="cixfu165x001e5vi4npom5wel" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/21/Java Collection浅析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java Collection浅析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/22/MySQL优化四(服务器设置)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL优化四(服务器设置)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

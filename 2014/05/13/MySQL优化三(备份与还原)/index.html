@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>MySQL优化三(备份与还原) | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本章谈谈MySQL的备份和还原，外加一点点复制。
+其中所谓的复制跟备份有点关系，因此放在这里记录下来，另一部分复制跟主、从库有关系，未来打算放进MySQL架构部分去记录，在本博看来主、从库不仅是架构级别，并且需要适当监控，因此独立一章，具体阐述。
+备份和还原其实也是比较复杂的，譬如备份时不要影响生产环境的业务进行，还原时同时也应注意这点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL优化三(备份与还原)">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/13/MySQL优化三(备份与还原)/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="本章谈谈MySQL的备份和还原，外加一点点复制。
+其中所谓的复制跟备份有点关系，因此放在这里记录下来，另一部分复制跟主、从库有关系，未来打算放进MySQL架构部分去记录，在本博看来主、从库不仅是架构级别，并且需要适当监控，因此独立一章，具体阐述。
+备份和还原其实也是比较复杂的，譬如备份时不要影响生产环境的业务进行，还原时同时也应注意这点。">
+<meta property="og:updated_time" content="2016-03-04T09:34:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL优化三(备份与还原)">
+<meta name="twitter:description" content="本章谈谈MySQL的备份和还原，外加一点点复制。
+其中所谓的复制跟备份有点关系，因此放在这里记录下来，另一部分复制跟主、从库有关系，未来打算放进MySQL架构部分去记录，在本博看来主、从库不仅是架构级别，并且需要适当监控，因此独立一章，具体阐述。
+备份和还原其实也是比较复杂的，譬如备份时不要影响生产环境的业务进行，还原时同时也应注意这点。">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-MySQL优化三(备份与还原)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/05/13/MySQL优化三(备份与还原)/" class="article-date">
+  <time datetime="2014-05-13T11:03:09.000Z" itemprop="datePublished">2014-05-13</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Database/">Database</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL优化三(备份与还原)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>本章谈谈MySQL的备份和还原，外加一点点复制。</p>
+<p>其中所谓的复制跟备份有点关系，因此放在这里记录下来，另一部分复制跟主、从库有关系，未来打算放进MySQL架构部分去记录，在本博看来主、从库不仅是架构级别，并且需要适当监控，因此独立一章，具体阐述。</p>
+<p>备份和还原其实也是比较复杂的，譬如备份时不要影响生产环境的业务进行，还原时同时也应注意这点。<br><a id="more"></a></p>
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><h6 id="复制用途"><a href="#复制用途" class="headerlink" title="复制用途"></a>复制用途</h6><p>《高性能MySQL》上列出了几点可供参考：</p>
+<p> 1）数据分布，简单来说就是多个库，需要同步</p>
+<p> 2）负载平衡，本博理解为读写分离</p>
+<p> 3）备份</p>
+<p> 4）高可用性和故障转移，数据库切换</p>
+<p> 5）测试MySQL升级，在从服务器上进行升级，之后测试，其实也是和正式环境隔离的一个方式。</p>
+<p> 以上可以看出所谓的复制，基本就是主从复制，正所谓有备无患，并且这些问题是确实存在的，因此复制尤为重要。</p>
+<p> 以上的问题，归结来说，主要是环境隔离和性能优化两个方面，以前使用单个数据库时，进行过一些比较危险的复制，例如停机维护，关闭服务器后直接拷贝数据库文件，或者直接使用备份脚本备份。这些都不是很合理的，因此，主从备份基本都是首选。</p>
+<p> BTW，对于脚本备份，不同的数据库引擎必须要注意使用的脚本，下文会列出。</p>
+<h6 id="主从复制工作原理"><a href="#主从复制工作原理" class="headerlink" title="主从复制工作原理"></a>主从复制工作原理</h6><p>主从库的同步，牵涉到几个方面：</p>
+<p>主库的SQL线程，记录bin log</p>
+<p>从库的I/O线程，以二进制形式接受bin log，存为relay log</p>
+<p>从库的SQL线程，执行主库的relay log</p>
+<p>毫无疑问会略微影响性能，但是是必须的。</p>
+<p>主从库其实比较简单， 涉及的命令及操作方式未来在架构中详细列出，亦或特立一章。</p>
+<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><h6 id="mysqldump命令"><a href="#mysqldump命令" class="headerlink" title="mysqldump命令"></a>mysqldump命令</h6><p>命令mysqldump 用于数据库的备份，只是注意几个参数，lock-table  lock-all-table 用于进行表的锁，以达到固定时间点备份的目的，需要指出的是，如果锁表，必定会影响生产环境，除非在没人访问库表的情况下使用。</p>
+<p>其他物理备份，需针对不同数据库引擎加以区分，例如 MyISM 可以使用mysqlhotcopy。 innodb则可能需要更复杂的工具和操作。</p>
+<p>还有一种使用以来的操作系统进行LVM快照备份，需要考虑的比较多，可以参考相关文档。</p>
+<p>本博认为最靠谱的还是主从备份，也就是使用bin log 进行备份，或者直接mysqldump 备份从库内容。</p>
+<h3 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h3><p>对于物理备份， 直接粘贴复制的文件即可。</p>
+<p>对于mysqldump备份下来的文件，其实也就是一堆insert 的SQL语句，使用mysql 命令即可。这里需要注意的是备份文件的大小，如果太大，可以分段导入。</p>
+<p>如果有bin log， 可以进行时间点的还原，因此即使清空了所有数据，还是可以还原清空之前的数据。</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>InnDB是个非常健壮的数据库引擎，这里阐述一个或许和备份还原无关的机制，InnDB无论是在运行中，或者刚启动都会有一些特别的动作，例如它具有很多检验机制，来进行自我修复。在进行入库操作时，会使用缓存，放置内存中，也就是说磁盘上的物理文件，并非和内存中在同一时刻保持一致。</p>
+<p>因此，从数据还原角度讲，还存在另一种情况，即并非从历史备份中还原，而是根据日志里的事务状态，把数据更新到数据文件，或者进行回滚工作。</p>
+<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>本博的一些心得，数据备份要常做，当然是在不影响生产环境的前提下。并且使用脚本来做，当然也有好的工具，但是，在*nix系统下，架构允许的情况下，还是自己多花时间，写点脚本吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/13/MySQL优化三(备份与还原)/" data-id="cixfu165t00195vi4vxmwkwlj" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/05/15/服务器监控命令top的几个参数/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          服务器监控命令top的几个参数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/02/MySQL优化二(数据库权限)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL优化二(数据库权限)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

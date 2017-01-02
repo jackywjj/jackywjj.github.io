@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Linux目录简介 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="此篇非常简单的介绍Linux标准系统下各种目录的文章。现在，各种公司的Linux都是换汤不换药，但是还是多少有些区别，所以不能保证下面的介绍适用于所有的Linux系统，比如说Debian。
+Windows下的软件一般都会放在一个固定的目录里面。比如说程序X放在C:Program_ComeOnBabyX，程序Y放在C:Program_SkybirdY。但是Linux系统就有很大的不同，它更加复杂。因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux目录简介">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2009/04/03/Linux目录简介/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="此篇非常简单的介绍Linux标准系统下各种目录的文章。现在，各种公司的Linux都是换汤不换药，但是还是多少有些区别，所以不能保证下面的介绍适用于所有的Linux系统，比如说Debian。
+Windows下的软件一般都会放在一个固定的目录里面。比如说程序X放在C:Program_ComeOnBabyX，程序Y放在C:Program_SkybirdY。但是Linux系统就有很大的不同，它更加复杂。因">
+<meta property="og:updated_time" content="2016-03-04T09:33:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux目录简介">
+<meta name="twitter:description" content="此篇非常简单的介绍Linux标准系统下各种目录的文章。现在，各种公司的Linux都是换汤不换药，但是还是多少有些区别，所以不能保证下面的介绍适用于所有的Linux系统，比如说Debian。
+Windows下的软件一般都会放在一个固定的目录里面。比如说程序X放在C:Program_ComeOnBabyX，程序Y放在C:Program_SkybirdY。但是Linux系统就有很大的不同，它更加复杂。因">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Linux目录简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2009/04/03/Linux目录简介/" class="article-date">
+  <time datetime="2009-04-03T02:26:36.000Z" itemprop="datePublished">2009-04-03</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux目录简介
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>此篇非常简单的介绍Linux标准系统下各种目录的文章。现在，各种公司的Linux都是换汤不换药，但是还是多少有些区别，所以不能保证下面的介绍适用于所有的Linux系统，比如说Debian。</p>
+<p>Windows下的软件一般都会放在一个固定的目录里面。比如说程序X放在C:Program_ComeOnBabyX，程序Y放在C:Program_SkybirdY。但是Linux系统就有很大的不同，它更加复杂。因为它不是根据程序的目的或者类型来放在一个目录里的，而是把二进制可执行文件放在一个目录里，把配置文件放在另外一个目录里，把数据文件放在你可能根本想不到的地方……这种情况对于那些准备从Windows搬家到Linux的用户来说可能有些不方便，所以我写了这篇文章让大家有个基本的了解，希望如此。</p>
+<p>目录结构</p>
+<h5 id=""><a href="#" class="headerlink" title="/"></a>/</h5><p>这就是根目录。在Windows，DOS或者其他类似的操作系统里面，每个分区都会有一个相应的根目录。但是Linux和其他Unix系统把所有的文件都放在一个目录树里面，/ 就是唯一的根目录。一般来讲，根目录下面很少保存什么文件，或者只有一个内核映像在这里。</p>
+<h5 id="boot"><a href="#boot" class="headerlink" title="/boot"></a>/boot</h5><p>很多Linux系统把内核映像和其他一些和启动有关的文件放在这里。</p>
+<h5 id="tmp"><a href="#tmp" class="headerlink" title="/tmp"></a>/tmp</h5><p>一般只有启动的时候产生的临时文件才会放在这个地方。我们自己的那些临时文件都放在 /var/tmp。</p>
+<h5 id="mnt"><a href="#mnt" class="headerlink" title="/mnt"></a>/mnt</h5><p>这个目录下面放着一些用来mount其他设备的子目录，比如说/mnt/cdrom或者/mnt/floppy。在某些Linux里面这个目录是被/mount代替的。</p>
+<h5 id="lib"><a href="#lib" class="headerlink" title="/lib"></a>/lib</h5><p>启动的时候所需要用到的库文件都放在这个目录下。那些非启动用的库文件都会放在/usr/lib下。内核模块是被放在/lib/modules/（内核版本）下的。</p>
+<h5 id="proc"><a href="#proc" class="headerlink" title="/proc"></a>/proc</h5><p>这个目录在磁盘上其实是不存在的。里面的文件都是关于当前的系统状态的，包括正在运行的进程，硬件状态，内存使用的多少……大部分文件都是给电脑看的。</p>
+<h5 id="dev"><a href="#dev" class="headerlink" title="/dev"></a>/dev</h5><p>这个目录下保存着所有的设备文件。里面有一些Linux内核创建的用来控制硬件设备的特殊文件。注意，网卡设备文件（eth0，ppp0等）不在这儿。</p>
+<h5 id="var"><a href="#var" class="headerlink" title="/var"></a>/var</h5><p>这里有一些被系统改变过的数据。比如说/var/tmp，就是用来储存临时文件的。还有很多其他的进程和模块把它们的记录文件也放在这个地方。下面将会列举一些重要的子目录：</p>
+<h5 id="var-log"><a href="#var-log" class="headerlink" title="/var/log"></a>/var/log</h5><p>这里放着绝大部分的记录文件。随着时间的增长，这个目录可能会变得很臃肿。所以需要定期来清理一下。</p>
+<h5 id="var-run"><a href="#var-run" class="headerlink" title="/var/run"></a>/var/run</h5><p>包括了各种运行时的小信息。</p>
+<h5 id="var-lib"><a href="#var-lib" class="headerlink" title="/var/lib"></a>/var/lib</h5><p>包括了一些系统运行的时候需要的文件。如果你用笔记本上网，/var/lib/pcmcia/stab可能会对你有用。</p>
+<h5 id="var-spool"><a href="#var-spool" class="headerlink" title="/var/spool"></a>/var/spool</h5><p>邮件，新闻，打印序列的所在地。</p>
+<h5 id="root"><a href="#root" class="headerlink" title="/root"></a>/root</h5><p>Root用户的主目录。</p>
+<h5 id="home"><a href="#home" class="headerlink" title="/home"></a>/home</h5><p>一般用户的主目录都会放在这个目录下。就跟学校宿舍的各个房间一样。在Linux下，你可以通过$ cd ~ 来进入你自己的主目录。</p>
+<h5 id="etc"><a href="#etc" class="headerlink" title="/etc"></a>/etc</h5><p>如果你是Root用户的话，这个目录应该是你最常来的地方。这里保存着绝大部分的系统配置文件。相对来讲，单个用户的系统配置文件将会保存在这个用户自己的主目录里面。这里的文件会根据你所安装的软件而增减。下面将会列举一下重要的子目录：</p>
+<h5 id="etc-X11"><a href="#etc-X11" class="headerlink" title="/etc/X11"></a>/etc/X11</h5><p>这里放着X系统所需要的配置文件。XF86Config就是把配置储存到这个地方的。/etc/X11/fonts里面放着一些服务器需要的字体。还有一些窗口管理器存放的配置文件也是放在这个地方的。</p>
+<h5 id="etc-init-d"><a href="#etc-init-d" class="headerlink" title="/etc/init.d"></a>/etc/init.d</h5><p>对于Debian来说，这个目录保存着启动描述文件，包括各种模块和服务的加载描述。所以如果不清楚的话，最好不要随便删这里的东西。这里的文件都是系统进行配置的，不是用户自己用来配置的。</p>
+<h5 id="etc-rcS-d"><a href="#etc-rcS-d" class="headerlink" title="/etc/rcS.d"></a>/etc/rcS.d</h5><p>这里放着一些连接到/etc/init.d的连接文件，根据runlevel的不同而执行相应的描述。这里的文件名都是由S来开头的，然后是一个两位的数字——表示各种服务启动的顺序。比如，S24foo就是在S42bar前面执行的。接着就是相应的连接到/etc/init.d下面的文件的名字了。</p>
+<h5 id="etc-rc0-d-etc-rc6-d"><a href="#etc-rc0-d-etc-rc6-d" class="headerlink" title="/etc/rc0.d - /etc/rc6.d"></a>/etc/rc0.d - /etc/rc6.d</h5><p>这里面也是一些连接文件，和/etc/rcS.d差不多。不同的是，这些只会在指定的runlevel下运行相应的描述。0表示关机，6表示重启。所有以K开头的文件表示关闭，所有以S开头的文件表示重启。目前来讲，文件的命名方式和/etc/rcS.d是一样的。注意，在Debian下，2表示启动。</p>
+<h5 id="bin-sbin"><a href="#bin-sbin" class="headerlink" title="/bin, /sbin"></a>/bin, /sbin</h5><p>这里分别放着启动的时候所需要的普通程序和系统程序。很多程序在启动以后也很有用，它们放在这个目录下是因为它们会经常被其他程序所调用。</p>
+<h5 id="usr"><a href="#usr" class="headerlink" title="/usr"></a>/usr</h5><p>这是一个很庞大的目录，几乎所有的文件都放在这下面，除了上面所说的那些。下面将会列举一些重要的子目录：</p>
+<h5 id="usr-X11R6-usr-X11-usr-Xfree86"><a href="#usr-X11R6-usr-X11-usr-Xfree86" class="headerlink" title="/usr/X11R6, /usr/X11, /usr/Xfree86"></a>/usr/X11R6, /usr/X11, /usr/Xfree86</h5><p>这里面保存着X系统所需要的文件，它的目录结构和/usr是一样的。</p>
+<h5 id="usr-bin"><a href="#usr-bin" class="headerlink" title="/usr/bin"></a>/usr/bin</h5><p>二进制可执行文件存放的目录，这里放着绝大部分的应用程序。</p>
+<h5 id="usr-sbin"><a href="#usr-sbin" class="headerlink" title="/usr/sbin"></a>/usr/sbin</h5><p>这里放着绝大部分的系统程序。</p>
+<h5 id="usr-games"><a href="#usr-games" class="headerlink" title="/usr/games"></a>/usr/games</h5><p>游戏程序和相应的数据会放在这里。</p>
+<h5 id="usr-include"><a href="#usr-include" class="headerlink" title="/usr/include"></a>/usr/include</h5><p>这个目录保存着C和C++的头文件。除非你是程序员，否则你可能不会感兴趣。</p>
+<h5 id="usr-lib"><a href="#usr-lib" class="headerlink" title="/usr/lib"></a>/usr/lib</h5><p>启动时用不到的库文件都会被放在这里。</p>
+<h5 id="usr-info"><a href="#usr-info" class="headerlink" title="/usr/info"></a>/usr/info</h5><p>这里保存着GNU Info程序所需要的数据。</p>
+<h5 id="usr-man"><a href="#usr-man" class="headerlink" title="/usr/man"></a>/usr/man</h5><p>这里保存着man程序所需要的数据。</p>
+<h5 id="usr-src"><a href="#usr-src" class="headerlink" title="/usr/src"></a>/usr/src</h5><p>这里保存着源代码文件。Linux内核的源代码都放在/usr/src/linux下了。</p>
+<h5 id="usr-doc"><a href="#usr-doc" class="headerlink" title="/usr/doc"></a>/usr/doc</h5><p>这里保存着各种文档文件。这些文件可以帮助你了解Linux，解决问题和提供一些技巧。</p>
+<h5 id="usr-local"><a href="#usr-local" class="headerlink" title="/usr/local"></a>/usr/local</h5><p>这里面保存着本地计算机所需要的文件。在用户进行远程访问的时候特别有意义。这个目录在有些Linux系统下就是一个单独的分区，存放一些这台机子所属的那个用户的文件。里面的结构和/usr是一样的。</p>
+<h5 id="usr-shared-usr-share"><a href="#usr-shared-usr-share" class="headerlink" title="/usr/shared, /usr/share"></a>/usr/shared, /usr/share</h5><p>这里保存着各种共享文件，比如说某个应用程序所需要的声音文件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/04/03/Linux目录简介/" data-id="cixfu165n000x5vi49lxdjrdl" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2009/08/21/我的PHP开发（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          我的PHP开发（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/03/21/Linux下使用samba创建windows共享文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux下使用samba创建windows共享文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

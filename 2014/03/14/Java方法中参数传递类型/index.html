@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Java方法中参数传递类型 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="准备写Java语法方面的各种知识点的理解，因此，参照 Java 核心技术上下两册，进行精读，从而整理出各个知识点，同时在本博中记录下亲测的结果，达到记忆的目的。
+以下是两本书的豆瓣传送门，页面中有各种购买链接。
+JAVA核心技术卷1
+JAVA核心技术卷2
+知识点 : Java方法的参数传递是基于值传递的先看一下一个比较迷惑人的示例
+//定义一个测试类，属性x，get set 方法， 初始值是 St">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java方法中参数传递类型">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/03/14/Java方法中参数传递类型/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="准备写Java语法方面的各种知识点的理解，因此，参照 Java 核心技术上下两册，进行精读，从而整理出各个知识点，同时在本博中记录下亲测的结果，达到记忆的目的。
+以下是两本书的豆瓣传送门，页面中有各种购买链接。
+JAVA核心技术卷1
+JAVA核心技术卷2
+知识点 : Java方法的参数传递是基于值传递的先看一下一个比较迷惑人的示例
+//定义一个测试类，属性x，get set 方法， 初始值是 St">
+<meta property="og:updated_time" content="2016-03-04T09:30:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java方法中参数传递类型">
+<meta name="twitter:description" content="准备写Java语法方面的各种知识点的理解，因此，参照 Java 核心技术上下两册，进行精读，从而整理出各个知识点，同时在本博中记录下亲测的结果，达到记忆的目的。
+以下是两本书的豆瓣传送门，页面中有各种购买链接。
+JAVA核心技术卷1
+JAVA核心技术卷2
+知识点 : Java方法的参数传递是基于值传递的先看一下一个比较迷惑人的示例
+//定义一个测试类，属性x，get set 方法， 初始值是 St">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Java方法中参数传递类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/03/14/Java方法中参数传递类型/" class="article-date">
+  <time datetime="2014-03-13T20:03:53.000Z" itemprop="datePublished">2014-03-14</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java方法中参数传递类型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>准备写Java语法方面的各种知识点的理解，因此，参照 Java 核心技术上下两册，进行精读，从而整理出各个知识点，同时在本博中记录下亲测的结果，达到记忆的目的。</p>
+<p>以下是两本书的豆瓣传送门，页面中有各种购买链接。</p>
+<p><a href="http://book.douban.com/subject/3146174/" target="_blank" rel="external">JAVA核心技术卷1</a></p>
+<p><a href="http://book.douban.com/subject/3360866/" target="_blank" rel="external">JAVA核心技术卷2</a></p>
+<h5 id="知识点-Java方法的参数传递是基于值传递的"><a href="#知识点-Java方法的参数传递是基于值传递的" class="headerlink" title="知识点 : Java方法的参数传递是基于值传递的"></a>知识点 : Java方法的参数传递是基于值传递的</h5><p>先看一下一个比较迷惑人的示例</p>
+<pre><code>//定义一个测试类，属性x，get set 方法， 初始值是 String类  &quot;init&quot;
+class Sample {
+    private String x;
+    public Sample() {
+        this.x = &quot;init&quot;;
+    }
+    public String getX() {
+        return this.x;
+    }
+    public void setX(String x) {
+        this.x = x;
+    }
+}
+//测试类
+public class FuncParamDemo {
+    public static void main(String[] args) {
+        Sample sampleA = new Sample();
+        System.out.println(sampleA.getX());
+        FuncParamDemo.changeSample(sampleA);
+        System.out.println(sampleA.getX());
+    }
+    public static void changeSample(Sample s) {
+        s.setX(&quot;SampleA is changed...&quot;);
+    }
+}
+//输出
+init
+SampleA is changed...
+</code></pre><p>在测试类中定义一个改变参数内容的方法 ， changeSample(Sample s), 传入sample 对象， 改变属性x。<br>传入前是初始值，执行方法后,sampleA 的属性被改变了。<br>注意，这里还是值传递！！<br>sampleA 有两部分组成，指针 和 对象 ，sampleA 这个指针被拷贝了， 变成 s， 因此， sampleA 和 s 是2个不同的指针，但是指向了同一个对象， 因此， 对象的属性x在执行完测试方法后被改变了。<br>因此，这里说的值传递，是对于指针（引用来说的）</p>
+<p>第二个例子</p>
+<pre><code>//在测试类FuncParamDemo 中增加方法，进行一个对象互换的操作
+public static void exchangeObj(Sample samplex, Sample sampley) {
+    Sample temp = new Sample();
+    temp = samplex;
+    samplex = sampley;
+    sampley = temp;
+    System.out.println(&quot;Samplex now is &quot; + samplex.getX());
+    System.out.println(&quot;Sampley now is &quot; + sampley.getX());
+}
+
+//测试类中main方法修改为
+public static void main(String[] args) {
+    Sample sampleA = new Sample();
+    Sample sampleB = new Sample();
+
+    sampleA.setX(&quot;Sample A&quot;);
+    sampleB.setX(&quot;Sample B&quot;);
+    System.out.println(&quot;sampleA is &quot; + sampleA.getX());
+    System.out.println(&quot;sampleB is &quot; + sampleB.getX());
+
+    FuncParamDemo.exchangeObj(sampleA, sampleB);
+
+    System.out.println(&quot;sampleA now is &quot; + sampleA.getX());
+    System.out.println(&quot;sampleB now is &quot; + sampleB.getX());
+}
+//输出
+sampleA is Sample A
+sampleB is Sample B
+
+Samplex now is Sample B
+Sampley now is Sample A
+
+sampleA now is Sample A
+sampleB now is Sample B
+</code></pre><p>初始时 sampleA.x 为 Sample A, sampleB.x 为 Sample B<br>方法内部被2个对象互换成功。<br>最后打印sampleA.x sampleB.x为原来的值<br>因此，肯定不是引用传递，不然最后一步就不会那么打印了。<br>所以第一个例子的结论是正确的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/03/14/Java方法中参数传递类型/" data-id="cixfu165i000o5vi46skxxj4g" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/04/05/博客再次更新/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          博客再次更新
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/02/09/从产品及开发角度看复杂与简单/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">从产品及开发角度看复杂与简单</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

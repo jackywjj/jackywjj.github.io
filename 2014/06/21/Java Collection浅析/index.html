@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Java Collection浅析 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java 的容器部分，在各大Java畅销书中都占有非常重要的地位。在写Java代码的时候，几乎每次都会用到Java的collection，包里面这么多类，各种关系纠结，因此有必要好好研究下。
+下面是摘录网上的对Java 容器的定义：
+Java容器类包含List、ArrayList、Vector及map、HashTable、HashMap、Hashset
+ArrayList和HashMap是异步的，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Collection浅析">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/06/21/Java Collection浅析/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="Java 的容器部分，在各大Java畅销书中都占有非常重要的地位。在写Java代码的时候，几乎每次都会用到Java的collection，包里面这么多类，各种关系纠结，因此有必要好好研究下。
+下面是摘录网上的对Java 容器的定义：
+Java容器类包含List、ArrayList、Vector及map、HashTable、HashMap、Hashset
+ArrayList和HashMap是异步的，">
+<meta property="og:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-collection.jpg">
+<meta property="og:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-collection-hierarchy.jpeg">
+<meta property="og:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-collection-map.jpg">
+<meta property="og:updated_time" content="2016-03-04T09:31:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Collection浅析">
+<meta name="twitter:description" content="Java 的容器部分，在各大Java畅销书中都占有非常重要的地位。在写Java代码的时候，几乎每次都会用到Java的collection，包里面这么多类，各种关系纠结，因此有必要好好研究下。
+下面是摘录网上的对Java 容器的定义：
+Java容器类包含List、ArrayList、Vector及map、HashTable、HashMap、Hashset
+ArrayList和HashMap是异步的，">
+<meta name="twitter:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-collection.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Java Collection浅析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/06/21/Java Collection浅析/" class="article-date">
+  <time datetime="2014-06-21T13:12:29.000Z" itemprop="datePublished">2014-06-21</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java Collection浅析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>Java 的容器部分，在各大Java畅销书中都占有非常重要的地位。在写Java代码的时候，几乎每次都会用到Java的collection，包里面这么多类，各种关系纠结，因此有必要好好研究下。</p>
+<p>下面是摘录网上的对Java 容器的定义：</p>
+<p>Java容器类包含List、ArrayList、Vector及map、HashTable、HashMap、Hashset</p>
+<p>ArrayList和HashMap是异步的，Vector和Hashtable是同步的，所以Vector和Hashtable是线程安全的，而ArrayList和HashMap并不是线程安全的。</p>
+<a id="more"></a>
+<p>先上个图：</p>
+<p><img src="http://www.jacky-wu.com/static/uploads/imgs/java-collection.jpg" alt="Java Collection" title="Java Collection"></p>
+<p>简单描绘了关系，此处都是接口，这里从数据结构上来讲，一目了然，list 是链表， set是集合，map是字典，区别很明显。</p>
+<p>图二：</p>
+<p><img src="http://www.jacky-wu.com/static/uploads/imgs/java-collection-hierarchy.jpeg" alt="Java Collection List Set" title="Java Collection List Set"></p>
+<p>这里描述 Set 和List 的基本层次关系。</p>
+<pre><code>List&lt;Class&gt; arrayList = new ArrayList&lt;Class&gt;;
+arrayList.add(obj1);
+arrayList.add(obj2);
+arrayList.add(obj3);
+
+List&lt;Class&gt; linkedList = new LinkedList&lt;Class&gt;;
+linkedList.add(obj1);
+linkedList.add(obj2);
+linkedList.add(obj3);
+</code></pre><p>以上代码，两种list，看名字，ArrayList 是数组， LinkedList 是链表</p>
+<p>ArrayList 连续内存，读取肯定更快，写入就不行了，因为要移动元素，随机访问高效。ArrayList 被设计为可动态增长的list，高效的数组。</p>
+<p>LinkedList 是双向链表，每个元素带指针，内存不连续，写入相对方便。</p>
+<p>看看有点像Python的tuple 和 list， tuple干脆就不支持写入了。。。</p>
+<pre><code>Set&lt;Class&gt; hashset = new HashSet&lt;Class&gt;;
+hashset.add(obj1);
+hashset.add(obj2);
+hashset.add(obj3);
+
+Set&lt;Class&gt; treeset = new TreeSet&lt;Class&gt;;
+treeset.add(obj1);
+treeset.add(obj2);
+treeset.add(obj3);
+</code></pre><p>Set 即是集合, HashSet 是无序集合。TreeSet 是有序集合，数据结构为 红-黑 树</p>
+<p>LinkedHashSet 比较特别，继承 HashSet， 实现了 Set 接口，底层使用LinkedHashMap保存数据。深入参考请移步 <a href="http://zhangshixi.iteye.com/blog/673319" target="_blank" rel="external">http://zhangshixi.iteye.com/blog/673319</a></p>
+<p>图Map：</p>
+<p><img src="http://www.jacky-wu.com/static/uploads/imgs/java-collection-map.jpg" alt="Java Collection Map" title="Java Collection Map"></p>
+<p>Map 就是映射、字典。</p>
+<p>简单描述下：</p>
+<p>HashMap 以 hash table 实现，key 或 value 都无排序</p>
+<p>TreeMap 从数据结构上说是 红-黑 树，以 key 作为排序</p>
+<p>LinkedHashMap 保存插入排序</p>
+<p>Hashtable  是同步的</p>
+<pre><code>HashMap&lt;Class&gt; hashmap = new HashMap&lt;Class&gt;;
+TreeMap&lt;Class&gt; hashmap = new TreeMap&lt;Class&gt;;
+LinkedHashMap&lt;Class&gt; hashmap = new LinkedHashMap&lt;Class&gt;;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/06/21/Java Collection浅析/" data-id="cixfu165e000g5vi4ynt5zctx" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/24/Java String StringBuffer StringBuilder浅析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java String StringBuffer StringBuilder浅析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/06/02/MySQL优化五(Schema和Query的优化)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL优化五(Schema和Query的优化)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

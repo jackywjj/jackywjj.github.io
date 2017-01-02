@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Unbuntu使用Nginx安装PHP ，Rails开发环境 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Unbuntu是一个非常好的Linux发行版本，它可以作为一个桌面级的操作系统来进行工作，当然对于开发者来说，也是一个相当不错的开发环境，下面介绍一下我在Ubuntu系统下搭建的Php和Rails开发环境。
+这种搭建方式，主要是使用Nginx作为前端服务器，使用spawn-fcgi来运行php服务，使用Mongrel 作为Rails的服务，之后Nginx只要监听次2个服务的端口就可以了，以此类推，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unbuntu使用Nginx安装PHP ，Rails开发环境">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2011/03/11/Unbuntu使用Nginx安装PHP ，Rails开发环境/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="Unbuntu是一个非常好的Linux发行版本，它可以作为一个桌面级的操作系统来进行工作，当然对于开发者来说，也是一个相当不错的开发环境，下面介绍一下我在Ubuntu系统下搭建的Php和Rails开发环境。
+这种搭建方式，主要是使用Nginx作为前端服务器，使用spawn-fcgi来运行php服务，使用Mongrel 作为Rails的服务，之后Nginx只要监听次2个服务的端口就可以了，以此类推，">
+<meta property="og:updated_time" content="2016-03-03T09:50:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unbuntu使用Nginx安装PHP ，Rails开发环境">
+<meta name="twitter:description" content="Unbuntu是一个非常好的Linux发行版本，它可以作为一个桌面级的操作系统来进行工作，当然对于开发者来说，也是一个相当不错的开发环境，下面介绍一下我在Ubuntu系统下搭建的Php和Rails开发环境。
+这种搭建方式，主要是使用Nginx作为前端服务器，使用spawn-fcgi来运行php服务，使用Mongrel 作为Rails的服务，之后Nginx只要监听次2个服务的端口就可以了，以此类推，">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Unbuntu使用Nginx安装PHP ，Rails开发环境" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2011/03/11/Unbuntu使用Nginx安装PHP ，Rails开发环境/" class="article-date">
+  <time datetime="2011-03-10T17:45:00.000Z" itemprop="datePublished">2011-03-11</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Server/">Server</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Unbuntu使用Nginx安装PHP ，Rails开发环境
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>Unbuntu是一个非常好的Linux发行版本，它可以作为一个桌面级的操作系统来进行工作，当然对于开发者来说，也是一个相当不错的开发环境，下面介绍一下我在Ubuntu系统下搭建的Php和Rails开发环境。</p>
+<p>这种搭建方式，主要是使用Nginx作为前端服务器，使用spawn-fcgi来运行php服务，使用Mongrel 作为Rails的服务，之后Nginx只要监听次2个服务的端口就可以了，以此类推，可以适用于其他的Web服务器，只要安排好端口，防止冲突就可以了</p>
+<p>首先，安装好Ubuntu系统，我使用的是10.04版，之后当然设置好源，本人使用163的源，很不错，相当快速。</p>
+<p>第二步，安装必要的软件，如下：</p>
+<pre><code>sudo apt-get install nginx
+sudo apt-get install mysql-server
+sudo apt-get install php5 php5-cgi php5-mysql php5-curl php5-gd php5-xmlrpc
+sudo apt-get install spawn-fcgi
+</code></pre><p>注意，安装php的时候，依据个人需要，可以对所安装的库文件进行增减，具体请参照手册。</p>
+<p>安装好软件包之后，Nginx就应该启动好了，打开Localhost，就可以看到默认页面。</p>
+<p>第三步，进行一些必要的配置</p>
+<p>Nginx的配置是少不了的，也非常简单，在 nginx的配置目录下有个default文件，就是它自带的配置，里面也有实例，这个就不多写了。</p>
+<p>下面是启动Php的脚本示例</p>
+<pre><code>/usr/bin/spawn-fcgi -a 127.0.0.1 -p 9000 -u username -g username -f /usr/bin/php-cgi -C 20
+</code></pre><p>一般情况下，spawn-fcgi被安装在/usr/bin下，所以只要设定启动端口（要和Nginx监听端口一致）就可以</p>
+<p>-f 指定调用 FastCGI 的进程的执行程序位置，根据系统上所装的 PHP 的情况具体设置</p>
+<p>这样一来，基本就完成了，可以运行PHP了，之后就是安装Eclipse</p>
+<p>首先安装Sun的JDK，当然现在是Oracle的了， 只要下载bin文件，注意是32位还是64位，</p>
+<p>之后设置成可运行，直接安装就可以</p>
+<p>主要是要增加环境变量，如下</p>
+<p>修改/etc/enviroment</p>
+<p>设置path，java_home，classpath</p>
+<pre><code>PATH＝&quot;......:/usr/lib/jvm/java/jdk1.6.0_12/bin&quot;
+CLASSPATH=.:/usr/lib/jvm/java/jdk1.6.0_12/lib
+JAVA_HOME=/usr/lib/jvm/java/jdk1.6.0_12
+</code></pre><p>以上/usr/lib/jvm/java是安装目录</p>
+<p>再执行shell</p>
+<pre><code>update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.6.0_12/bin/java 300
+update-alternatives --install /usr/bin/javac javac /usr/lib/java/jdk1.6.0_12/bin/javac 300
+</code></pre><p>将系统默认的java设置好，可以使用 java -version来测试一下</p>
+<p>至于Rails也是如法炮制，直接apt-get rails mongrel 就可以安装了，主要是 Ngxin设置好监听，下面是例子</p>
+<pre><code>server {
+    listen       80;
+    server_name  sample.rails.com;
+    root   /home/username/workspace/sample/public;
+    index index.html index.htm;
+    charset utf-8;
+    access_log  /home/username/tmp/logs/sample.rails.com.access.log;
+    error_log/home/username/tmp/logs/sample.rails.com.error.log;
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+</code></pre><p>目前Rails 2.2之后不再内置对mysql的支持，所以必须安装mysql的 库，如下</p>
+<pre><code>sudo apt-get install libmysql-ruby
+</code></pre><p>之后运行mongrel，如：</p>
+<pre><code>/usr/local/ruby/bin/mongrel_rails start -p 3001  --user username --group username -c /home/username/www/sample -e development
+</code></pre><p>这样就可以了，对于一个可用的，快速配置的开发环境来说，已经足够了。以后抽空再写一下，Python的开发环境的配置。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2011/03/11/Unbuntu使用Nginx安装PHP ，Rails开发环境/" data-id="cixfu1663001q5vi45id5bpi6" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/03/29/MySQL 查询连接数/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL 查询连接数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/10/13/Windows下搭建Ruby on Rails开发环境/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Windows下搭建Ruby on Rails开发环境</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

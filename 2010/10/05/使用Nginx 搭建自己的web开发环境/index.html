@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>使用Nginx搭建自己的web开发环境 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Nginx是一个非常好的HTTP 和反向代理服务器。 之所以说他好，搜一下关于他的资料就可以知晓，不管是稳定性，功能性，性能等方面都是非常优秀的。用惯了Apache，突然心血来潮试用一下Nginx之后，就发现速度可不是一般的快啊。而且配置也不是很难，下面来记录一下Nginx使用心得。
+先来说说在Windows平台上安装，推荐一个非常好的站点，http://www.lamppr.com/， 下载 w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Nginx搭建自己的web开发环境">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2010/10/05/使用Nginx 搭建自己的web开发环境/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="Nginx是一个非常好的HTTP 和反向代理服务器。 之所以说他好，搜一下关于他的资料就可以知晓，不管是稳定性，功能性，性能等方面都是非常优秀的。用惯了Apache，突然心血来潮试用一下Nginx之后，就发现速度可不是一般的快啊。而且配置也不是很难，下面来记录一下Nginx使用心得。
+先来说说在Windows平台上安装，推荐一个非常好的站点，http://www.lamppr.com/， 下载 w">
+<meta property="og:updated_time" content="2016-03-03T08:34:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Nginx搭建自己的web开发环境">
+<meta name="twitter:description" content="Nginx是一个非常好的HTTP 和反向代理服务器。 之所以说他好，搜一下关于他的资料就可以知晓，不管是稳定性，功能性，性能等方面都是非常优秀的。用惯了Apache，突然心血来潮试用一下Nginx之后，就发现速度可不是一般的快啊。而且配置也不是很难，下面来记录一下Nginx使用心得。
+先来说说在Windows平台上安装，推荐一个非常好的站点，http://www.lamppr.com/， 下载 w">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-使用Nginx 搭建自己的web开发环境" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2010/10/05/使用Nginx 搭建自己的web开发环境/" class="article-date">
+  <time datetime="2010-10-05T12:42:27.000Z" itemprop="datePublished">2010-10-05</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Server/">Server</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Nginx搭建自己的web开发环境
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>Nginx是一个非常好的HTTP 和反向代理服务器。 之所以说他好，搜一下关于他的资料就可以知晓，不管是稳定性，功能性，性能等方面都是非常优秀的。用惯了Apache，突然心血来潮试用一下Nginx之后，就发现速度可不是一般的快啊。而且配置也不是很难，下面来记录一下Nginx使用心得。</p>
+<p>先来说说在Windows平台上安装，推荐一个非常好的站点，<a href="http://www.lamppr.com/，" target="_blank" rel="external">http://www.lamppr.com/，</a> 下载 windows 版的 lamppr-win-2.6.5.zip 。这个是一个集成了的开发环境，其中包括，Nginx， memcached， mysql， php。</p>
+<p>安装写在安装包里面，步骤及其简单， 解压， 执行setup.bat，这个是windows的bat文件，用记事本打开，发现是安装了一下memcached的win服务，因此，路径是可以改的。</p>
+<p>之后启动服务， start.bat， 也非常简单，启动memchache， 启动mysql，启动cgi服务，最后启动nginx， 里面都是绝对路径，因此也是可以修改的。</p>
+<p>有兴趣的朋友可以利用这些信息自己写工具，更加方便的管理。转到Ubuntu平台，安装包更加方便，启动很方便。最重要的一点就是Nginx本身不能解析php，需要启动php-cgi来解析php文件。</p>
+<p>配置方面Nginx手册里都有，值得提的一点，对于本人的一点极好的特点，就是Nginx的配置文件方便解析，有更多乐趣。Nginx的配置文件使用花括号区分区块，使用分号断行。写脚本解析是不是很好玩呢？ 呵呵</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2010/10/05/使用Nginx 搭建自己的web开发环境/" data-id="cixfu1668001z5vi4dlk7tizb" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2010/10/13/Windows下搭建Ruby on Rails开发环境/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Windows下搭建Ruby on Rails开发环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/04/Doophp 用过的最快的php框架/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Doophp 用过的最快的php框架</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

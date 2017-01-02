@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>MySQL优化四(服务器设置) | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本系列文章从此篇起开始逐渐移到MySQL优化这个主题上来。
+因为本博主要走开源路线，况且MySQL等开源数据库都是在 *nix 上跑的比较好，一方面MySQL本身是开源系统，同出一脉，自然在 *nix 上运行会比较稳妥。另一方面，牵涉到底层的话，可以引申出很多话题来说明，为什么MySQL在基于*nix的系统上运行的如此出色，这一点有待以后更好的研究。
+这里推荐一下某大神的技术博客， 何登成的技术博">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL优化四(服务器设置)">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/22/MySQL优化四(服务器设置)/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="本系列文章从此篇起开始逐渐移到MySQL优化这个主题上来。
+因为本博主要走开源路线，况且MySQL等开源数据库都是在 *nix 上跑的比较好，一方面MySQL本身是开源系统，同出一脉，自然在 *nix 上运行会比较稳妥。另一方面，牵涉到底层的话，可以引申出很多话题来说明，为什么MySQL在基于*nix的系统上运行的如此出色，这一点有待以后更好的研究。
+这里推荐一下某大神的技术博客， 何登成的技术博">
+<meta property="og:updated_time" content="2016-03-04T09:35:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL优化四(服务器设置)">
+<meta name="twitter:description" content="本系列文章从此篇起开始逐渐移到MySQL优化这个主题上来。
+因为本博主要走开源路线，况且MySQL等开源数据库都是在 *nix 上跑的比较好，一方面MySQL本身是开源系统，同出一脉，自然在 *nix 上运行会比较稳妥。另一方面，牵涉到底层的话，可以引申出很多话题来说明，为什么MySQL在基于*nix的系统上运行的如此出色，这一点有待以后更好的研究。
+这里推荐一下某大神的技术博客， 何登成的技术博">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-MySQL优化四(服务器设置)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/05/22/MySQL优化四(服务器设置)/" class="article-date">
+  <time datetime="2014-05-22T12:24:50.000Z" itemprop="datePublished">2014-05-22</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Database/">Database</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL优化四(服务器设置)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>本系列文章从此篇起开始逐渐移到MySQL优化这个主题上来。</p>
+<p>因为本博主要走开源路线，况且MySQL等开源数据库都是在 *nix 上跑的比较好，一方面MySQL本身是开源系统，同出一脉，自然在 *nix 上运行会比较稳妥。另一方面，牵涉到底层的话，可以引申出很多话题来说明，为什么MySQL在基于*nix的系统上运行的如此出色，这一点有待以后更好的研究。</p>
+<p>这里推荐一下某大神的技术博客， <a href="http://hedengcheng.com/" target="_blank" rel="external">何登成的技术博客</a>， 里面好多底层分析。<br><a id="more"></a></p>
+<h2 id="MySQL通用调优"><a href="#MySQL通用调优" class="headerlink" title="MySQL通用调优"></a>MySQL通用调优</h2><h3 id="安装与日志"><a href="#安装与日志" class="headerlink" title="安装与日志"></a>安装与日志</h3><p>MySQL的安装，这里主要讨论编译安装，列出一些有助于管理的参数：</p>
+<pre><code>--prefix        安装路径
+--datadir        数据库实体文件路径
+--with-charset        设定默认字符集
+--with-collation        默认校验规则
+--with-extra-charsets        其他字符集，本博习惯complex，意思是不能动态加载的所有字符集
+--with-unix-socket-path        unix 的socket 路径，本博不用这个配置，不过很多人用，留着吧
+--with-mysqld-user            mysqld 守护进程的运行账户，一般单独配个系统账户
+--with-partition        MySQL分区支持
+--without-debug        去除Debug模式，production 服务器还是关一下
+--with-mysqld-ldflags        mysqld的其他link参数， 设定为 -all-static ， 跟下面那个参数一样，据说提高 5% - 10%
+--with-client-ldflags        客户端的其他link参数
+--with-innodb            支持innodb
+--without-embedded-server        内建服务器， 关闭
+--enable-thread-safe-client        线程安全客户端支持
+--enable-assembler            允许使用汇编模式
+--enable-profiling                打开profiling，查看性能的
+--with-big-tables            支持大表，32位的系统也能支持4G的Rows
+</code></pre><p>以上是本博经常用的参数，基本够用，有时候根据需求可以自己调节。</p>
+<h3 id="配置调优"><a href="#配置调优" class="headerlink" title="配置调优"></a>配置调优</h3><p>MySQL配置调优中，列出本博的配置和参数</p>
+<pre><code>open_files_limit    = 10240        打开文件限制，配合 lsof 可以计算出这个值
+back_log = 600        要求MySQL 能有的连接数量
+max_connections = 5000        最大连接用户数
+max_connect_errors = 10        错误连接次数，安全配置参数
+external-locking = FALSE        多服务器下开启，单服务器关闭
+max_allowed_packet = 32M        数据包限制，稍微放大点
+default-storage-engine = MyISAM
+thread_stack = 192K            线程分配的最大内存
+transaction_isolation = READ-COMMITTED    事务隔离级别
+tmp_table_size = 246M        内存表大小
+max_heap_table_size = 246M        内存表堆大小， 这2个参数可以通过官方提供的公式计算得出
+</code></pre><p>MySQL的配置中，对于不同数据库引擎，也有不同的配置</p>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><pre><code>myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+</code></pre><p>myisam 的各类优化，看名字就略知一二，具体参考手册</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><pre><code>innodb_additional_mem_pool_size = 16M
+innodb_buffer_pool_size = 512M
+innodb_data_file_path = ibdata1:256M:autoextend
+innodb_file_io_threads = 4        文件读写IO数，linux 一直是4， win上起作用
+innodb_thread_concurrency = 8        可以设置为CPU个数
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 128M
+innodb_log_files_in_group = 3
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+innodb_file_per_table = 0
+</code></pre><h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><pre><code>query_cache_size = 512M
+query_cache_limit = 2M
+query_cache_min_res_unit = 2k
+table_cache = 614
+sort_buffer_size = 1M
+join_buffer_size = 1M
+thread_cache_size = 300
+key_buffer_size = 256M
+read_buffer_size = 1M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 64M
+</code></pre><p>以上是cache 的优化</p>
+<h3 id="日志配置"><a href="#日志配置" class="headerlink" title="日志配置"></a>日志配置</h3><pre><code>log-bin = /dir
+binlog_cache_size = 4M
+binlog_format = MIXED
+max_binlog_cache_size = 8M
+max_binlog_size = 1G
+relay-log-index = /dir
+relay-log-info-file = /dir
+relay-log = /dir
+expire_logs_days = 30
+slow_query_log=1
+slow_query_log_file = /dir
+long_query_time = 3
+</code></pre><p>日志部分 开启binlog， relay log 和slow log， 同时设定目录。</p>
+<p>以上这些只是博主参照网络上说明，以及个人经验，在需求特定的情况下的一个配置，具体的定制化的配置需要根据需求来做，有几个方法，mysql 本身提供各类情况下的配置，可以做参考， 另外网络上的知识，特别是MySQL官方文档，可以提供更多帮助。</p>
+<h3 id="MySQL-并发调优"><a href="#MySQL-并发调优" class="headerlink" title="MySQL 并发调优"></a>MySQL 并发调优</h3><p>针对 InnoDB 来说， 可以使用 SHOW INNODB STATUS 来观察并发情况。</p>
+<p>InnoDB的并发关键问题是，要计算出 innodb_thread_concurrency 的最优数量，也就是一次能进入内核的数量，因为在实际情况中无法准确设定mysql线程进入内核的数量，因此要利用一些方法，计算出来。</p>
+<p>innodb_commit_concurrency 这个参数决定某一时刻能提交的线程数量。</p>
+<p>innodb_thread_sleep_delay 线程睡眠微妙数，不能进入内核的线程，会进入睡眠，之后在这个值的睡眠时候后，再次提交，若再不能进入，则进入等待队列，交由服务器管理。</p>
+<p>因此InnoDB的并发，需要根据实际情况来调优，本质上，就是进入线程内核的数量。</p>
+<h3 id="MySQL配置方面的其他优化"><a href="#MySQL配置方面的其他优化" class="headerlink" title="MySQL配置方面的其他优化"></a>MySQL配置方面的其他优化</h3><p>首先，需要理解，优化是由需求决定的，所有找出瓶颈才能更好的调优。</p>
+<h3 id="利用工具查看状态"><a href="#利用工具查看状态" class="headerlink" title="利用工具查看状态"></a>利用工具查看状态</h3><p>phpmyadmin是php开发中经常被用到的客户端。Web形式，很方便。它可以查看数据库服务器的状态，并给出建议，是个不错的方法。</p>
+<h3 id="innodb的文件分割"><a href="#innodb的文件分割" class="headerlink" title="innodb的文件分割"></a>innodb的文件分割</h3><p>据说innodb中有一种模式，是把库分成几个文件，提高读取效率。</p>
+<h3 id="延迟写入"><a href="#延迟写入" class="headerlink" title="延迟写入"></a>延迟写入</h3><p>延迟写入磁盘，虽然可以减少I/O操作，带来性能，同样的，也由副作用，因此在配置的时候还是必须看需求。</p>
+<h3 id="innodb的事务日志"><a href="#innodb的事务日志" class="headerlink" title="innodb的事务日志"></a>innodb的事务日志</h3><p>InnoDB的 buffer pool 是个很有帮助的东西，直接读取内存，但是当数据改变时，缓存里面是不会修改更新，因此，MySQL会将这些更新，写进事务日志里面，然后通过事务日志来更新磁盘。原因很简单，日志顺序操作磁盘。</p>
+<p>以上啰啰嗦嗦了很多，但是还没有很详尽的写出来各类优化配置，等本博写完这一系列后，挑选几个场景，具体说明如何发现瓶颈，如何优化。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/22/MySQL优化四(服务器设置)/" data-id="cixfu165z001k5vi4g5fib78n" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/02/MySQL优化五(Schema和Query的优化)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL优化五(Schema和Query的优化)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/19/Python中的lambda和filter,reduce,map/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python中的lambda和filter,reduce,map</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

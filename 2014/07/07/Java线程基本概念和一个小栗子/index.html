@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>Java线程基本概念和一个小栗子 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。
+今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java线程基本概念和一个小栗子">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/07/07/Java线程基本概念和一个小栗子/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。
+今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
+<meta property="og:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-thread-monitor.jpg">
+<meta property="og:updated_time" content="2016-03-04T09:30:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java线程基本概念和一个小栗子">
+<meta name="twitter:description" content="线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。
+今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
+<meta name="twitter:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-thread-monitor.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Java线程基本概念和一个小栗子" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2014/07/07/Java线程基本概念和一个小栗子/" class="article-date">
+  <time datetime="2014-07-07T10:48:40.000Z" itemprop="datePublished">2014-07-07</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java线程基本概念和一个小栗子
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。</p>
+<p>今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。</p>
+<a id="more"></a>
+<h3 id="线程概念"><a href="#线程概念" class="headerlink" title="线程概念"></a>线程概念</h3><p>先讲一个Java实现线程的机制，Monitor。</p>
+<p>Monitor 是一个在 Java 应用程序生命周期中，所存在的对于资源的监护工具。她保证被保护的数据或者代码，在同一时刻被单独一个线程访问。</p>
+<p>先上个图</p>
+<p><img src="http://www.jacky-wu.com/static/uploads/imgs/java-thread-monitor.jpg" alt="Mou icon"></p>
+<p>中间区域，被活动线程占有，因此该线程变为资源的 Owner</p>
+<p>Wait Set 部分是等待着的线程</p>
+<p>Entry Set 是在排队的线程</p>
+<p>因此，关系就很明白，Entry Set 根据某些规则排队，活动线程释放资源后，Entry Set 中的某个线程，变为活动线程，或者， 因为某些条件未满足，就被丢进 Wait Set，然后就被等着条件满足再变成活动线程。</p>
+<h3 id="Java-线程实现"><a href="#Java-线程实现" class="headerlink" title="Java 线程实现"></a>Java 线程实现</h3><p>Java 虚拟机中， 每个对象和类关联着 Monitor， 这些需要保护的资源，关联这一个锁。</p>
+<p>多线程系统中，线程必须获得资源的锁，才能访问资源，所以说要等待活动线程释放锁才行。Java 使用关键字 synchronized  来控制锁。</p>
+<h3 id="一个小栗子"><a href="#一个小栗子" class="headerlink" title="一个小栗子"></a>一个小栗子</h3><p>来个原子类，有个静态整型counter，为了显示方便，做个文件写入， 并且是个 synchronized 的方法 writeLog()，功能是 counter 计数后存文件。</p>
+<pre><code>public class DemoAtom {
+    public static int counter = 0;
+    public static synchronized void writeLog() {
+        String filePath = &quot;/path/to/somefile/file.txt&quot;;
+        File file = new File(filePath);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fstream = new FileWriter(filePath, true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            String outLine = &quot;Now counter is === &quot; + Integer.toString(++DemoAtom.counter);
+            out.write(outLine);
+            out.newLine();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>线程类 1， 这里使用继承 Thread的方式，必须要重写 run 方法</p>
+<pre><code>public class DemoHelloThread extends Thread {
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 5; i++) {
+            try {
+                DemoAtom.writeLog();
+                Thread.sleep(500L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>线程类2 ， 这里换了种方式，使用了实现 Runnable 的方式，实现了 run 方法</p>
+<pre><code>public class DemoRunThread implements Runnable {
+    public void run() {
+        for (int i = 0; i &lt; 5; i++) {
+            try {
+                DemoAtom.writeLog();
+                Thread.sleep(500L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>Main 类，比较简单，尝试的时候，可以去掉 DemoAtom 中的 writeLog 方法的 synchronized 关键字，会发现输出的数字不同，有 synchronized 关键字的是顺序的，因为，再被不同线程访问时，JVM 加了锁，保证 DemoAtom 不被其他线程占有。</p>
+<pre><code>public class MainDemo {
+    public static void main(String args[]) {
+        System.out.println(&quot;Now starting thread demo&quot;);
+        new DemoHelloThread().start();
+        new Thread(new DemoRunThread()).start();
+        System.out.println(&quot;Now ending thread demo&quot;);
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/07/07/Java线程基本概念和一个小栗子/" data-id="cixfu165m000u5vi42r33p0fe" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/08/Android的 adb 命令的几个用法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android的 adb 命令的几个用法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/03/MySQL优化六(查看Query性能)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL优化六(查看Query性能)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

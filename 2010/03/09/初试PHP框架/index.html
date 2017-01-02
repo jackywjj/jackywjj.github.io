@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>初试PHP框架 | Jacky&#39;s IT Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="随着Php一个接着一个新版本的release， 相信好多php开发者都走进了新的开发模式的世界，各种框架翻涌而出，针对不同需求，使用相对应的框架，使开发事半功倍，笔者也下载了几个尝试了一下，在做几个相同demo的时候，确实发现收效很大，针对不同的业务，只要模型建的好，遵守框架的规则，开发一个能用的雏形，根本就是几分钟的事情
+不过回过头来看看rails， 相比之下还是略显不足，原因很简单，虽然php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初试PHP框架">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2010/03/09/初试PHP框架/index.html">
+<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:description" content="随着Php一个接着一个新版本的release， 相信好多php开发者都走进了新的开发模式的世界，各种框架翻涌而出，针对不同需求，使用相对应的框架，使开发事半功倍，笔者也下载了几个尝试了一下，在做几个相同demo的时候，确实发现收效很大，针对不同的业务，只要模型建的好，遵守框架的规则，开发一个能用的雏形，根本就是几分钟的事情
+不过回过头来看看rails， 相比之下还是略显不足，原因很简单，虽然php">
+<meta property="og:updated_time" content="2016-03-03T08:34:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初试PHP框架">
+<meta name="twitter:description" content="随着Php一个接着一个新版本的release， 相信好多php开发者都走进了新的开发模式的世界，各种框架翻涌而出，针对不同需求，使用相对应的框架，使开发事半功倍，笔者也下载了几个尝试了一下，在做几个相同demo的时候，确实发现收效很大，针对不同的业务，只要模型建的好，遵守框架的规则，开发一个能用的雏形，根本就是几分钟的事情
+不过回过头来看看rails， 相比之下还是略显不足，原因很简单，虽然php">
+  
+    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">Jacky&#39;s IT Lab</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-初试PHP框架" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2010/03/09/初试PHP框架/" class="article-date">
+  <time datetime="2010-03-09T07:39:26.000Z" itemprop="datePublished">2010-03-09</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      初试PHP框架
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>随着Php一个接着一个新版本的release， 相信好多php开发者都走进了新的开发模式的世界，各种框架翻涌而出，针对不同需求，使用相对应的框架，使开发事半功倍，笔者也下载了几个尝试了一下，在做几个相同demo的时候，确实发现收效很大，针对不同的业务，只要模型建的好，遵守框架的规则，开发一个能用的雏形，根本就是几分钟的事情</p>
+<p>不过回过头来看看rails， 相比之下还是略显不足，原因很简单，虽然php的脚本运行很快，单毕竟是脚本，每一个请求到执行完成的时候也就是此请求内对象生命结束的时候，比起rails， java，python这些来说太浪费了，不过也有好处。</p>
+<p>CodeIgniter 是比较轻量级的一个php框架，比较简单，但是开发极其快速，代码方面是学习rails的，一看文件夹部署就知道，模型，控制器，视图都很简单，url路由也很简单，因此上手快，最喜欢他的Tutorial和视频教程，虽然语速有点快。对于这个框架最吸引人的就是好多针对各种业务逻辑的类库和辅助方法，而且在持续不断更新中。</p>
+<p>Cakephp 也是学rails的，看了controller和model的源码，用了比较复杂的方法来写控制器和模型的超类，比如模型类预定义了很多方法和变量来操作模型，模型关系，数据库操作等，为子类提供了相当多的方便，不过在子类里面还是要设置点东西的，Cake的教程也还不错，不过框架本身设计良好，但是为了兼容php4，笔者觉得正是因为这个，稍稍影响了框架的效率，不过这也算是个好处。</p>
+<p>Zendframwork太大了，稍微看了一下有点头痛，放弃了。</p>
+<p>Yii 是新晋的东西，也是我觉得特别好的，特别符合php发展路线了。里面运用了很多php5的新特性，因此兼容性不是很好，不过这也是他的聪明之处。 里面最让我觉得心领神会的东西，就是使用了php的自省机制，要知道，只要定义了模型文件的属性，并且和数据库的字段相对应，对于数据库操作可是节省了很大一笔开销，另外使用公有的方法定义表名，表关系等模型文件需要的东西就可以很方便的实现模型间的关系，另外还可以为模型的属性设置Label， 即在视图部分的字段描述。 模型也内置了错误机制。</p>
+<p>其实Yii最吸引我的原因是因为笔者之前都一直想做个趁手的框架来增加开发效率，后来尝试了很多框架，包括rails，Django等比较流行的，发现php并不适合做很复杂的框架，后来就用了另外一种方法来实现，就是代码生成的方法，基本可以实现几种模型关系，比如1对1，1对多和多对多， 控制器也很简单，分析url，直接去url中的内容来做控制器的action方法。</p>
+<p>之后php5发布了很多OO方面的特性，笔者尝试将数据库操作从模型文件中分离出来，因此模型类就更加纯了，所以在进行数据库操作的时候，需要一些其他技巧来帮助模型与数据库操作层的沟通，因此笔者学习了一下Hibernate，虽然之前接触过java，也做了大约2年不到的项目，不过只接触过struts和JDBC， 因为那个时候Hibernate还没有那么红。不过学习完之后才幡然醒悟， 原来可以借助xml完成很多工作。不过之前我也使用过SAX来读取xml作为数据库对应的配置文件，不过太伤性能了，因此放弃了，才想到生成代码的方法。不过这次不一样，笔者使用xml文件来配置数据库字段以及字段属性和模型类属性的关系， 然后再根据xml来生产模型文件和控制器以及视图文件，基本上中小型应用完全可以搞定，不过前提是模型和数据库设计良好。  经历了很多曲折，笔者决定如果有机会的话可以向Java发展，因为尝试了一些java的demo，用了好多以前没玩过的新东西，虽然现在看来可以是老古董了，比如ANT，struts等，也尝试了Maven， 越来越觉得还是Java的OO纯正，J2EE的MVC才是正道。 不过对于php来说Yii已经很不错了，用起来很舒服，我想中大型的应用Yii完全可以胜任，小东西么，CI和我自己的工具都可以了搞定的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2010/03/09/初试PHP框架/" data-id="cixfu166i00285vi4ey5borly" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2010/08/04/Doophp 用过的最快的php框架/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Doophp 用过的最快的php框架
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/02/19/我的PHP开发（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">我的PHP开发（三）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
