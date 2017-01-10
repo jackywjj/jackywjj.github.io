@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <title>Java线程基本概念和一个小栗子 | Jacky&#39;s IT Lab</title>
+  <title>Java线程基本概念和一个小栗子 | 杰克叔叔的IT实验室</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。
 今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java线程基本概念和一个小栗子">
 <meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2014/07/07/Java线程基本概念和一个小栗子/index.html">
-<meta property="og:site_name" content="Jacky's IT Lab">
+<meta property="og:site_name" content="杰克叔叔的IT实验室">
 <meta property="og:description" content="线程历来是软件开发的一个很重要的组成部分，很多地方会用到线程。本博 Web 部分做的比较多，比如后台的 Socket，连接池之类的，现在转到 Android，那线程用得更普遍了。
 今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
 <meta property="og:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-thread-monitor.jpg">
@@ -23,7 +23,7 @@
 今天记录一篇线程的概念记录，主要是简单的 Java application，关注线程本身。未来再写点 Android部分的吧，因为Android的线程还是用得比较多，比较有趣的。">
 <meta name="twitter:image" content="http://www.jacky-wu.com/static/uploads/imgs/java-thread-monitor.jpg">
   
-    <link rel="alternative" href="/atom.xml" title="Jacky&#39;s IT Lab" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="杰克叔叔的IT实验室" type="application/atom+xml">
   
   
   <link rel="stylesheet" href="/css/style.css">
@@ -180,7 +180,7 @@
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
-        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/07/07/Java线程基本概念和一个小栗子/" data-id="cixguo40u000su6s6dqn8oogf" class="article-share-link">Share</a>
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2014/07/07/Java线程基本概念和一个小栗子/" data-id="cixra6440000myts6dp5n0wvj" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -220,7 +220,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">8</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">9</span></li></ul>
     </div>
   </div>
 
