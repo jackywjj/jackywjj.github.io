@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>全栈开发的几个调试方法 | 杰克叔叔的IT实验室</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="2017技术博文第一弹，先分享一下一些周边。这里所谓的周边，包括很多议题，比如 IDE, 开发环境，系统，测试环境，调试环境等。。。叔叔打算分几个章节来分享，谈谈本叔叔在开发中所用到的一些小技巧，当然可能有更好的方案，可以通过Email 联系到叔叔， ecstorm(AT)gmail.com。
+本文打算讲讲调试部分，叔叔目前的技术栈是 Java ， Vuejs。操作系统 Mac OS Sierra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全栈开发的几个调试方法">
+<meta property="og:url" content="https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/全栈开发的几个调试方法/index.html">
+<meta property="og:site_name" content="杰克叔叔的IT实验室">
+<meta property="og:description" content="2017技术博文第一弹，先分享一下一些周边。这里所谓的周边，包括很多议题，比如 IDE, 开发环境，系统，测试环境，调试环境等。。。叔叔打算分几个章节来分享，谈谈本叔叔在开发中所用到的一些小技巧，当然可能有更好的方案，可以通过Email 联系到叔叔， ecstorm(AT)gmail.com。
+本文打算讲讲调试部分，叔叔目前的技术栈是 Java ， Vuejs。操作系统 Mac OS Sierra">
+<meta property="og:updated_time" content="2017-01-13T06:22:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全栈开发的几个调试方法">
+<meta name="twitter:description" content="2017技术博文第一弹，先分享一下一些周边。这里所谓的周边，包括很多议题，比如 IDE, 开发环境，系统，测试环境，调试环境等。。。叔叔打算分几个章节来分享，谈谈本叔叔在开发中所用到的一些小技巧，当然可能有更好的方案，可以通过Email 联系到叔叔， ecstorm(AT)gmail.com。
+本文打算讲讲调试部分，叔叔目前的技术栈是 Java ， Vuejs。操作系统 Mac OS Sierra">
+  
+    <link rel="alternative" href="/atom.xml" title="杰克叔叔的IT实验室" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/jackywjj"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">杰克叔叔的IT实验室</a>
+        </h1>
+      
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-全栈开发的几个调试方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2017/01/10/全栈开发的几个调试方法/" class="article-date">
+  <time datetime="2017-01-10T12:26:06.000Z" itemprop="datePublished">2017-01-10</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/其他/">其他</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      全栈开发的几个调试方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>2017技术博文第一弹，先分享一下一些周边。这里所谓的周边，包括很多议题，比如 IDE, 开发环境，系统，测试环境，调试环境等。。。叔叔打算分几个章节来分享，谈谈本叔叔在开发中所用到的一些小技巧，当然可能有更好的方案，可以通过Email 联系到叔叔， ecstorm(AT)gmail.com。</p>
+<p>本文打算讲讲调试部分，叔叔目前的技术栈是 Java ， Vuejs。操作系统 Mac OS Sierra。Web 服务器使用 Nginx 。 JVM 容器使用 Jetty。</p>
+<a id="more"></a>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>先讲讲问题，目前互联网的 Web 应用，很多都倾向于使用前端框架，例如单页面的应用，后台应用等场景，当然，手机Web网站也可以使用，做成多个入口，既多个单页应用。对于后端的数据，完全使用 Ajax 来加载数据，甚至使用 WebSocket。</p>
+<p>那么以此种方式开发，技术上，必然分成前端和后端不同的两组或者多组人，或者说对于全栈开发来说，必然要估计前端后端两方面，开发和调试就比较麻烦了。</p>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><p>面对以上的问题，加之叔叔有个重要的属性:懒。因此，折腾了下用了几个方案。</p>
+<h3 id="单兵作战"><a href="#单兵作战" class="headerlink" title="单兵作战"></a>单兵作战</h3><p>作为一个全栈，首先要有台 Mac，首先，准备工作做好</p>
+<ul>
+<li>安装好 Nginx，无所谓 brew 或者 源码安装。叔叔年轻时都是源码安装，老 Mac 当 Linux 用，后来折腾的差不多了，嫌麻烦，新 Mac 都是 brew。</li>
+<li>修改 /etc/hosts ，增加你要调试的域名，之后访问就用此域名。叔叔年轻时都是 Vi 或者 Vim 修改，老了又变懒了，做软链接，或者外面修改好sudo 拷贝过去，因为要把 google 的 host 更新进去，啊哈哈哈。</li>
+<li>修改 Nginx 配置，下面贴出一些 demo 示例，基本思路就是 80 端口用来访问域名，后端开个端口让 Nginx 监听，比如 8080， 然后前端应用起个端口，比如 4000，也让 Nginx 监听，然而路径分开，比如 前端直接在根目录 / 下，后端在 /app-name 下，那么前端所有 Ajax 请求就会是以 host 里面加的域名 + /app-name 来的路径来请求。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">	listen 80;</div><div class="line">	server_name		www.mydomain.dev mydomain.dev; //这里是在host里面新加的调试域名</div><div class="line"></div><div class="line">	// 下面的 location 用来监听前端起的服务，并代理到 80 端口</div><div class="line">	location / &#123;</div><div class="line">		proxy_pass_header Server;</div><div class="line">		proxy_set_header Host $http_host;</div><div class="line">		proxy_redirect off;</div><div class="line">		proxy_set_header X-Real-IP $remote_addr;</div><div class="line">		proxy_set_header X-Scheme $scheme;</div><div class="line">		proxy_pass http://localhost:4000;</div><div class="line">	&#125;</div><div class="line">	// 下面的 location 用来监听后端起的服务，并代理到 80 端口</div><div class="line">	location /app-name &#123;</div><div class="line">		proxy_pass_header Server;</div><div class="line">		proxy_set_header Host $http_host;</div><div class="line">		proxy_redirect off;</div><div class="line">		proxy_set_header X-Real-IP $remote_addr;</div><div class="line">		proxy_set_header X-Scheme $scheme;</div><div class="line">		proxy_pass http://localhost:8080/app-name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后讲后端， 后端必然有个 Web 服务，如下：</p>
+<table>
+<thead>
+<tr>
+<th>Web 服务器</th>
+<th>技术语言</th>
+<th>容器/应用</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nginx</td>
+<td>Java</td>
+<td>Tomcat/Jetty</td>
+<td>8080</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td>PHP</td>
+<td>PHP-Fpm</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td>Python</td>
+<td>gunicorn</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td>Ruby</td>
+<td>Rails</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td>NodeJs</td>
+<td>ExpressJS</td>
+<td>6000</td>
+</tr>
+</tbody>
+</table>
+<p>是的，以上列出，本叔叔都尝试过，思路上大致是一样的。</p>
+<p>前端目前主要使用 VueJS， 叔叔虽然不大写了，看还是能看懂的，基本上的原理也明了，因此，这里有点概念上的东西要理理清楚，因为此处所用的事实上也是依托 ExpressJS 来启动了一个应用，</p>
+<p>事实上，Gulp 和 Webpack 都可以启动个 HTTP 服务，来查看前端页面，当然外置个 ExpressJS 事实上也一样。</p>
+<p>一切的准备完成，npm 把前端代码 run 起来，后端服务开起来，Nginx 开起来，然后域名就能访问了。这里 Nginx 无需重启，如果要修改后端，那么重启后端，要修改前端，那么重启前端，十分方便。</p>
+<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><p>多人的思路大致也一样，只是有相当的演进，花了不少时间，按照问题来说</p>
+<ul>
+<li>测试域名问题，有网关的做网关，之后网关来起 DHCP，各种host 加，会影响全部局域网的机器。当然域名也可以，就是每台机器都要自己配好。这里因为是多人协作，可能需要很多个域名，按照规则分开，比如叔叔的域名结尾以前一直用jk，www.mydomain.jk。</li>
+<li>Nginx 问题，此处，Nginx 必定要放到局域网的某一台公用服务器上。</li>
+<li>服务端口的，这里要看如何操作，一般要多人协作的不大可能是全栈开发，所以，此处有两种方式，一种是后端代码打包放在局域网服务器，供Nginx 监听，之后，前端开发人员可以起服务，端口各自分配协定好，那么自己的应用自己调试。第二种，前端代码放在服务器上，道理一样，开发人员启动服务，让Nginx 监听，使用公用的前端调试。</li>
+</ul>
+<p>多人协作其实和单名开发者非常相似，主要是一定要协商好，域名各自用什么，IP尽量用网关配，或者自己配静态IP。</p>
+<p>讲讲以前的演进，以前叔叔没有用 Mac 的时候，开发人员公用一台强劲的服务器，各自协商，共用服务，主要是以服务器共享磁盘，或者客户机共享磁盘的方式，这里的坑有个 Nginx 的 sendfile，对网络磁盘挂载的目录有点问题。还有一种方式是用虚拟机，叔叔比较喜欢 FreeBSD，因此用的是上面的虚拟化工具 jail， 挺好用的。</p>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>总结一下工具，以上其实已经说的很清楚了，Nginx，Tomcat/Jetty， Nodejs等。</p>
+<p>最主要的有几点</p>
+<ul>
+<li>平台统一化，使用 *nix 系统，不要因为兼容性的问题降低开发效率，资深的开发人员，公司给配台高配的 MBP，绝对有必要</li>
+<li>脚本化，发挥“懒”字诀，能自动化的尽量自动化，重心移到业务开发上来</li>
+<li>可监控化，调试必须要能看到日志输出，*nix 的tail 命令无疑是性价比高的最佳选择</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/全栈开发的几个调试方法/" data-id="cixvf6t7r002rwas65fayi7i1" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/10/入驻简书-2017第一篇/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          入驻简书-2017第一篇
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/05/11/新闻咨询类APP个人测评-Android版(一)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">新闻咨询类APP个人测评-Android版(一)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/">CentOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS-Linux/">CentOS Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doophp-PHP/">Doophp PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-Samba/">Linux Samba</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP-XHProf/">PHP XHProf</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server-Nginx/">Server Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品/">产品</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/产品-开发-需求/">产品 开发 需求</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gcluo.github.io/" target="_blank">葱鸽的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jacky Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="To Top"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

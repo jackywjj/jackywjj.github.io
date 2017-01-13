@@ -66,6 +66,66 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-我的PHP开发（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2010/02/19/我的PHP开发（三）/" class="article-date">
+  <time datetime="2010-02-18T22:24:55.000Z" itemprop="datePublished">2010-02-19</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/02/19/我的PHP开发（三）/">我的PHP开发（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>装好了环境，可以开始编写代码了，php的基础其实不是很难，翻一下文档，随便看基本书（前提是好书），基本上都可以在很快的时间段内掌握语法，可以写出几个可以运行的代码来。</p>
+<p>可是，要写的爽，维护起来方便，还是需要其他知识去补充的。</p>
+<p>想想写php代码已经也有5年左右时间了，各类开源框架和插件也偶有心得，目前用的比较熟悉的有smarty模板引擎，基本上每个项目都用； 做电子商务网站的时候oscommerce， 对新版本也略有研究，比较老版本确实增进了不少； 其他的就是Drupal了，这个东西很大，而且能做很多东西，目前在研究中；另外对于小项目来说，利用2010年的春节期间基本完成了一个生成MVC模型的application，他被包含在我的工具箱里，这个MVC模型的php半成品框架我把他定名为Copils, 意思是拷贝自Rails。 因为很多方法都源自rails， 稍后我会专门写文章介绍一下他，这种适合懒人的东西应该和大家分享。</p>
+<p>另外，目前我的开发平台由于工作需要迁回了windows server。 因此稍作修改了一下我的工具箱，新增了几个小工具，</p>
+<p>1) 配置apache虚拟目录，包括php的目录和rails的目录，apache的很简单，在主配置目录里include2个专门用于我自己来用的conf文件来存储虚拟目录，1个给php，1个给rails，然后通过php来操作这个文件来读取，存储，删除虚拟目录。这里值得一提的是关于php的版本，因为php5.3已经放出来了，所以升级了一下，有几个函数需要注意，eregi类的函数全部使用preg的类perl的正则函数来代替，还有date函数也有更新，需要查看一下手册。rails是使用mongrel作为server，然后添加windows服务，然后apache里做虚拟主机，就可以直接访问了。</p>
+<p>当然这些操作都是用我的工具来完成，实在是懒人之福。</p>
+<p>2）系统Host文件的操作，这里可以添加自己的域名在本机进行开发和测试，管理起来方便多了。</p>
+<p>最后一个就是php项目生成工具了，其实就是个半成品，项目包含了数据库操作函数，错误机制，模板机制，简单的后台权限，还有一些公有函数，css文件，javascript文件。所以把这个项目文件夹拷贝到web目录后，就可以运行了，前提是数据库已经建立好，而且已经有后台用户的table。接下来的事情其实很简单，设计好表，根据表生成模型文件，目前只支持单表模型，1对1模型。1对多和多对多这2个很纠结，原因是性能降低太多，这部分有时间单独放出来分析一下（主要原因是在写这个的同时，本人研究和参照了rails的模型和hibernate的工作方式）。</p>
+<p>模型好了然后生成controller，controller可以自己定义，如果是给后台生成的，直接用模板生成类似rails的scaffold, 直接对模型进行crud操作。 如果是其他controller， 生成空的controller文件和一个view页面以及一个包含这个view页面的控制器页面，具体实现很简单，另外原理和rails一样。</p>
+<p>完成了目前的这些东西，对于我的工作方向也有了进一步的改变，更多的时间放在rails和java上，虽然做了几个自己玩的rails应用，但是还需要更多时间浸淫在这些新东西里面，特别是Java的hibernate和struts，虽然只是在理论上研究，但还是体会到很多东西，另外正是hibernate，当我在尝试把xml配置文件翻译成php的class和数据库表时，幡然醒悟，停止了制造轮子的错误行为。让我重新回到研究框架的工作中来，所以新年里除了希望大家新年快乐，多多发财以外，同时也希望自己在技术上更上一层楼。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2010/02/19/我的PHP开发（三）/" data-id="cixvf6t8l003xwas6eefajat4" class="article-share-link">Share</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-我的PHP开发（二）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <h3 href="/2009/09/15/我的PHP开发（二）/" class="article-date">
@@ -114,7 +174,7 @@ ServerName www.workspace.com
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
 
-        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/09/15/我的PHP开发（二）/" data-id="cixraha1g00334ot66kdr9ey8" class="article-share-link">Share</a>
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/09/15/我的PHP开发（二）/" data-id="cixvf6t8h003rwas62g3klr59" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -191,7 +251,7 @@ yum install php php-devel php-pear php-mysql php-mbstring
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
 
-        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/08/21/我的PHP开发（一）/" data-id="cixraha1c002v4ot6lxl3xaja" class="article-share-link">Share</a>
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/08/21/我的PHP开发（一）/" data-id="cixvf6t8f003owas61tziskct" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -275,7 +335,7 @@ yum install php php-devel php-pear php-mysql php-mbstring
     <footer class="article-footer">
       <div class="article-footer-content">
         
-        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/04/03/Linux目录简介/" data-id="cixraha0600104ot66kgv8td0" class="article-share-link">Share</a>
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/04/03/Linux目录简介/" data-id="cixvf6t6c0010was6t01ybk4y" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -341,7 +401,7 @@ writable = yes   (或者no,是否可写)
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
-        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/03/21/Linux下使用samba创建windows共享文件/" data-id="cixraha04000x4ot602ok4vgg" class="article-share-link">Share</a>
+        <a data-url="https://github.com/jackywjj/jackywjj.github.io.git/2009/03/21/Linux下使用samba创建windows共享文件/" data-id="cixvf6t66000rwas6gdlibzcx" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -367,7 +427,7 @@ writable = yes   (或者no,是否可写)
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">9</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Server/">Server</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">10</span></li></ul>
     </div>
   </div>
 

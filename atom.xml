@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/jackywjj/jackywjj.github.io.git/"/>
-  <updated>2017-01-10T09:01:58.000Z</updated>
+  <updated>2017-01-10T09:03:26.000Z</updated>
   <id>https://github.com/jackywjj/jackywjj.github.io.git/</id>
   
   <author>
@@ -20,12 +20,31 @@
     <link href="https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/%E5%85%A5%E9%A9%BB%E7%AE%80%E4%B9%A6-2017%E7%AC%AC%E4%B8%80%E7%AF%87/"/>
     <id>https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/入驻简书-2017第一篇/</id>
     <published>2017-01-10T12:26:06.000Z</published>
-    <updated>2017-01-10T09:01:58.000Z</updated>
+    <updated>2017-01-10T09:03:26.000Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;翻翻自己写的博客，最近一次跨年整理思绪是在2014年年初，至今已有3年光景，在这期间其实是有几次想提笔记录的，但是，总觉得技术及事业上摇摇晃晃，并未定性，因此也搁置了。&lt;/p&gt;
-&lt;p&gt;直至2016年10月来到樊登读书会企业版的团队中，到现在约3个月有余，才真正觉得是时候安定下来了，因此打算更一下博，顺便入驻一下简书。&lt;br&gt;
+&lt;p&gt;直至2016年10月来到樊登读书会企业版的团队中，到现在约3个月有余，才真正觉得是时候安定下来了，因此打算更一下博，顺便入驻一下简书。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="其他" scheme="https://github.com/jackywjj/jackywjj.github.io.git/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>全栈开发的几个调试方法</title>
+    <link href="https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E7%9A%84%E5%87%A0%E4%B8%AA%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95/"/>
+    <id>https://github.com/jackywjj/jackywjj.github.io.git/2017/01/10/全栈开发的几个调试方法/</id>
+    <published>2017-01-10T12:26:06.000Z</published>
+    <updated>2017-01-13T06:22:43.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;2017技术博文第一弹，先分享一下一些周边。这里所谓的周边，包括很多议题，比如 IDE, 开发环境，系统，测试环境，调试环境等。。。叔叔打算分几个章节来分享，谈谈本叔叔在开发中所用到的一些小技巧，当然可能有更好的方案，可以通过Email 联系到叔叔， ecstorm(AT)gmail.com。&lt;/p&gt;
+&lt;p&gt;本文打算讲讲调试部分，叔叔目前的技术栈是 Java ， Vuejs。操作系统 Mac OS Sierra。Web 服务器使用 Nginx 。 JVM 容器使用 Jetty。&lt;/p&gt;
     
     </summary>
     
@@ -412,28 +431,6 @@
     
     
       <category term="Server" scheme="https://github.com/jackywjj/jackywjj.github.io.git/tags/Server/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL优化三(备份与还原)</title>
-    <link href="https://github.com/jackywjj/jackywjj.github.io.git/2014/05/13/MySQL%E4%BC%98%E5%8C%96%E4%B8%89(%E5%A4%87%E4%BB%BD%E4%B8%8E%E8%BF%98%E5%8E%9F)/"/>
-    <id>https://github.com/jackywjj/jackywjj.github.io.git/2014/05/13/MySQL优化三(备份与还原)/</id>
-    <published>2014-05-13T11:03:09.000Z</published>
-    <updated>2016-03-04T09:34:06.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本章谈谈MySQL的备份和还原，外加一点点复制。&lt;/p&gt;
-&lt;p&gt;其中所谓的复制跟备份有点关系，因此放在这里记录下来，另一部分复制跟主、从库有关系，未来打算放进MySQL架构部分去记录，在本博看来主、从库不仅是架构级别，并且需要适当监控，因此独立一章，具体阐述。&lt;/p&gt;
-&lt;p&gt;备份和还原其实也是比较复杂的，譬如备份时不要影响生产环境的业务进行，还原时同时也应注意这点。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Database" scheme="https://github.com/jackywjj/jackywjj.github.io.git/categories/Database/"/>
-    
-    
-      <category term="MySQL" scheme="https://github.com/jackywjj/jackywjj.github.io.git/tags/MySQL/"/>
     
   </entry>
   
