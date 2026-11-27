@@ -197,6 +197,32 @@
     <author>
       <name>Jacky Wu</name>
     </author>
+    <category term="读书笔记" scheme="https://jackywjj.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <category term="工程团队" scheme="https://jackywjj.github.io/tags/%E5%B7%A5%E7%A8%8B%E5%9B%A2%E9%98%9F/"/>
+    <id>https://jackywjj.github.io/articles/masters-of-doom-ai-teamwork/</id>
+    <link href="https://jackywjj.github.io/articles/masters-of-doom-ai-teamwork/"/>
+    <published>2026-09-09T00:30:00.000Z</published>
+    <summary>重读《DOOM启世录》，我想起的不只是DOS时代和第一次进入3D世界的震撼，更是两个约翰如何因互补走到一起</summary>
+    <title>重读《DOOM启世录》，我突然理解了AI时代</title>
+    <updated>2026-09-09T00:30:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="Mac mini" scheme="https://jackywjj.github.io/tags/Mac-mini/"/>
+    <id>https://jackywjj.github.io/articles/mac-mini-ai-agent-setup-plan/</id>
+    <link href="https://jackywjj.github.io/articles/mac-mini-ai-agent-setup-plan/"/>
+    <published>2026-09-08T00:30:00.000Z</published>
+    <summary>硬件扩展、远程操作、基础环境与 Agent 分工，先给 AI 准备一个固定工作环境。</summary>
+    <title>给 AI Agent 一台 Mac mini，AI 能干哪些活？（上篇）</title>
+    <updated>2026-09-08T00:30:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
     <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
     <category term="Agent" scheme="https://jackywjj.github.io/tags/Agent/"/>
@@ -262,33 +288,5 @@
     <summary>提示词只有进入任务契约、品牌资料、审核、版本与反馈流程，才会成为团队生产能力。</summary>
     <title>怎样把一条好提示词变成团队生产流程</title>
     <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="技术运营" scheme="https://jackywjj.github.io/tags/%E6%8A%80%E6%9C%AF%E8%BF%90%E8%90%A5/"/>
-    <category term="AI试点" scheme="https://jackywjj.github.io/tags/AI%E8%AF%95%E7%82%B9/"/>
-    <id>https://jackywjj.github.io/articles/choose-ai-pilot-by-business-outcome/</id>
-    <link href="https://jackywjj.github.io/articles/choose-ai-pilot-by-business-outcome/"/>
-    <published>2026-08-26T00:30:00.000Z</published>
-    <summary>AI项目的起点不是采购工具，而是选择一个有业务价值、可以验收、风险可控的具体场景。</summary>
-    <title>AI工具买了不少，为什么业务没变化</title>
-    <updated>2026-08-26T00:30:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="企业数字化" scheme="https://jackywjj.github.io/categories/%E4%BC%81%E4%B8%9A%E6%95%B0%E5%AD%97%E5%8C%96/"/>
-    <category term="企业数字化" scheme="https://jackywjj.github.io/tags/%E4%BC%81%E4%B8%9A%E6%95%B0%E5%AD%97%E5%8C%96/"/>
-    <category term="FDE" scheme="https://jackywjj.github.io/tags/FDE/"/>
-    <id>https://jackywjj.github.io/articles/why-enterprise-ai-projects-fail/</id>
-    <link href="https://jackywjj.github.io/articles/why-enterprise-ai-projects-fail/"/>
-    <published>2026-08-16T01:00:00.000Z</published>
-    <summary>模型能力越来越强，企业 AI 为什么仍然难落地？真正的难题藏在数据、流程、权限、评估和组织采用里。</summary>
-    <title>AI 项目失败，换模型也没有用</title>
-    <updated>2026-08-16T01:00:00.000Z</updated>
   </entry>
 </feed>

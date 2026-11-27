@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>给 AI Agent 一台 Mac mini，AI 能干哪些活？（上篇） · 杰克的AI实验室</title>
+  <meta name="description" content="硬件扩展、远程操作、基础环境与 Agent 分工，先给 AI 准备一个固定工作环境。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/mac-mini-ai-agent-setup-plan/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  <link rel="stylesheet" href="/css/jk-blog-blue.css?v=20261127-4">
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="杰克的AI实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>杰克的AI实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-09-08T00:30:00.000Z">2026.09.08</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>给 AI Agent 一台 Mac mini，AI 能干哪些活？（上篇）</h1>
+  </header>
+  <div class="prose"><p>写这份计划时，我刚给自己下单一台 Mac mini，选的是 32 GB 内存、512 GB 内置存储的版本。</p>
+<span id="more"></span>
+
+<blockquote>
+<p>这是我下单 Mac mini 后写下的搭建计划。配置和工具分工反映的是当时的选择，系统搭建与任务运行要以之后的实测为准。</p>
+</blockquote>
+<p>虽然还没到货，但已经开始给它安排了。我想把它放在家里，长期保持在线，让 AI Agent 有一个固定的工作环境。收集资料、整理知识库、测试应用，还有那些想试又暂时顾不上试的东西，都可以先交给它。</p>
+<p>我在主力机上继续做需要自己参与的工作。等它把材料和初稿准备好，我再接着往下做。</p>
+<p>我把计划分成了两篇。上篇先聊机器怎么配、基础环境怎么搭、几个 Agent 怎么分工。下篇再聊它们具体要交付什么。</p>
+<h2 id="硬件：512GB-留给系统，另外准备一块-2TB-工作盘"><a href="#硬件：512GB-留给系统，另外准备一块-2TB-工作盘" class="headerlink" title="硬件：512GB 留给系统，另外准备一块 2TB 工作盘"></a>硬件：512GB 留给系统，另外准备一块 2TB 工作盘</h2><p>这套硬件很简单，核心就是 Mac mini 加一个底座式扩展坞。</p>
+<p>我选的是放在机器底部、带风扇和固态硬盘位的那一类。扩展坞一边补充接口，一边把外接存储收进底座里，桌面上就少一块拖着线的硬盘盒。这里不讲配件品牌，只讲我需要的功能，有需要的某东或某宝直接去搜索即可。</p>
+<p>按我选购时看到的规格，它最高支持扩展到 8TB，不过我买的是一块 2TB 的 NVMe 固态硬盘。对目前准备做的资料整理、代码测试和内容生产，先从这个容量开始。</p>
+<p>我的安排是，系统和应用留在内置盘，工作内容集中放在这块 2TB 外接盘上。我会给它设置固定的挂载位置，再把工作入口放进自己的 home 目录。之后建立 workspace 目录，就能找到代码、脚本、测试项目、下载的资料和运行结果。</p>
+<p>还有个小细节要提前处理：重启后，工作盘得先挂好，任务再启动。如果盘没连上，就应该停下来报错，别悄悄把一堆文件写回系统盘。</p>
+<p>其他配件没有太多花样。我买了一个能切换屏幕和键鼠的设备，用一套鼠标、键盘和显示器在两台机器之间切换。可能有点多余，但初始化、排查问题时，能直接切过去操作，我还是觉得方便。</p>
+<p>另外准备了一个小便携屏。机器放在家里，偶尔需要看一眼状态、处理登录或者网络问题，拿过来接上就行。平时让屏幕休息，主机继续工作。</p>
+<p>我还买了个简单的透明塑料防尘罩。不过这件小配件得看实际结构：机器运行时，底部和周围的风道要留出来；如果是把整台机器封住的罩子，就只适合停机时盖上。准备长期运行，散热得优先考虑。</p>
+<p><img src="/images/articles/mac-mini-ai-agent-setup-plan/illustration-01.png" alt="512 GB 内置盘、2 TB 外接工作盘、远程接入与 Agent 分工的计划"></p>
+<p><em>上篇配置示意：系统、工作盘和 Agent 的分工。</em></p>
+<h2 id="软件：先把远程操作和工作环境准备好"><a href="#软件：先把远程操作和工作环境准备好" class="headerlink" title="软件：先把远程操作和工作环境准备好"></a>软件：先把远程操作和工作环境准备好</h2><p>基础工具里，我会装 iTerm2、Rectangle 和常用的编辑器等。</p>
+<p>iTerm2 用来处理命令行任务，看日志、启动程序、管理几个终端窗口都在这里。Rectangle 负责调整窗口的位置和大小。远程连回去，尤其面对便携小屏的时候，能快速把终端、编辑器、浏览器排开，操作起来会省事一些。</p>
+<p>VS Code 也要装。AI 写完东西之后，我总要打开代码、配置文件或者 Markdown，亲自看一遍、改几处。这个编辑入口必须有。</p>
+<p>电源和后台项目也会整理一下。我的目标是让显示器可以休息，但有任务时主机保持运行；把不需要的登录项和后台应用关掉，把任务依赖的服务留下来。等机器到手，还要实际检查重启后哪些服务能恢复、哪些地方需要我重新登录。</p>
+<p>远程连接我打算用 AnyDesk，方便人在外面时连回家里的机器。</p>
+<p>开发环境准备使用 <a target="_blank" rel="noopener" href="https://github.com/nvm-sh/nvm">nvm</a> 管理多个 Node.js 版本。</p>
+<h2 id="Agent-怎么分工，我准备以-OpenClaw-和-Codex-为主"><a href="#Agent-怎么分工，我准备以-OpenClaw-和-Codex-为主" class="headerlink" title="Agent 怎么分工，我准备以 OpenClaw 和 Codex 为主"></a>Agent 怎么分工，我准备以 OpenClaw 和 Codex 为主</h2><p>AI 软件这边，我准备装 Codex、OpenClaw、WorkBuddy 和 OpenCode。</p>
+<p>最主要用的是 OpenClaw，也就是大家说的“龙虾”，再加上 Codex。WorkBuddy 和 OpenCode 是补充工具。</p>
+<p>OpenClaw 这边，我想让它承担机器上的日常任务编排：根据规则调用工具、处理文件、运行脚本，把几个步骤串成一次能交付结果的工作。搜索和其他外部服务需要的配置，也在这边接好。</p>
+<p>这部分能接触的机器权限比较多，所以我会把它能读哪些目录、能改哪些文件、哪些动作要交给我确认写清楚。服务需要的 key 单独保存，通过配置引用，不放进文章素材和知识库，也不跟着 Git 同步出去。</p>
+<p>写这份计划时，我通过 Plus 方案使用 Codex，准备主要拿来整理知识库、开发小工具。我的用法是先讲清楚要写什么、哪些事实能用，再让它梳理结构、打初稿，最后由我改稿。</p>
+<p>WorkBuddy 我用得少一些。我看中的是它提供了较多 Agent 角色，准备把信息采集、资料归纳和一些任务类工作分给它。OpenCode 也会装上，留给代码实验和工具对照，不急着给每个软件都安排一套复杂流程。</p>
+<p>环境搭好之后，我最想看到的是它能留下可用的成果。下篇接着聊我的 Obsidian 知识库、应用测试和工程实验，看看这些软件怎么接进日常工作。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><ul>
+<li><a href="/articles/mac-mini-ai-agent-knowledge-and-testing/">下篇｜知识库交接、Web 应用测试与工程实验</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-09-08。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/k0dv-zGGXF3y_VFEKui4dQ">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/Mac-mini/">#Mac mini</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/masters-of-doom-ai-teamwork/"><span>← 较新</span><strong>重读《DOOM启世录》，我突然理解了AI时代</strong></a>
+    
+    
+      <a class="panel" href="/articles/rules-prediction-generation-agent/"><span>较早 →</span><strong>预测、生成还是 Agent？先看任务怎么做</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">杰克的AI实验室</a>
+    </div>
+  </footer>
+</body>
+</html>
