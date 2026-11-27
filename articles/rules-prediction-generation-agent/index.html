@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>预测、生成还是 Agent？先看任务怎么做 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="AI路线不是从传统模型一路升级到Agent，而要看任务确定性、知识边界、工具执行和自主决策是否真的必要。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/rules-prediction-generation-agent/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>预测、生成还是 Agent？先看任务怎么做</h1>
+  </header>
+  <div class="prose"><p>AI路线不是从传统模型一路升级到Agent，而要看任务确定性、知识边界、工具执行和自主决策是否真的必要。</p>
+<span id="more"></span>
+
+<p><img src="/images/articles/rules-prediction-generation-agent/illustration.jpg" alt="衡量不同技术路线复杂度的主题插画"></p>
+<p>这两年做 AI 项目，很容易出现一种奇怪的“升级冲动”：能用生成式 AI 就不用传统模型，能做 Agent 就不满足于一次模型调用。听起来越来越先进，系统却未必更有用。路线选择不是技术代际判断，而是任务结构判断。</p>
+<h2 id="先看任务到底要求什么"><a href="#先看任务到底要求什么" class="headerlink" title="先看任务到底要求什么"></a>先看任务到底要求什么</h2><p>假定客服团队有三个需求：识别工单类别、根据企业文档回答问题、处理退款。分类标签固定，而且已有历史样本，预测式机器学习通常更合适；回答内容需要组织语言并引用最新知识，应该考虑生成式 AI 加 RAG；退款涉及查订单、核对规则、调用接口和根据结果继续行动，才可能需要 Agent。</p>
+<p>这三类任务挨得很近，架构却完全不同。预测式模型输出分数或标签，生成式模型输出新内容，RAG 给生成过程补充可追溯知识，Agent 则在模型之外增加规划、工具调用、状态和循环。每增加一层，都带来新的延迟、费用、权限和失败路径。</p>
+<h2 id="复杂不是免费的"><a href="#复杂不是免费的" class="headerlink" title="复杂不是免费的"></a>复杂不是免费的</h2><p><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/architecture/choose-design-pattern-agentic-ai-system/">Google Cloud 的 Agent 架构指南</a>明确提醒：摘要、翻译、分类等能够由单次调用完成的工作，通常不需要 Agent。我的理解是，只有任务步骤无法预先完整写死，而且系统确实要根据中间结果动态选择下一步时，自主性才有价值。</p>
+<p>譬如查询物流状态，一次检索加回答就够了；如果让 Agent 自己规划五步，用户得到的未必更好，只是多了模型调用和不可预测性。相反，处理异常配送可能要查询订单、判断责任、计算补偿、征得用户确认再执行，这时固定流程会产生大量分支，受控 Agent 才可能降低维护成本。</p>
+<h2 id="用最小可行能力做选择"><a href="#用最小可行能力做选择" class="headerlink" title="用最小可行能力做选择"></a>用最小可行能力做选择</h2><p>我更倾向于按五级能力逐层判断：规则能否解决；是否需要从数据中预测；是否需要生成自然语言或内容；是否依赖外部知识；是否必须调用工具并动态决策。只要前一级能稳定达成业务目标，就没有必要主动进入后一级。</p>
+<p>公开案例也说明自主性要与任务匹配。<a target="_blank" rel="noopener" href="https://cloud.google.com/customers/telus-gemini-enterprise-cx">Google Cloud 的 TELUS 客户案例</a>把客服自动化结果落在处理覆盖率、解决速度和成本上，而不是强调“用了 Agent”这个标签。材料属于供应商和客户的单方公开口径，但它提示了一个正确顺序：先定义希望改善的业务结果，再证明复杂架构是实现结果所必需的。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>固定规则先用流程：步骤稳定、例外很少的任务，不必引入模型自主决策。</p>
+</li>
+<li><p>分类预测看传统 ML：输出是分数或标签且有历史样本时，预测式模型往往更直接。</p>
+</li>
+<li><p>外部知识才加 RAG：内容需要依据企业资料或频繁更新的信息时，再增加检索链路。</p>
+</li>
+<li><p>动态执行才考虑 Agent：只有多步骤、工具调用和中途改道确有价值时，才支付自主性的成本。</p>
+</li>
+<li><p>选择最小可行能力：越简单的系统，越容易评估、治理和回滚。</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/ai-architecture-define-the-problem/">先把问题说清楚</a> · <a href="/articles/model-score-and-release-criteria/">模型分数与上线标准</a> · <a href="/articles/rag-indexing-and-serving/">RAG 的两条链路</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-09-06。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/V4zBqDPBZLZ2Dsufd534rw">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/Agent/">#Agent</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/model-score-and-release-criteria/"><span>← 较新</span><strong>模型分数很高，怎么判断业务能否上线？</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-architecture-define-the-problem/"><span>较早 →</span><strong>AI架构01｜别急着选模型，先把问题说清楚</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

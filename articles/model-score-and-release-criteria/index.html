@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>模型分数很高，怎么判断业务能否上线？ · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="把业务KPI翻译成质量、延迟、吞吐、成本和人工介入边界，才能判断一个高分模型是否真的能上线。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/model-score-and-release-criteria/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>模型分数很高，怎么判断业务能否上线？</h1>
+  </header>
+  <div class="prose"><p>把业务KPI翻译成质量、延迟、吞吐、成本和人工介入边界，才能判断一个高分模型是否真的能上线。</p>
+<span id="more"></span>
+
+<p><img src="/images/articles/model-score-and-release-criteria/illustration.jpg" alt="以冰山比喻模型指标和生产边界的主题插画"></p>
+<p>模型评审会上，大家很容易围着准确率、召回率或回答得分争论。可到了真正上线的时候，决定项目能不能用的往往是另一组问题：用户愿意等多久？高峰期能处理多少请求？错一次要付出什么代价？一次任务最多能花多少钱？</p>
+<h2 id="把优化目标和上线门槛分开"><a href="#把优化目标和上线门槛分开" class="headerlink" title="把优化目标和上线门槛分开"></a>把优化目标和上线门槛分开</h2><p>模型质量通常是持续优化的目标，但延迟、预算、安全和合规更像必须满足的门槛。一个准确率更高的模型，如果 p95 延迟从两秒变成十五秒，或者单次成本翻了十倍，在实时客服里未必更好。高分模型只有落在系统边界内，才是可用模型。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/architecture/framework/perspectives/ai-ml/performance-optimization">Google Cloud 的 AI&#x2F;ML 性能指南</a>建议先从业务目标建立可衡量指标，再讨论模型和基础设施。这个顺序很关键。假定目标是降低客服平均处理时长，那么技术指标至少要包含回答质量、端到端延迟、并发吞吐、转人工率和单位解决成本。只写“回答准确率达到 90%”，无法说明项目是否改善了业务。</p>
+<h2 id="用一张映射表约束架构"><a href="#用一张映射表约束架构" class="headerlink" title="用一张映射表约束架构"></a>用一张映射表约束架构</h2><p>我会把目标拆成五列。第一列是业务 KPI，例如一次解决率；第二列是模型质量，例如关键意图召回率；第三列是服务指标，例如 p95 延迟和可用性；第四列是单位经济性；第五列是风险处置，包括拒答、人工复核和回滚条件。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>客服场景示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>业务结果</td>
+<td>一次解决率</td>
+</tr>
+<tr>
+<td>模型质量</td>
+<td>关键意图召回率</td>
+</tr>
+<tr>
+<td>服务指标</td>
+<td>p95 延迟、可用性</td>
+</tr>
+<tr>
+<td>单位经济性</td>
+<td>每个成功解决工单的成本</td>
+</tr>
+<tr>
+<td>风险处置</td>
+<td>拒答、转人工、回滚</td>
+</tr>
+</tbody></table>
+<p>这张表会反过来决定架构。延迟严格，可能要选更小的模型、缓存结果或减少检索轮次；高风险任务需要证据引用和人工审批；流量波动大，需要容量规划与限流；预算有限，就要把昂贵模型留给少数复杂请求，而不是所有请求都走同一路径。</p>
+<h2 id="指标之间一定有冲突"><a href="#指标之间一定有冲突" class="headerlink" title="指标之间一定有冲突"></a>指标之间一定有冲突</h2><p>质量、速度和成本不会永远同向。更长的上下文可能提高信息覆盖，却增加延迟与费用；更强的安全规则可能减少风险，也可能提高拒答率。架构工作不是找一个“全都最好”的点，而是明确哪些指标必须满足，哪些可以在边界内交换。</p>
+<p>因此上线标准应该写成组合条件：质量不低于门槛、p95 延迟不超过目标、单位任务成本在预算内、高风险请求必须转人工。这样团队调整模型、提示词或基础设施时，才知道是否真的变好，而不是只盯住一个分数。</p>
+<p>指标还要按人群和场景切片。总体平均值合格，可能掩盖高价值客户、少数语言或高峰时段的明显失败。发布前应列出最关键的切片，分别核对质量和延迟；上线后再用相同维度观察。这样发生波动时，团队看到的不只是“平均下降两个点”，而是知道哪类用户受到了影响，也更容易决定扩容、调整路由还是转人工。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>业务 KPI 在前：先说明要改变的经营或用户结果。</p>
+</li>
+<li><p>质量只是一个维度：同时定义延迟、吞吐、可用性和单位成本。</p>
+</li>
+<li><p>写清硬门槛：安全、合规和人工介入条件不能拿质量分数交换。</p>
+</li>
+<li><p>承认指标冲突：用优先级和范围管理取舍，不追求虚假的全局最优。</p>
+</li>
+<li><p>采用组合上线标准：只有全部关键边界都满足，模型才具备生产资格。</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/ai-architecture-define-the-problem/">先把问题说清楚</a> · <a href="/articles/rules-prediction-generation-agent/">预测、生成还是 Agent？</a> · <a href="/articles/ai-cost-per-successful-task/">每件合格任务的成本</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-09-12。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-VSQJTF00PsfWcOwk86wuA">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/%E9%AA%8C%E6%94%B6/">#验收</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/rag-indexing-and-serving/"><span>← 较新</span><strong>RAG 的两条链路：离线索引和在线问答</strong></a>
+    
+    
+      <a class="panel" href="/articles/rules-prediction-generation-agent/"><span>较早 →</span><strong>预测、生成还是 Agent？先看任务怎么做</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

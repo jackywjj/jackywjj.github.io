@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 算出的数字，怎样确认它没有算错 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="两张清单的总金额都等于600，就能说明对得上吗？不能。有可能一边多了一笔，另一边少了一笔，差额恰好互相抵消。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/ai-number-reconciliation/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>AI 算出的数字，怎样确认它没有算错</h1>
+  </header>
+  <div class="prose"><p>两张清单的总金额都等于600，就能说明对得上吗？不能。有可能一边多了一笔，另一边少了一笔，差额恰好互相抵消。</p>
+<span id="more"></span>
+
+<p>把核对拆成记录级的问题：编号是否唯一，同一笔数据两边是否一致，哪些记录缺失，哪里出现重复。总数是一个检查点，不是完整结论。</p>
+<h2 id="用两张总额相同的小表开始"><a href="#用两张总额相同的小表开始" class="headerlink" title="用两张总额相同的小表开始"></a>用两张总额相同的小表开始</h2><p>分别保存为input&#x2F;left.csv和input&#x2F;right.csv。编号在本次练习中就是唯一订单标识，金额单位元，保留两位小数。</p>
+<p><strong><code>left.csv</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">order_id,amount</span><br><span class="line">A,100.00</span><br><span class="line">B,200.00</span><br><span class="line">C,300.00</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>right.csv</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">order_id,amount</span><br><span class="line">A,110.00</span><br><span class="line">B,190.00</span><br><span class="line">D,300.00</span><br></pre></td></tr></table></figure>
+
+<p>两侧各三行、总金额都为600，但A和B金额不同，C只有左边有，D只有右边有。</p>
+<h2 id="先查主键，别急着做匹配"><a href="#先查主键，别急着做匹配" class="headerlink" title="先查主键，别急着做匹配"></a>先查主键，别急着做匹配</h2><p>如果编号重复，直接合并可能出现一对多或多对多，行数膨胀，金额也被重复计入。第一轮先检查编号是否为空、是否唯一、类型是否一致。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">读取input/left.csv和input/right.csv。</span><br><span class="line">只做输入检查：行数、编号空值、重复编号、金额格式。</span><br><span class="line">金额按两位小数比较；编号按文本，不自动删前导零。</span><br><span class="line">发现重复时先列所有原始行，不自动去重。</span><br><span class="line">检查通过后再说明匹配计划，本轮不修改原文件。</span><br></pre></td></tr></table></figure>
+
+<p>还要确认币种、含税口径、时间范围一致。本篇假定这些已相同；换成正式材料时，要把假定改成经过确认的字段规则。</p>
+<p>记录主键的目的，是知道“一笔”怎样被唯一识别。若不同区域会重复编号，就采用区域与编号组合，可对照<a href="/articles/excel-merge-data-rules/">Excel 合并练习</a>中的组合主键。</p>
+<h2 id="把相同、差异与缺失分别交付"><a href="#把相同、差异与缺失分别交付" class="headerlink" title="把相同、差异与缺失分别交付"></a>把相同、差异与缺失分别交付</h2><p>确认输入可比较，再执行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">按order_id逐笔匹配两侧记录。</span><br><span class="line">分别输出output/matched.csv、amount-diff.csv、left-only.csv、right-only.csv。</span><br><span class="line">差异表保留left_amount、right_amount及两边来源行号。</span><br><span class="line">delta定义为left_amount减right_amount，在报告中写明方向。</span><br><span class="line">输出checks/reconciliation.md，列行数、总额和未解决问题。</span><br><span class="line">不覆盖原文件，不把差异自行修正为相同。</span><br></pre></td></tr></table></figure>
+
+<p>这组材料中，A差额是－10，B差额是＋10；C列入left-only，D列入right-only。matched没有金额相同的订单，不能为了凑一张完整结果把缺失项金额填成零。</p>
+<p><img src="/images/articles/ai-number-reconciliation/illustration.png" alt="主键检查、逐笔匹配、差异分类和独立复核流程"></p>
+<h2 id="用独立计算检查关键结果"><a href="#用独立计算检查关键结果" class="headerlink" title="用独立计算检查关键结果"></a>用独立计算检查关键结果</h2><p>下面是一段完整的小样本复核代码。保存为checks&#x2F;check_sample.py，在 Python 环境运行。它只验证本篇教学样本中的预期结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal</span><br><span class="line">left = &#123;<span class="string">&quot;A&quot;</span>: Decimal(<span class="string">&quot;100&quot;</span>), <span class="string">&quot;B&quot;</span>: Decimal(<span class="string">&quot;200&quot;</span>), <span class="string">&quot;C&quot;</span>: Decimal(<span class="string">&quot;300&quot;</span>)&#125;</span><br><span class="line">right = &#123;<span class="string">&quot;A&quot;</span>: Decimal(<span class="string">&quot;110&quot;</span>), <span class="string">&quot;B&quot;</span>: Decimal(<span class="string">&quot;190&quot;</span>), <span class="string">&quot;D&quot;</span>: Decimal(<span class="string">&quot;300&quot;</span>)&#125;</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">sum</span>(left.values()) == <span class="built_in">sum</span>(right.values()) == Decimal(<span class="string">&quot;600&quot;</span>)</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">set</span>(left) - <span class="built_in">set</span>(right) == &#123;<span class="string">&quot;C&quot;</span>&#125;</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">set</span>(right) - <span class="built_in">set</span>(left) == &#123;<span class="string">&quot;D&quot;</span>&#125;</span><br><span class="line">diff = &#123;k: left[k] - right[k] <span class="keyword">for</span> k <span class="keyword">in</span> left.keys() &amp; right.keys() <span class="keyword">if</span> left[k] != right[k]&#125;</span><br><span class="line"><span class="keyword">assert</span> diff == &#123;<span class="string">&quot;A&quot;</span>: Decimal(<span class="string">&quot;-10&quot;</span>), <span class="string">&quot;B&quot;</span>: Decimal(<span class="string">&quot;10&quot;</span>)&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;sample checks passed&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里采用字典，是因为第一轮已经确认样本主键唯一。正式数据不能先转字典再查重，重复键可能在转换时被覆盖。输入检查必须发生在结果构造之前。</p>
+<p>运行成功只能证明这段小样本计算成立。它不证明完整文件被正确读取，也不证明WorkBuddy输出已经与预期一致，还要打开四份结果逐项比较。</p>
+<h2 id="追加一条重复，检验失败处理"><a href="#追加一条重复，检验失败处理" class="headerlink" title="追加一条重复，检验失败处理"></a>追加一条重复，检验失败处理</h2><p>将右表再加入一行A,110.00，另存input&#x2F;right-duplicate.csv。重复场景的目标是得到明确异常，不是让工具悄悄去掉一行。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用right-duplicate.csv替换右侧输入，重新做主键检查。</span><br><span class="line">发现A重复时输出checks/duplicate-review.md，保留两行来源。</span><br><span class="line">先停止唯一匹配，不继续给出“全部对账通过”。</span><br><span class="line">不删除或合并重复项，等我确认这两条记录的业务含义。</span><br></pre></td></tr></table></figure>
+
+<p>这时总额已经与第一组不同，但更重要的是匹配前提失效。不能只调整总金额，让报告看起来平衡。</p>
+<p>正式业务中，处理缺失和差异可能需要补单、冲正或沟通确认。教程只给差异证据，把业务动作留给有权限的人决定。</p>
+<h2 id="核对报告写清已检查与未解决"><a href="#核对报告写清已检查与未解决" class="headerlink" title="核对报告写清已检查与未解决"></a>核对报告写清已检查与未解决</h2><p>最后报告应说明输入文件、口径、主键、差额方向、四类结果、重复处理状态和独立复核。不要只写一个绿色“通过”。</p>
+<p>同一任务下次执行时，用新的材料、相同规则与已知反例再检查。总额相同只是开始；逐笔差异有来源，异常没有被藏起来，结果才值得拿去支持后续判断。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/excel-merge-data-rules/">合并多张 Excel 表以前，先核对哪些口径？</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-10-21。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/HS8kneXiMa9bE27ZmbpM5Q">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%A0%B8%E5%AF%B9/">#数据核对</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/first-reusable-skill/"><span>← 较新</span><strong>怎样把跑通的流程做成自己的第一个 Skill</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-cost-per-successful-task/"><span>较早 →</span><strong>AI 成本怎么算？先算每件合格任务的成本</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

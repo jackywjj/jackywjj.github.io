@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI架构01｜别急着选模型，先把问题说清楚 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="AI项目真正的起点不是模型排行榜，而是把问题、输入、输出、约束、失败代价和业务指标写成一份可检查的系统契约。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/ai-architecture-define-the-problem/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>AI架构01｜别急着选模型，先把问题说清楚</h1>
+  </header>
+  <div class="prose"><p>AI项目真正的起点不是模型排行榜，而是把问题、输入、输出、约束、失败代价和业务指标写成一份可检查的系统契约。</p>
+<span id="more"></span>
+
+<p>不少 AI 项目的第一次会议，开场就是：“用哪个模型？”有人比较参数量，有人盯着排行榜，还有人已经开始算调用价格。讨论很热闹，但过一会儿你会发现，大家连一个更基本的问题都没说清楚：这个系统到底要替谁解决什么问题，做到什么程度才算成功？</p>
+<p>模型当然重要，只是它不该排在第一位。问题没有定义好，模型越强，团队越可能把一个方向错误的原型做得又快又贵。</p>
+<h2 id="AI-项目的第一个组件不是模型"><a href="#AI-项目的第一个组件不是模型" class="headerlink" title="AI 项目的第一个组件不是模型"></a>AI 项目的第一个组件不是模型</h2><p><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/architecture/framework/perspectives/ai-ml/cost-optimization">Google Cloud 的 AI&#x2F;ML 成本优化指南</a>把“建立业务目标和 KPI”放在技术选择之前。它建议同时衡量资源成本、业务价值和项目指标。<a target="_blank" rel="noopener" href="https://docs.cloud.google.com/docs/ai-ml/generative-ai/evaluate-define-generative-ai-use-case">生成式 AI 用例定义文档</a>也给出了很具体的例子：客服项目不能只写“回答更准确”，还要看工单解决时间、无需人工介入的比例、升级率、客户满意度和高峰期承载能力。</p>
+<p>为什么要把这一步放在前面？因为“做一个智能客服”只是一句愿望，根本没法直接指导架构。把它改写成“六个月内将常见问题的平均处理时间降低 20%，但涉及退款、账户安全和高风险投诉时必须转人工”，团队才知道应该收集什么数据、允许模型做什么、哪些环节需要审批，以及出现什么情况必须降级。</p>
+<p>从技术人的角度看，我更愿意把这一步叫作建立系统契约。至少要写清六项内容：问题、输入、输出、约束、失败代价和业务指标。输入决定数据与权限，输出决定接口和使用方式，约束决定延迟、预算与合规边界，失败代价则决定人工复核、回退和告警要做到什么程度。</p>
+<p><img src="/images/articles/ai-architecture-define-the-problem/illustration.png" alt="AI 项目的六项系统契约示意图"></p>
+<p>AI 项目的六项系统契约：问题、输入、输出、约束、失败代价和业务指标</p>
+<h2 id="看业务结果，不要只看模型分数"><a href="#看业务结果，不要只看模型分数" class="headerlink" title="看业务结果，不要只看模型分数"></a>看业务结果，不要只看模型分数</h2><p>一个近期公开案例很能说明这个区别。<a target="_blank" rel="noopener" href="https://cloud.google.com/customers/telus-gemini-enterprise-cx">Google Cloud 的 TELUS 客户案例</a>称，TELUS 每年处理超过 2200 万次客户通话。案例报告，30% 的联络中心流量转由 AI 自动处理，平均问题解决时长缩短 87%，每年节省运营成本 5390 万美元。</p>
+<p>这些数字来自供应商发布的客户材料，并非独立审计结果，所以不能不加说明地照搬。不过，这组材料有一个值得留意的地方：它把处理覆盖率、解决时长、人工工作量和经营成本摆在了台面上。这些指标直接回答“系统有没有创造价值”。至于模型用了多少参数、在某个通用榜单排第几，对客服负责人反而不是最先需要知道的事情。</p>
+<p>我的理解是，模型指标是系统指标的一部分，不能代替业务结果。即便离线准确率很高，如果延迟让用户等不下去，单次处理成本超过人工，或者错误答案带来的赔付风险无法接受，这个方案仍然不能上线。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>先写问题：明确服务对象和需要改变的业务结果，再讨论模型。</p>
+</li>
+<li><p>锁定输入输出：输入决定数据与权限，输出决定接口与责任边界。</p>
+</li>
+<li><p>提前写约束：把延迟、预算、合规和人工介入条件放进设计起点。</p>
+</li>
+<li><p>计算失败代价：风险越高，复核、回退和告警要求越严格。</p>
+</li>
+<li><p>同时看两类指标：模型质量解释“答得怎样”，业务指标回答“值不值得做”。</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/rules-prediction-generation-agent/">预测、生成还是 Agent？</a> · <a href="/articles/model-score-and-release-criteria/">模型分数与上线标准</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-09-05。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lZbLvOUpx2TN6y8z2Vitdw">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">#软件架构</a></li>
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/rules-prediction-generation-agent/"><span>← 较新</span><strong>预测、生成还是 Agent？先看任务怎么做</strong></a>
+    
+    
+      <a class="panel" href="/articles/geo-ai-search-validation/"><span>较早 →</span><strong>GEO到底在做什么？从AI搜索原理到效果验证</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

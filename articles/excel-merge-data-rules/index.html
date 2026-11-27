@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>合并多张 Excel 表以前，先核对哪些口径？ · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="三张表合成一张，文件能打开，行数也看起来正常。可金额一汇总，就有人问：“这一列到底含不含税？”这时才发现，合并动作完成了，业务口径还没确认。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/excel-merge-data-rules/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>合并多张 Excel 表以前，先核对哪些口径？</h1>
+  </header>
+  <div class="prose"><p>三张表合成一张，文件能打开，行数也看起来正常。可金额一汇总，就有人问：“这一列到底含不含税？”这时才发现，合并动作完成了，业务口径还没确认。</p>
+<span id="more"></span>
+
+<p>这个任务需要先让WorkBuddy列字段差异。哪些能对齐，哪些要业务确认，分清以后再合并。工具可以处理数据，口径需要我们交代。</p>
+<h2 id="准备三张小表，把问题留在材料里"><a href="#准备三张小表，把问题留在材料里" class="headerlink" title="准备三张小表，把问题留在材料里"></a>准备三张小表，把问题留在材料里</h2><p>在input中保存下面三个CSV文件，可以用Excel打开。先用六行看懂规则，再扩大到自己的数据；不要一开始就让工具处理几百个文件。</p>
+<p><strong><code>region-a.csv</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">region,order_id,amount_gross</span><br><span class="line">A,0001,100.00</span><br><span class="line">A,0002,200.00</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>region-b.csv</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">区域,订单编码,结算金额</span><br><span class="line">B,0001,150.00</span><br><span class="line">B,0002,50.00</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>region-c.csv</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">region,order_id,amount,tax_status</span><br><span class="line">C,0001,70.00,net</span><br><span class="line">C,0002,120.00,gross</span><br></pre></td></tr></table></figure>
+
+<p>实际保存时，文件名说明行不写入CSV。A与B的金额本次都约定为元、含税；C明确含有不含税记录。订单编号必须保留前导零，且同一个编号可以出现在不同区域，主键采用“区域＋订单编号”。</p>
+<p>这些约束要写进rules&#x2F;data-dictionary.md。它决定怎样理解输入，不由列名或模型习惯替你推断。（注意关键词：约束）</p>
+<h2 id="先扫描，暂时不汇总"><a href="#先扫描，暂时不汇总" class="headerlink" title="先扫描，暂时不汇总"></a>先扫描，暂时不汇总</h2><p>第一轮只读材料，输出字段、类型、缺失值和异常。不要让它顺手把编号变成数字，也不要把不含税金额自动换算。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">读取input中三份CSV与rules/data-dictionary.md。</span><br><span class="line">先列字段对照、金额单位、含税口径和建议主键。</span><br><span class="line">检查订单编号是否按文本保留，区域加编号是否唯一。</span><br><span class="line">不修改、不汇总、不自行补税率。</span><br><span class="line">列出需要业务确认的记录，等我确认后再继续。</span><br></pre></td></tr></table></figure>
+
+<p>这一轮应识别B表的字段异名，以及C区0001的“net”状态。若它认为所有“金额”都能相加，就回到材料里说明净额与含税金额的区别。字段说明需要写明 <code>net</code> 表示不含税，<code>gross</code> 表示含税。本例的 70 元净额应进入异常表，不并入含税合计。</p>
+<p>字段映射可以记录为下面的配置。它需要在指令中明确引用，不是平台自动加载文件，可以理解为让模型统一关键字。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;区域&quot;</span><span class="punctuation">:</span> <span class="string">&quot;region&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;订单编码&quot;</span><span class="punctuation">:</span> <span class="string">&quot;order_id&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;结算金额&quot;</span><span class="punctuation">:</span> <span class="string">&quot;amount_gross&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;region&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;order_id&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;currency_unit&quot;</span><span class="punctuation">:</span> <span class="string">&quot;CNY_yuan&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="确认异常怎么处理，再生成规范表"><a href="#确认异常怎么处理，再生成规范表" class="headerlink" title="确认异常怎么处理，再生成规范表"></a>确认异常怎么处理，再生成规范表</h2><p>这次选择保留所有原始数据，但只把已明确含税的五条记录放进规范结果。C区0001进入异常表，等待确认税率或拿到正确口径，不删除也不猜测。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">按确认规则生成output/clean.xlsx。</span><br><span class="line">规范字段为region、order_id、amount_gross、source_file、source_row。</span><br><span class="line">订单编号保持文本；主键按区域与编号组合。</span><br><span class="line">C区0001是不含税记录，放入output/exceptions.xlsx，不换算。</span><br><span class="line">在checks/merge-review.md记录字段映射、各文件行数与异常原因。</span><br><span class="line">不覆盖input，不自动删除任何记录。</span><br><span class="line">若无法生成XLSX，说明限制，先交CSV与核对说明。</span><br></pre></td></tr></table></figure>
+
+<p>生成 XLSX 依赖当前工具的电子表格写入能力。它有没有按约定处理文本、字段和金额，仍需要通过结果核对。只有CSV时明确记录格式未达原目标，不能称为Excel完整交付。</p>
+<p>数据量大以后，“来源文件＋原行号”很有用。看到一条异常，可以回到原记录确认，而不是只剩下一张已经清洗过、找不到出处的表。</p>
+<p><img src="/images/articles/excel-merge-data-rules/illustration.png" alt="Excel 合并的字段扫描、口径确认、分流和独立复核"></p>
+<h2 id="行数和金额都要对得上"><a href="#行数和金额都要对得上" class="headerlink" title="行数和金额都要对得上"></a>行数和金额都要对得上</h2><p>这组材料共六条数据。按当前教学规则，规范表五条，异常表一条；五条含税金额应为100＋200＋150＋50＋120＝620元。70元净额暂不纳入这个总数。</p>
+<p>这些是人工设计的验收值，不是WorkBuddy的实际运行回执。自己执行后，检查输入六行能否通过来源记录对应到五行规范数据和一行异常。</p>
+<p>再用Excel公式或独立脚本计算规范金额。下面只展示金额求和的关键规则：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal</span><br><span class="line">values = [<span class="string">&quot;100.00&quot;</span>, <span class="string">&quot;200.00&quot;</span>, <span class="string">&quot;150.00&quot;</span>, <span class="string">&quot;50.00&quot;</span>, <span class="string">&quot;120.00&quot;</span>]</span><br><span class="line">total = <span class="built_in">sum</span>((Decimal(x) <span class="keyword">for</span> x <span class="keyword">in</span> values), Decimal(<span class="string">&quot;0.00&quot;</span>))</span><br><span class="line"><span class="keyword">assert</span> total == Decimal(<span class="string">&quot;620.00&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Decimal适合这里的确定小数计算。完整数据处理还需处理空值、异常文本与重复主键，不能只把这几行示意代码复制后当成全套生产程序。</p>
+<h2 id="碰到重复，先保留两边原值"><a href="#碰到重复，先保留两边原值" class="headerlink" title="碰到重复，先保留两边原值"></a>碰到重复，先保留两边原值</h2><p>真实文件可能有同一订单的两个版本。重复不一定就是多余，也可能是更正记录、不同状态或重复导入。先列出两条来源，确认业务规则以后再决定保留哪一条。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">发现重复组合主键时，保留所有冲突记录与来源。</span><br><span class="line">不要默认保留最后一条或金额更大的一条。</span><br><span class="line">输出重复清单，说明哪些字段不同，等待我确认。</span><br><span class="line">其他已确认记录可以继续处理，但在报告中标清未解决部分。</span><br></pre></td></tr></table></figure>
+
+<p>如果工具已把0001改为1，修复要回到原输入，不能凭结果猜补几位零。让它按文本重读编号，重新生成规范表，并在核对说明里记下修正。</p>
+<h2 id="把口径和处理记录一起留下来"><a href="#把口径和处理记录一起留下来" class="headerlink" title="把口径和处理记录一起留下来"></a>把口径和处理记录一起留下来</h2><p>一次合并结束，值得保留的是字段字典、异常处理规则、来源映射和核对方法。下个月换文件，先扫描它们是否仍然成立，再执行同一流程。</p>
+<p>数据变得整齐只是第一步。每一行如何进入结果、每个金额按什么口径计算、未解决项在哪里，说明清楚，才有基础把这个过程做成后面的可复用Skill。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/ai-number-reconciliation/">AI 算出的数字，怎样确认它没有算错</a> · <a href="/articles/first-reusable-skill/">怎样把跑通的流程做成自己的第一个 Skill</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-10-20。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/zRfhC05mxtrSIC1cjNS81w">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/Excel/">#Excel</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/ai-cost-per-successful-task/"><span>← 较新</span><strong>AI 成本怎么算？先算每件合格任务的成本</strong></a>
+    
+    
+      <a class="panel" href="/articles/rag-indexing-and-serving/"><span>较早 →</span><strong>RAG 的两条链路：离线索引和在线问答</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

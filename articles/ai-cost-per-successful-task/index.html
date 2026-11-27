@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 成本怎么算？先算每件合格任务的成本 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="模型便宜，不代表任务便宜。从模型调用、工具与数据到人工复核，算清每件合格任务的真实成本，再决定优化哪里。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/ai-cost-per-successful-task/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>AI 成本怎么算？先算每件合格任务的成本</h1>
+  </header>
+  <div class="prose"><p>讨论一个 AI 项目贵不贵，很容易先打开模型价目表：输入多少钱，输出多少钱，哪个套餐更划算。</p>
+<span id="more"></span>
+
+<p>这些当然要看。但如果让我评估一套准备长期运行的系统，我更想问：<strong>它把一件事做好，到底花了多少钱？</strong></p>
+<p>一次接口调用，和一件业务任务，中间往往隔着检索、工具执行、失败重试、人工复核。只盯着 Token，账很容易算偏。</p>
+<h2 id="先说清楚，什么叫“做完了”"><a href="#先说清楚，什么叫“做完了”" class="headerlink" title="先说清楚，什么叫“做完了”"></a>先说清楚，什么叫“做完了”</h2><p>拿我也在做的内容运营来说，让 AI 生成一篇文章，只能算出了一个版本。事实能核对，口吻合适，排版没有缺字，才更接近可以交付。</p>
+<p>换成企业知识问答，返回一段文字也不能直接记作成功：回答是否正确，引用是否支持结论，是否遵守访问权限，都需要有验收标准。</p>
+<p>所以我会先确定一个单位：一份通过审核的文稿、一张字段核对正确的单据，或一次确实解决问题的咨询。口径不同，成本就不能直接比较。</p>
+<p>我的建议是，用<strong>每件合格任务的成本</strong>作为主要观察指标，同时保留成功率和人工介入时间。失败任务消耗的资源也要算进去，不能只统计那些顺利完成的请求。</p>
+<h2 id="把-Token-之外的账也摊开"><a href="#把-Token-之外的账也摊开" class="headerlink" title="把 Token 之外的账也摊开"></a>把 Token 之外的账也摊开</h2><p><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/architecture/framework/perspectives/ai-ml/cost-optimization">Google Cloud 的 AI&#x2F;ML 成本优化指南</a>把成本放到整个生命周期中考察，并要求跟踪业务价值和实际支出。放到日常工程里，我会拆成五笔账。</p>
+<p>第一笔，模型调用。输入、输出、多轮上下文，以及补跑和升级模型产生的消耗，都归到对应任务下。</p>
+<p>第二笔，工具与数据。搜索、文档解析、向量检索、外部接口、数据清洗与索引更新，可能各有自己的费用。</p>
+<p>第三笔，运行资源。任务队列、数据库、存储、日志和运行环境，都可能持续产生支出。自部署模型还要考虑资源闲置。</p>
+<p>第四笔，建设与维护。接工具、调工作流、做评测、排查失败，都要花工程时间。一次性建设费用，可以按约定的使用周期分摊。</p>
+<p>第五笔，人工复核与返工。核对事实、修正字段、接手异常，这些时间往往没有出现在模型账单上，却真实占用了团队。</p>
+<p>同一项费用只计一次。重试产生的模型费已经进了第一笔，就不要再重复加一笔“重试费”。</p>
+<p><img src="/images/articles/ai-architecture-23-real-task-cost-20261020/illustration.png" alt="AI任务成本核算图：五类成本汇总后，除以同周期合格交付数"></p>
+<h2 id="模型费翻倍，总成本反而可能更低"><a href="#模型费翻倍，总成本反而可能更低" class="headerlink" title="模型费翻倍，总成本反而可能更低"></a>模型费翻倍，总成本反而可能更低</h2><p>举个便于算账的假设例子，不是我的项目实测，也不对应任何厂商报价。</p>
+<p>两套方案都处理 100 份资料，最终都经过人工验收。人工核对和必要修改，统一按每小时 60 元折算。</p>
+<p>方案 A 的模型与工具费是 20 元，但每份平均还要人工处理 1 分钟。100 份就是 100 分钟，折合 100 元。合计 120 元，每份 1.20 元。</p>
+<p>方案 B 的模型与工具费是 40 元，人工平均每份只需 10 秒。100 份人工成本约 16.67 元。合计约 56.67 元，每份约 0.57 元。</p>
+<p>在这组假设下，模型与工具费更高的方案，完成合格任务的成本反而更低。</p>
+<p>这里为了看清关系，只算了随任务变化的费用。正式做项目核算，还要把前面提到的建设、维护和固定资源费用合理分摊进去。</p>
+<p>我在意的就是这一点：省下几块调用费，如果换来更多核对和返工，未必划算。</p>
+<h2 id="优化有顺序，先找重复劳动"><a href="#优化有顺序，先找重复劳动" class="headerlink" title="优化有顺序，先找重复劳动"></a>优化有顺序，先找重复劳动</h2><p>我通常会先检查流程，再考虑更换模型。</p>
+<p>能直接从数据库取到的确定字段，就别让模型重新猜。文档没有变化，就别每次重做解析和索引。每轮任务只带相关材料，避免把整份知识库和全部历史反复塞进上下文。</p>
+<p>接下来才是按任务选择模型。规则清楚的分类、提取，可以先评测较小模型；复杂判断或前一步未通过时，再升级。能否采用，要看同一组样本的验收结果，不能仅凭模型大小决定。</p>
+<p>重复上下文可以评估缓存。但缓存也有存储、保留时间和失效管理成本，更要守住权限、数据版本与时效边界。权限变了，旧结果不能照搬给新用户。</p>
+<p>不要求即时完成的工作，可以考虑批处理；具体是否优惠，要看服务条款。Agent 还需要明确停止条件：最多调用多少次工具，失败后何时转人工。写操作重试尤其要防止重复提交。</p>
+<p>每次优化后，我都会回头看质量。把成本降下来，却让错误更多、等待更久，这次调整就需要重新评估。</p>
+<h2 id="从一张任务账本开始"><a href="#从一张任务账本开始" class="headerlink" title="从一张任务账本开始"></a>从一张任务账本开始</h2><p><a target="_blank" rel="noopener" href="https://www.finops.org/framework/capabilities/unit-economics/">FinOps 的单位经济核算</a>强调把技术费用和业务单位联系起来。我的落地建议很简单：先让每个任务有自己的编号。</p>
+<p>这个编号贯穿模型、检索、工具和重试记录，至少留下：任务类型、模型版本、累计消耗、工具费用、耗时、重试次数、验收结果、人工处理时间。</p>
+<p>先取一组有代表性的任务，例如 30 份真实需求，固定验收标准做比较。每次只改一个主要变量，避免模型、提示词、检索和数据一起变，最后不知道收益来自哪里。</p>
+<p>复盘时，除了看平均成本，也把最贵、最慢的那批任务单独拉出来。它们可能暴露了反复检索、无效重试或人工接手的问题。</p>
+<p>预算也要有人负责。提醒“快花完了”和真正停止执行，是两件事；单任务上限、项目额度及异常停机条件，需要在调度或调用入口落实。</p>
+<p>我会用下面这个口径看整体变化：同一统计周期内，全部相关成本除以合格交付数。一次性费用按事先约定的方法分摊，质量标准保持一致。没有合格交付时，先查失败原因，不计算一个失真的平均数。</p>
+<p>AI 系统做得是否划算，最终要回到业务结果。能看清一件事从开始到验收花了多少资源，才知道下一步该省哪笔钱、补哪块能力。</p>
+<h2 id="Tips｜核心要点"><a href="#Tips｜核心要点" class="headerlink" title="Tips｜核心要点"></a>Tips｜核心要点</h2><ol>
+<li>先定义合格交付，再比较单位成本；调用成功不自动等于业务成功。</li>
+<li>模型、工具与数据、运行资源、建设维护、人工复核，五类费用统一周期，避免重复计账。</li>
+<li>模型选择、缓存和批处理都需要结合质量与使用条件验证，不预设节省比例。</li>
+<li>每个任务保留成本和验收记录；预算提醒之外，还要有真正生效的执行上限。</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/model-score-and-release-criteria/">模型分数很高，怎么判断业务能否上线？</a></p>
+<p>原载于「玩AI的杰克」微信公众号（原发日期未见于导出）。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fzJwEd6ud_d--E8RYeVzJA">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/AI-%E6%88%90%E6%9C%AC/">#AI 成本</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/ai-number-reconciliation/"><span>← 较新</span><strong>AI 算出的数字，怎样确认它没有算错</strong></a>
+    
+    
+      <a class="panel" href="/articles/excel-merge-data-rules/"><span>较早 →</span><strong>合并多张 Excel 表以前，先核对哪些口径？</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

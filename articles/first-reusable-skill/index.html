@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>怎样把跑通的流程做成自己的第一个 Skill · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="有一条提示词，第一次成功了，第二次换个文件就漏字段。想把它做成Skill之前，先要知道哪些步骤必须保留、参数在哪里，以及失败时该停在哪一步。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/first-reusable-skill/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>怎样把跑通的流程做成自己的第一个 Skill</h1>
+  </header>
+  <div class="prose"><p>有一条提示词，第一次成功了，第二次换个文件就漏字段。想把它做成Skill之前，先要知道哪些步骤必须保留、参数在哪里，以及失败时该停在哪一步。</p>
+<span id="more"></span>
+
+<p>选已经用小样本验证过的流程。把有效方法、输入规则和验收一起封装，比把几十页聊天记录直接塞进说明更容易维护。</p>
+<h2 id="选一个范围足够小的流程"><a href="#选一个范围足够小的流程" class="headerlink" title="选一个范围足够小的流程"></a>选一个范围足够小的流程</h2><p>本次只处理已确认含税口径的CSV：先检查字段与组合主键，再汇总金额，异常独立列出。税率换算、业务补单和消息通知都不进入这个Skill。</p>
+<p>样本可以复用<a href="/articles/excel-merge-data-rules/">Excel 合并练习</a>中的五条合格记录，总金额620元；另一条70元净额留在异常表。这些是虚构数据，预期值只用于教学核对。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jk-table-summary/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── references/</span><br><span class="line">│   └── data-rules.md</span><br><span class="line">└── scripts/</span><br><span class="line">    └── validate_input.py</span><br></pre></td></tr></table></figure>
+
+<p>不带脚本的第一版也可以先跑通读取与说明。脚本确有必要时再加入，不为了让包显得完整而放一个没有使用路径的程序。</p>
+<h2 id="说明何时用，也说明何时停止"><a href="#说明何时用，也说明何时停止" class="headerlink" title="说明何时用，也说明何时停止"></a>说明何时用，也说明何时停止</h2><p>下面是原创最小SKILL.md示例。标题、name和目录统一，简介包含本项目作者信息；读者可以按自己的命名规则调整。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">name: jk-table-summary</span><br><span class="line"><span class="section">description: 玩AI的杰克的教学表格汇总流程，用于已确认口径的CSV核对与汇总。</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section"># CSV核对与汇总</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 读取用户明确指定的输入文件与references/data-rules.md。</span><br><span class="line"><span class="bullet">-</span> 先检查region、order<span class="emphasis">_id、amount_</span>gross、source<span class="emphasis">_file等字段。</span></span><br><span class="line"><span class="emphasis">- 编号按文本，组合主键为region与order_</span>id。</span><br><span class="line"><span class="bullet">-</span> 发现缺字段、重复主键或口径未知，先交异常说明并停止汇总。</span><br><span class="line"><span class="bullet">-</span> 只处理已确认含税且单位为元的记录，金额用确定性小数计算。</span><br><span class="line"><span class="bullet">-</span> 结果保存到用户指定输出目录，不覆盖原始材料。</span><br><span class="line"><span class="bullet">-</span> 交付汇总表、来源映射和检查记录，不发送消息或上传。</span><br></pre></td></tr></table></figure>
+
+<p>这些内容固定了流程，没有固定月份、作者电脑路径或真实账号。下次换资料，只需给输入文件与输出目录，不必改Skill本身。</p>
+<p>适用条件也要具体。未确认口径的表格可以帮助扫描，但不能继续汇总；不要在description里写“任何数据都能自动处理”。</p>
+<h2 id="把业务口径和工具实现分开"><a href="#把业务口径和工具实现分开" class="headerlink" title="把业务口径和工具实现分开"></a>把业务口径和工具实现分开</h2><p>references&#x2F;data-rules.md保存字段含义、单位、主键与异常策略。脚本负责确定性检查，任务说明负责传入本次路径，三者各有用途。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入字段：region、order_id、amount_gross、source_file。</span><br><span class="line">单位：元；amount_gross仅表示已确认含税金额。</span><br><span class="line">编号：文本，保留前导零。</span><br><span class="line">主键：区域与编号组合；重复不自动去重。</span><br><span class="line">异常：缺失、格式错误、口径未知都保留原值与来源。</span><br></pre></td></tr></table></figure>
+
+<p>文件路径写成相对练习目录，脚本从参数读取路径。不能把一个真实用户目录硬编码进可复用包，也不能在说明或例子里带明文密钥。</p>
+<p>如果引用第三方脚本，记录固定版本和许可证，先检查其行为。原创教学结构与来源代码要分开标记，不把别人的完整实现换个作者名。</p>
+<p><img src="/images/articles/first-reusable-skill/illustration.png" alt="从验证过的流程到 Skill 及三组反例"></p>
+<h2 id="用三组输入验证边界"><a href="#用三组输入验证边界" class="headerlink" title="用三组输入验证边界"></a>用三组输入验证边界</h2><p>第一组字段完整、主键唯一，预期汇总通过。第二组缺amount_gross，预期列缺字段并停止。第三组包含重复组合主键，预期保留两条来源，不擅自删一条。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在独立教学目录检查jk-table-summary。</span><br><span class="line">先阅读说明与脚本，确认不联网、不带凭据、不删除原数据。</span><br><span class="line">分别用有效、缺字段和重复主键样本执行。</span><br><span class="line">每次使用不同输出子目录，保存实际结果与检查记录。</span><br><span class="line">失败样本不得生成“汇总通过”报告。</span><br></pre></td></tr></table></figure>
+
+<p>上面是客户端验证指令，实际能否识别与调用Skill，要按当前导入入口操作后确认。只有文件包准备好，不能称为客户端已安装或调用成功。</p>
+<p>正确样本也要查数字。脚本执行完成、结果文件存在、金额等于预期，是不同检查点，一项也不能靠工具自报代替。</p>
+<h2 id="导入后确认调用了哪一个版本"><a href="#导入后确认调用了哪一个版本" class="headerlink" title="导入后确认调用了哪一个版本"></a>导入后确认调用了哪一个版本</h2><p>通过当前的<a target="_blank" rel="noopener" href="https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market">技能入口</a>导入或选择包，记录名称和版本。新开一个只涉及这项任务的测试，查看它采用的流程和产物；不要在正式大任务里第一次试用。</p>
+<p>同名版本混在用户级和项目级时，先核对实际来源。某个目录看起来最新，不意味着本次调用就是那份文件。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请使用本次已选择的jk-table-summary处理指定教学输入。</span><br><span class="line">先说明所读取的Skill说明与规则文件，再开始检查。</span><br><span class="line">按我的输入、输出参数执行；发现不适用直接说明原因。</span><br><span class="line">完成后返回实际路径、异常状态与验收结果。</span><br></pre></td></tr></table></figure>
+
+<p>没有可用导入入口时，仍可让工具明确读取这份说明执行教学流程，但记录为“显式读取说明”，不冒充原生Skill调用。</p>
+<h2 id="修改版本时，把旧反例一起复测"><a href="#修改版本时，把旧反例一起复测" class="headerlink" title="修改版本时，把旧反例一起复测"></a>修改版本时，把旧反例一起复测</h2><p>加一个字段或一种输入，不只是改description。规则、脚本、样例和验收都要一起更新，保留之前会失败的样本，确保错误没有被新功能隐藏。</p>
+<p>可以记录一个版本说明：修改目的、影响范围、通过的样本、未验证的场景。停用时保留项目产物，不连同无关资料一起删除。</p>
+<p>第一个Skill不需要大而全。能在正确输入下交付，在不合适的输入前停下来，并说明原因，这个流程才有继续复用的基础。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/automation-run-checks/">自动化跑通一次以后，还要补哪些检查</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-10-27。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZCwVZqJ8KviDwOmmvj6QVA">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/Skill/">#Skill</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/automation-run-checks/"><span>← 较新</span><strong>自动化跑通一次以后，还要补哪些检查</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-number-reconciliation/"><span>较早 →</span><strong>AI 算出的数字，怎样确认它没有算错</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

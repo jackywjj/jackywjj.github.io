@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RAG 的两条链路：离线索引和在线问答 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="RAG包含离线索引与在线问答两条链路，检索质量和生成质量必须分开测量。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/rag-indexing-and-serving/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>RAG 的两条链路：离线索引和在线问答</h1>
+  </header>
+  <div class="prose"><p>RAG包含离线索引与在线问答两条链路，检索质量和生成质量必须分开测量。</p>
+<span id="more"></span>
+
+<p><img src="/images/articles/rag-indexing-and-serving/illustration.jpg" alt="文档索引、证据检索和模型生成的主题插画"></p>
+<p>不少 RAG 原型的架构图只有三块：文档、向量库、大模型。接入以后回答仍然不准，团队就开始换向量数据库。可一条回答真正经过的环节远比这三块多，任何一处都可能丢失信息。</p>
+<h2 id="先分开两条链路"><a href="#先分开两条链路" class="headerlink" title="先分开两条链路"></a>先分开两条链路</h2><p>离线索引流负责读取文档、解析格式、切分内容、生成嵌入、写入索引，并保存来源与权限元数据。在线问答流负责理解问题、必要时改写查询、检索候选、排序、组装上下文、调用模型，再验证引用和输出安全。</p>
+<p>向量数据库只承担其中一部分。文档解析错了，表格结构已经丢失；切分太碎，上下文不完整；切分太大，又召回一堆无关内容；查询改写偏离原意，后面模型再强也拿不到正确证据。RAG 的上限，首先由送到模型之前的信息链路决定。</p>
+<h2 id="分开测检索和生成"><a href="#分开测检索和生成" class="headerlink" title="分开测检索和生成"></a>分开测检索和生成</h2><p>回答错误时，先问两个问题：正确证据有没有被找回来？模型拿到正确证据后有没有据此回答？前者用召回率、排序质量和权限过滤评估，后者看接地性、完整性、引用准确性与拒答。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/architecture/gen-ai-rag-vertex-ai-vector-search">Google Cloud 的 RAG 参考架构</a>把数据摄取与在线服务分开。<a target="_blank" rel="noopener" href="https://cloud.google.com/customers/rogo">Rogo 的客户案例</a>同时介绍了检索链路和模型评测。文中报告的幻觉率下降来自其模型对比，检索环节的独立效果需要另做评估。</p>
+<h2 id="引用不是装饰"><a href="#引用不是装饰" class="headerlink" title="引用不是装饰"></a>引用不是装饰</h2><p>企业知识问答还要把来源、时间和权限带到最后。用户看到引用，系统也要保证引用确实支持结论，而不是随便附上一条相似文档。找不到足够证据时，应明确拒答或转人工，不能让模型用常识补齐内部事实。</p>
+<p>所以排查 RAG 时，最好保存每一步中间结果：原始查询、改写查询、候选片段、排序分数、最终上下文和回答。链路透明，问题才有可能被定位。</p>
+<p>还要建立一组“应该找不到”的问题。很多评估只检查有答案的样本，结果系统学会了无论如何都给出内容。对企业知识助理而言，越权问题、过期资料和知识库没有覆盖的问题同样重要。能否拒绝、能否指出缺少什么证据、能否正确转到人工，是 RAG 质量的一部分，也是在真实环境里控制幻觉的关键。</p>
+<p>评估还要覆盖同义问法和多轮追问，防止系统只记住固定题面。对于跨文档问题，要检查证据组合过程，而不能因为最终答案碰巧正确，就忽略引用不完整或权限过滤失效。</p>
+<h2 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a>核心要点</h2><ol>
+<li><p>把 RAG 拆成离线索引流和在线问答流。</p>
+</li>
+<li><p>逐项检查解析、切分、嵌入、检索、排序和上下文组装。</p>
+</li>
+<li><p>分开评估检索质量与生成质量。</p>
+</li>
+<li><p>让来源、时间和权限随证据进入回答。</p>
+</li>
+<li><p>证据不足时拒答，不要让模型自由补齐企业事实。</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/rules-prediction-generation-agent/">预测、生成还是 Agent？先看任务怎么做</a></p>
+<p>原载于「玩AI的杰克」微信公众号，2026-09-26。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/yLYcfNYia4ki_NZD2x2__Q">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/RAG/">#RAG</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/excel-merge-data-rules/"><span>← 较新</span><strong>合并多张 Excel 表以前，先核对哪些口径？</strong></a>
+    
+    
+      <a class="panel" href="/articles/model-score-and-release-criteria/"><span>较早 →</span><strong>模型分数很高，怎么判断业务能否上线？</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

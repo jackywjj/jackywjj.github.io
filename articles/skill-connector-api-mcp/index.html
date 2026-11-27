@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skill、连接器、API 和 MCP 怎么分工？ · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="一个任务既要查数据，又要整理报告，常会同时出现Skill、连接器、API和MCP几个词。名字放在一起，很容易以为装一个Skill就能访问企业系统。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/skill-connector-api-mcp/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>Skill、连接器、API 和 MCP 怎么分工？</h1>
+  </header>
+  <div class="prose"><p>一个任务既要查数据，又要整理报告，常会同时出现Skill、连接器、API和MCP几个词。名字放在一起，很容易以为装一个Skill就能访问企业系统。</p>
+<span id="more"></span>
+
+<p>我会先把方法和数据入口分开，再确认登录身份与业务权限。知道报表怎样做，不代表已经有权读取报表的数据。</p>
+<h2 id="先说清要读什么，暂时不写入"><a href="#先说清要读什么，暂时不写入" class="headerlink" title="先说清要读什么，暂时不写入"></a>先说清要读什么，暂时不写入</h2><p>本次目标：查询一个已获授权的教学项目说明，提取项目状态与来源。只读这份文档，不创建任务、不改业务数据、不发送消息。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">资源：教学项目说明。</span><br><span class="line">动作：读取、提取状态、注明来源。</span><br><span class="line">输出：本地状态简报与读取核对记录。</span><br><span class="line">限制：不写入外部系统，不读取其他项目。</span><br><span class="line">身份：使用本人被授权的账号。</span><br></pre></td></tr></table></figure>
+
+<p>在正式系统里，把“教学项目说明”换成具体文档或资源标识，并核对账号是否可见。不要先配一个访问范围很大的账号，等任务结束再讨论权限。</p>
+<p>用户登录、接口可调用、本人有权读取指定资源，是三个需要分别确认的条件。</p>
+<h2 id="Skill说明做法，连接器提供入口"><a href="#Skill说明做法，连接器提供入口" class="headerlink" title="Skill说明做法，连接器提供入口"></a>Skill说明做法，连接器提供入口</h2><p>Skill可以约定“读资料→提取→生成简报→核对”的流程。API是系统对外提供的调用接口。<a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP</a> 可以让宿主以标准方式发现并调用工具。<a target="_blank" rel="noopener" href="https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Connector">WorkBuddy 连接器</a>则将具体服务的连接和授权放到产品入口中。</p>
+<p>这里说的是职责，不是要求每次都自己开发MCP服务器。若当前官方连接器已经支持目标服务，先阅读说明，用最小只读测试确认。</p>
+<p>一个整理方法再完善，也不会自然获得账号权限。反过来，接口能返回很多记录，也不意味着当前任务需要全部读取。</p>
+<h2 id="登录与授权按当前服务方式完成"><a href="#登录与授权按当前服务方式完成" class="headerlink" title="登录与授权按当前服务方式完成"></a>登录与授权按当前服务方式完成</h2><p>在客户端连接器入口选择已确认服务，按它支持的授权流程完成登录。需要人工浏览器登录时由本人操作，不把密码、票据或静态token写进文章、项目规则或共享文件。</p>
+<p>先发一个能力确认请求：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请说明本任务可用的数据读取工具与支持的资源范围。</span><br><span class="line">先不要读取业务数据，也不要发起外部写入。</span><br><span class="line">若需要登录，展示当前支持的登录流程，等待本人完成。</span><br><span class="line">说明你现在只能确认哪些能力，哪些权限尚未验证。</span><br></pre></td></tr></table></figure>
+
+<p>这不是让模型自行检查所有企业权限。最终访问范围还要由服务端授权与工具行为实现，提示词中的“只读”不能代替系统权限控制。</p>
+<p>认证失败就处理认证，权限不足就保留拒绝信息。更换模型不会让一个无权限账号获得访问权。</p>
+<p><img src="/images/articles/skill-connector-api-mcp/illustration.png" alt="工作方法、连接入口、身份权限和读取核对示意"></p>
+<h2 id="用一个资源验证真实读取"><a href="#用一个资源验证真实读取" class="headerlink" title="用一个资源验证真实读取"></a>用一个资源验证真实读取</h2><p>本人登录并确认范围以后，再交小任务：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">只读取我指定的教学文档。</span><br><span class="line">提取当前状态、待确认项和来源段落。</span><br><span class="line">生成output/status-brief.md与checks/read-review.md。</span><br><span class="line">说明实际资源标识、读取范围和缺失信息。</span><br><span class="line">不要创建任务、发送消息或读取其他目录。</span><br></pre></td></tr></table></figure>
+
+<p>拿到结果后，把关键句与原文对照。工具返回成功却取到了同名的另一个文档，也不符合目标。</p>
+<p>如果输出来自本地缓存，标明缓存时间与来源。过期记录不能自动写成系统当前状态；分页或筛选未覆盖全部数据时，也要说明范围。</p>
+<h2 id="暂无连接时，模拟只用于理解约定"><a href="#暂无连接时，模拟只用于理解约定" class="headerlink" title="暂无连接时，模拟只用于理解约定"></a>暂无连接时，模拟只用于理解约定</h2><p>下面是教学工具输入输出示意，不是完整MCP协议报文，也不是可直接导入的客户端配置。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;document_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;training-001&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;read_only&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mock&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;联调尚未通过&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;verified_live_access&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>source写mock、verified_live_access写false，提醒读者这里只验证整理逻辑。真实资源标识、授权、协议和宿主配置格式要按当前官方文档处理。</p>
+<p>可以先用本地文件当输入，完成状态简报与来源核对。等连接可用以后替换读取入口，再执行同一组测试，不把本地文件可读当成企业权限验证。</p>
+<h2 id="演练失效与拒绝，再考虑扩展"><a href="#演练失效与拒绝，再考虑扩展" class="headerlink" title="演练失效与拒绝，再考虑扩展"></a>演练失效与拒绝，再考虑扩展</h2><p>至少检查正常只读、登录失效、资源无权限三种结果。正常场景交产物；失效场景说明需要重新登录；无权限场景明确拒绝，不尝试借用他人凭据。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果认证失效，只说明重新登录步骤，不反复调用。</span><br><span class="line">如果资源无权限，保留拒绝原因，不转查其他项目。</span><br><span class="line">网络超时最多有限重试；结果不完整标为未完成。</span><br><span class="line">任何外部写入都不属于本次只读任务。</span><br></pre></td></tr></table></figure>
+
+<p>以后增加写入、通知或自动化，需要重新确认操作对象、权限和回读方法。当前只读成功，只能证明这条读取链路在本次条件下可用。</p>
+<p>企业接数据的第一步，不是堆叠更多工具。先把方法、入口、身份和权限分清，用一个授权资源走通读取与核对，再谈更长的工作流。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/first-reusable-skill/">怎样把跑通的流程做成自己的第一个 Skill</a></p>
+<p>原载于「玩AI的杰克」微信公众号（原发日期未见于导出）。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gebiPnmtTQnu4Y49QbIWOg">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/MCP/">#MCP</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+    
+      <a class="panel" href="/articles/automation-run-checks/"><span>较早 →</span><strong>自动化跑通一次以后，还要补哪些检查</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

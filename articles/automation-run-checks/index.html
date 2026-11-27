@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>自动化跑通一次以后，还要补哪些检查 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="手动点一次，结果成功了。第二天定时运行，输入还没到；第三天又重复触发，生成两份同名报告。自动化的难处，常在这些第一次演示没有遇到的情况里。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/automation-run-checks/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T16:00:00.000Z">2026.11.27</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>自动化跑通一次以后，还要补哪些检查</h1>
+  </header>
+  <div class="prose"><p>手动点一次，结果成功了。第二天定时运行，输入还没到；第三天又重复触发，生成两份同名报告。自动化的难处，常在这些第一次演示没有遇到的情况里。</p>
+<span id="more"></span>
+
+<p>先把输入就绪、重复执行、失败处理和停用办法写清，再让任务按时间运行。定时器只负责触发，可靠交付还需要自己的规则与检查。</p>
+<h2 id="先让手动流程稳定下来"><a href="#先让手动流程稳定下来" class="headerlink" title="先让手动流程稳定下来"></a>先让手动流程稳定下来</h2><p>准备input&#x2F;tasks.csv，包含任务、负责人、截止、状态与来源。日期在这组材料中只作教学字段，不代表正在跟踪的实际项目。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id,task,owner,due,status,source</span><br><span class="line">T01,提供复现记录,小林,2026-10-15,进行中,教学会议02</span><br><span class="line">T02,确认验收窗口,小周,,待确认,教学会议04</span><br></pre></td></tr></table></figure>
+
+<p>先手动读取、生成简报、核对来源。缺少T02截止时间应列为待确认，不自动安排一个日期，更不因为“待确认”就直接判断逾期。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">根据tasks.csv生成output/risk-brief.md。</span><br><span class="line">列状态、阻塞、缺失信息与依据，不推测任务已经完成。</span><br><span class="line">截止时间为空只写待确认。</span><br><span class="line">生成checks/manual-review.md，不发送通知。</span><br></pre></td></tr></table></figure>
+
+<p>这一步还没稳定，就不要把错误每天重复执行。先检查实际产物、字段口径与文件保存位置，再讨论调度。</p>
+<h2 id="为本次运行定义批次与状态"><a href="#为本次运行定义批次与状态" class="headerlink" title="为本次运行定义批次与状态"></a>为本次运行定义批次与状态</h2><p>同一批材料应该能被识别。可以使用项目标识、业务日期和输入版本组成batch_id，输入内容更新时形成新版本。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;batch_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;training-weekly-v1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;input_revision&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sample-01&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;state&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pending&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;output/training-weekly-v1/risk-brief.md&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;external_notification&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>状态可以区分pending、running、completed、failed；只有文件保存与核对完成以后，才写completed。模型回复“完成”不是状态转换的唯一依据。</p>
+<p>同一批次再次到来，先检查已有完成记录和产物是否一致。多任务并发时，仅先读JSON再写JSON并不能保证防重，需要锁或原子登记，不能靠一句“不要重复”假装解决。</p>
+<h2 id="设置调度时确认运行环境"><a href="#设置调度时确认运行环境" class="headerlink" title="设置调度时确认运行环境"></a>设置调度时确认运行环境</h2><p>在当前客户端的<a target="_blank" rel="noopener" href="https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Automation-Guide">定时任务入口</a>设置任务名称、提示词和执行时间，核对运行环境能否取得输入、使用所需能力、保存输出。</p>
+<p>电脑需要保持什么状态、使用本地还是云端任务、哪些Skill在该环境可用，都要按当前产品说明和实际测试确认。不要因为手动客户端有某项能力，就推断定时任务环境也相同。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">本次只处理指定batch_id的教学任务表。</span><br><span class="line">先检查输入是否存在、字段齐全和状态记录。</span><br><span class="line">同批次已完成且产物有效时，说明跳过，不重复写入。</span><br><span class="line">输入缺失或格式错误，只交失败说明。</span><br><span class="line">结果通过核对后才登记completed，不发送外部通知。</span><br></pre></td></tr></table></figure>
+
+<p>先用短时间间隔做一次可观察测试，确认后再改成正式周期。教程示例不要求读者直接启用长时间无人值守任务。</p>
+<p><img src="/images/articles/automation-run-checks/illustration.png" alt="自动化批次登记与失败恢复的流程图"></p>
+<h2 id="故意制造四种失败"><a href="#故意制造四种失败" class="headerlink" title="故意制造四种失败"></a>故意制造四种失败</h2><p>第一，空表。只有表头没有任务时，按业务要求说明无输入或无事项，不能凭空写一份风险报告。</p>
+<p>第二，缺字段。删除status列，预期指出字段缺失并停在执行前，不将所有任务默认视为进行中。</p>
+<p>第三，重复触发。同一batch_id运行两次，预期只有一个有效结果；已经失败或输出损坏时，则根据恢复规则处理，不盲目跳过。</p>
+<p>第四，保存失败。将输出指向一个没有写入权限的教学位置，预期说明没有完成文件交付，保留已有中间结果，不把文件名写进报告就称为保存成功。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">分别演练空表、缺字段、重复批次和输出失败。</span><br><span class="line">记录输入、实际状态、产物和错误原因。</span><br><span class="line">任何失败不得标completed；不要删除已有有效结果。</span><br><span class="line">修改恢复规则后，重跑对应反例并读回文件。</span><br></pre></td></tr></table></figure>
+
+<p>失败演练应该在副本中进行，不能为了测试自动化故意破坏正式资料。</p>
+<h2 id="重试要区分网络与确定性错误"><a href="#重试要区分网络与确定性错误" class="headerlink" title="重试要区分网络与确定性错误"></a>重试要区分网络与确定性错误</h2><p>短暂超时可以设置有限次数与间隔，并记录次数。认证失败、权限拒绝、字段缺失属于不同问题，反复调用不会自动修好。</p>
+<p>外部写入更要谨慎：请求超时可能是“已经成功但没收到回执”。先查状态或已有对象，再决定重试，避免重复任务、重复消息或重复草稿。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">网络错误最多重试3次，每次记录原因和间隔。</span><br><span class="line">认证与权限错误停止相关阶段，说明处理条件。</span><br><span class="line">写入结果不明时先查询，不直接重复提交。</span><br><span class="line">达到本次允许成本或运行次数上限时停止后续调用。</span><br></pre></td></tr></table></figure>
+
+<p>这些限制需要由调度、脚本或工具实现并验证，不是写进提示词就天然成立。模型替换也要重新核对输出，不能把任何替代模型都视为效果相同。</p>
+<h2 id="留下停用和恢复的入口"><a href="#留下停用和恢复的入口" class="headerlink" title="留下停用和恢复的入口"></a>留下停用和恢复的入口</h2><p>记录任务名称、触发周期、运行位置、日志与状态路径、最后成功批次和停用步骤。停用调度不会自动删除已有成果，恢复时先检查输入与状态一致。</p>
+<p>先自动生成简报，再考虑发通知；先验证只读与本地保存，再考虑写业务系统。每次扩展都明确操作对象与回读方法。</p>
+<p>自动化真正省下的是重复执行已明确的方法。把异常、重复与恢复也设计进去，WorkBuddy才能在条件不合适时停下来，并留下下一步能处理的证据。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><p><a href="/articles/first-reusable-skill/">怎样把跑通的流程做成自己的第一个 Skill</a></p>
+<p>原载于「玩AI的杰克」微信公众号（原发日期未见于导出）。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/sCkqoNT-XR8B6uCWjVp_3Q">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">#工作流</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/skill-connector-api-mcp/"><span>← 较新</span><strong>Skill、连接器、API 和 MCP 怎么分工？</strong></a>
+    
+    
+      <a class="panel" href="/articles/first-reusable-skill/"><span>较早 →</span><strong>怎样把跑通的流程做成自己的第一个 Skill</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>
