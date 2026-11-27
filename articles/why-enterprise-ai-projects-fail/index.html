@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 项目失败，换模型也没有用 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="模型能力越来越强，企业 AI 为什么仍然难落地？真正的难题藏在数据、流程、权限、评估和组织采用里。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/why-enterprise-ai-projects-fail/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-08-16T01:00:00.000Z">2026.08.16</time>
+      
+        <a class="tag" href="/categories/%E4%BC%81%E4%B8%9A%E6%95%B0%E5%AD%97%E5%8C%96/">企业数字化</a>
+      
+    </div>
+    <h1>AI 项目失败，换模型也没有用</h1>
+  </header>
+  <div class="prose"><p>很多企业 AI 项目都有一个相似的开场：演示时很惊艳，到了生产环境却没人敢用。</p>
+<span id="more"></span>
+
+<p>会议室里，模型能总结文档、回答问题、生成报告。真正接进业务后，问题一下子全冒出来了：</p>
+<ul>
+<li><p>数据从哪里取？</p>
+</li>
+<li><p>谁有权限看？</p>
+</li>
+<li><p>答案错了谁负责？</p>
+</li>
+<li><p>结果怎么回写？</p>
+</li>
+<li><p>员工为什么要改变原来的工作方式？</p>
+</li>
+</ul>
+<p>这时再换一个更强的模型，通常也救不了项目。</p>
+<p><img src="/images/articles/why-enterprise-ai-projects-fail/illustration-01.jpg" alt="企业 AI 从演示走向生产遇到的业务障碍"></p>
+<p>我做了二十多年技术、架构和企业数字化，越来越相信一件事：<strong>企业从来不缺能运行的软件，缺的是能进入真实业务工作流的系统。</strong></p>
+<p>传统系统如此，AI 更是如此。</p>
+<p>模型只是其中一层。它下面还有数据质量、主数据、接口、权限和安全；它旁边还有业务规则、审批链和异常处理；它上面还有评估、运营、培训和组织责任。</p>
+<p>少了任何一层，演示都很难变成生产力。</p>
+<p>这也解释了为什么 FDE——前线部署工程师——会在 AI 时代重新走到前台。这个岗位并不是去客户现场“帮忙写代码”，而是对最后那段价值闭环负责：把产品能力接进客户的真实环境，让业务结果可以被验证。</p>
+<p><img src="/images/articles/why-enterprise-ai-projects-fail/illustration-02.jpg" alt="前线部署工程师连接产品技术与真实业务环境"></p>
+<h2 id="现场会推翻很多漂亮假设"><a href="#现场会推翻很多漂亮假设" class="headerlink" title="现场会推翻很多漂亮假设"></a>现场会推翻很多漂亮假设</h2><p>范冰的公开书稿 <a target="_blank" rel="noopener" href="https://github.com/xdash/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer">《前线部署工程师》</a>记述了 Palantir 的两个早期案例。</p>
+<p>在战场现场，士兵不需要复杂的情报大屏，只需要在地图上快速标出危险路段。到了空客工厂，真正有价值的也不是一套宏大的“航空数据平台”说法，而是把传感器数据与工程现场连起来，定位长期未解的燃油泵问题。</p>
+<p>它们真正值得记住的，是同一个规律：<strong>需求在会议室里是名词，到了现场才会变成动作。</strong></p>
+<p>“提高效率”到底是少填一张表，还是少等一次审批？“智能问答”到底是给建议，还是要触发后续流程？如果不进入用户每天工作的地方，这些问题很难问清。</p>
+<h2 id="企业-AI-需要新的交付观"><a href="#企业-AI-需要新的交付观" class="headerlink" title="企业 AI 需要新的交付观"></a>企业 AI 需要新的交付观</h2><p>过去做数字化，我们常把“系统上线”当作项目终点。AI 项目不能这样验收。</p>
+<p>更合理的顺序应该是：先定义业务结果，再找最小场景；用真实数据验证；把结果接回流程；持续观察用户是否采用；最后把现场经验沉淀回产品。</p>
+<p><img src="/images/articles/why-enterprise-ai-projects-fail/illustration-03.jpg" alt="从定义业务结果到沉淀交付经验的实施流程"></p>
+<p>这套方法里，技术仍然重要，但不能再只给技术单独打分。模型准确率再高，如果用户必须在五个系统之间复制粘贴，项目仍然失败。界面再漂亮，如果业务负责人不认可评估标准，也无法进入生产。</p>
+<p>我理解的 FDE，本质上是一种新的技术运营角色：既懂工程，也理解业务；既能解决眼前问题，也要把一次性交付变成可复用能力。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><ul>
+<li><a href="/articles/b2b-systems-and-business-processes/">B端系统到底该听谁的</a></li>
+<li><a href="/articles/choose-ai-pilot-by-business-outcome/">用五个问题筛选 AI 试点</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-08-16。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/mh4o4DRqEZDDFEAQZtvhDg">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/%E4%BC%81%E4%B8%9A%E6%95%B0%E5%AD%97%E5%8C%96/">#企业数字化</a></li>
+      
+        <li><a class="tag" href="/tags/FDE/">#FDE</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/choose-ai-pilot-by-business-outcome/"><span>← 较新</span><strong>AI工具买了不少，为什么业务没变化</strong></a>
+    
+    
+      <a class="panel" href="/articles/how-business-metrics-are-made/"><span>较早 →</span><strong>从埋点到洞察：一个数据指标怎样产生</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

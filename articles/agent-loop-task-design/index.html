@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>上｜你以为在用 Agent，其实自己才是那个工作流 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="很多人只是把聊天窗口换成了 Agent，却仍由自己负责拆任务、检查和重试。真正的变化，是把目标、工具、验证与停止条件设计成闭环。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/agent-loop-task-design/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-13T06:00:00.000Z">2026.11.13</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>上｜你以为在用 Agent，其实自己才是那个工作流</h1>
+  </header>
+  <div class="prose"><p>我们以为自己已经进入了 Agent 时代，实际做的却可能还是“人工接力”：人来拆任务，人来复制结果，人来发现错误，人来提醒 AI 继续。工具换了，工作流并没有换。</p>
+<span id="more"></span>
+
+<p>这段时间，越来越多人开始说自己在“用 Agent”。但我认真看了一圈，发现里面有个挺有意思的错位：不少人只是把原来的搜索框换成了聊天窗口，把一条提示词换成了十条提示词，然后把每一步之间的衔接工作，继续留给自己。</p>
+<p>先让 AI 写一个方案，我读完再让它补数据；数据不对，我告诉它重查；代码跑不起来，我把报错贴回去；它说完成了，我再打开文件检查。整个过程看起来很智能，真正负责计划、调度、验收和重试的，还是屏幕前的那个人。</p>
+<p>借用 0xCodila 的比喻，<strong>AI 是扳手，你才是那台发动机。</strong></p>
+<p>0xCodila 在 <a target="_blank" rel="noopener" href="https://x.com/0xCodila/status/2072329149520232639">《Loop Engineering》</a> 里用一段话解释了这个差别。</p>
+<blockquote>
+<p>“A prompt is one instruction. A loop is a goal the AI pursues until it is achieved.”</p>
+</blockquote>
+<p>提示词是一条指令；循环则是一个目标，以及围绕这个目标持续行动、检查和修正的机制。</p>
+<p>这不是换一个更时髦的名词，而是工作方式真的变了。</p>
+<h2 id="提示词解决一次回答，循环负责一个结果"><a href="#提示词解决一次回答，循环负责一个结果" class="headerlink" title="提示词解决一次回答，循环负责一个结果"></a>提示词解决一次回答，循环负责一个结果</h2><p>提示词思维关注的是：<strong>我下一句话该怎么说，才能让 AI 回答得更好？</strong></p>
+<p>循环思维关注的则是：<strong>我要怎样设计一个系统，让 AI 知道目标、能够行动、看得见结果，还能在失败之后调整？</strong></p>
+<p>前者优化的是单次交互，后者设计的是一段运行过程。</p>
+<p>比如，让 AI “检查这段代码有没有问题”，这是一条提示词。它可能给出很专业的解释，也可能一本正经地漏掉真正的 bug。</p>
+<p>如果改成一个循环，事情会变成这样：先读取需求和代码，再运行测试；如果测试失败，就定位失败用例并修改；修改后重新测试；全部通过后，再运行构建和静态检查；任何一步超过重试上限，就停止并把证据交给人。</p>
+<p>这里真正重要的，不是 AI 多说了几轮，而是系统出现了四个结构：<strong>目标、动作、反馈和决策。</strong></p>
+<p>没有这四个结构，再长的对话也只是人工遥控。每一步仍然等着你按一下“继续”，那不叫自主工作流，只能叫高级一点的复制粘贴。</p>
+<p><img src="/images/articles/agent-loop-task-design/illustration-01.jpg" alt="人工接力和 Agent 目标闭环的对照"></p>
+<p>— 从人工接力到目标闭环：Prompt 与 Loop 的差别</p>
+<h2 id="站在架构师视角，Loop-本质上是一种控制系统"><a href="#站在架构师视角，Loop-本质上是一种控制系统" class="headerlink" title="站在架构师视角，Loop 本质上是一种控制系统"></a>站在架构师视角，Loop 本质上是一种控制系统</h2><p>我更愿意用架构语言理解这件事：Agent Loop 不是一个“更聪明的机器人”，而是一个带反馈的控制系统。</p>
+<p>输入侧有目标、上下文和约束；执行侧有模型与工具；反馈侧有测试、指标或规则；决策侧负责判断继续、回滚、换方案还是交给人。只要其中一环缺失，闭环就会退化。</p>
+<p>最常见的退化有三种。</p>
+<p>第一种，**只有目标，没有验证。**你告诉 Agent “把页面优化好”，它改了一轮，然后宣布完成。问题是，“好”到底是什么？页面能构建就算好，还是加载时间下降、可访问性通过、关键流程没有回归才算好？目标不能被验证，Agent 只会学会用语言说服你。</p>
+<p>第二种，**只有动作，没有状态。**每一轮都像失忆一样重新开始，不知道试过什么、失败在哪、哪些结论已经确认。循环看起来转了很多圈，实际可能一直在原地打滑。</p>
+<p>第三种，**只有继续，没有停止。**模型不断尝试，成本继续累积，改动范围越来越大，最后为了修一个小问题，顺手重写了半个项目。没有停止条件的自主性，不是能力，是风险。</p>
+<p>所以，判断一个 Agent 是否真的“在工作”，别只看它能不能调用工具。要看它是否拥有一条可审计的闭环：做了什么、看到了什么、为何继续、为何停止。</p>
+<h2 id="不是所有任务都值得做成-Loop"><a href="#不是所有任务都值得做成-Loop" class="headerlink" title="不是所有任务都值得做成 Loop"></a>不是所有任务都值得做成 Loop</h2><p>Agent Loop 最近很热，很容易让人产生一种冲动：凡事都自动化，最好晚上交代一句，第二天早上直接收结果。</p>
+<p>我对此反而比较克制。<strong>循环不是越多越好，而是要放在反馈清楚、重复足够、风险可控的地方。</strong></p>
+<p>我会先问四个问题。</p>
+<p>这个任务会不会重复？</p>
+<p>如果一年只做一次，而且每次条件都完全不同，搭循环的成本可能比手工完成更高。真正值得投入的，通常是每周甚至每天重复出现的工作。</p>
+<p>结果能不能自动判断？</p>
+<p>测试是否通过、页面能否构建、接口响应是否符合约定、数据是否落在阈值内，这些适合闭环。至于“这篇文章是否真正打动人”“这个战略判断是否值得下注”，AI 可以辅助，但很难独立担任最终裁判。</p>
+<p>失败的代价有多大？</p>
+<p>在隔离分支里改代码，失败了可以回滚；直接给客户发邮件、修改生产数据、支付费用，失败就不是多跑一轮那么简单。动作越难撤销，权限越要收紧。</p>
+<p>重试预算是否划算？</p>
+<p>循环靠多次尝试换取更好的结果，也会消耗更多推理、时间和外部资源。便宜的小实验可以多试，昂贵的调用必须有上限。不要为了省十分钟人工，烧掉一晚上额度。</p>
+<p>如果这四个问题里有两三个答不上来，我不会急着上完整 Loop。先用一个明确的检查清单，加一次人工确认，往往更可靠。</p>
+<h2 id="真正要升级的，不是-Prompt，而是任务设计能力"><a href="#真正要升级的，不是-Prompt，而是任务设计能力" class="headerlink" title="真正要升级的，不是 Prompt，而是任务设计能力"></a>真正要升级的，不是 Prompt，而是任务设计能力</h2><p>过去大家研究提示词，重点是如何把要求说清楚。到了 Agent 阶段，这当然仍然重要，但已经不够了。</p>
+<p>你还要定义工作范围：哪些文件能改，哪些不能碰；要给出完成标准：什么证据可以证明做完；要安排失败路径：第一次不行怎么办，连续三次不行又怎么办；还要留下升级出口：什么时候必须停下来找人。</p>
+<p>这几件事听上去不炫，甚至有点像传统的软件工程。可真正可靠的 Agent 系统，最后拼的恰恰就是这些基本功。</p>
+<p>很多人希望找到一条“万能 Prompt”，最好一句话就让 AI 把复杂任务做完。我的判断是，未来更值钱的能力不是把一句话写得越来越长，而是<strong>把模糊愿望变成可执行、可验证、可停止的系统。</strong></p>
+<p>这也是为什么我把它叫作 Loop Engineering，而不是 Prompt Engineering 2.0。提示词是循环中的一个部件，工程才是把所有部件组织起来的那件事。</p>
+<h2 id="先做一个最小闭环，而不是搭一座自动化大厦"><a href="#先做一个最小闭环，而不是搭一座自动化大厦" class="headerlink" title="先做一个最小闭环，而不是搭一座自动化大厦"></a>先做一个最小闭环，而不是搭一座自动化大厦</h2><p>如果你想试，我建议从一个低风险任务开始。不要先装一堆工具，也别急着安排十个子 Agent。</p>
+<p>只写清楚六行：</p>
+<p><code>protocol.txt</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">goal: 最终要得到什么结果</span><br><span class="line">scope: 允许读取和修改什么</span><br><span class="line">action: 每一轮可以采取哪些动作</span><br><span class="line">verify: 用什么证据判断结果</span><br><span class="line">budget: 最多允许几轮、多少时间或多少费用</span><br><span class="line">stop: 成功、失败或需要人工介入的条件</span><br></pre></td></tr></table></figure>
+
+<p>然后让它只跑三轮。你观察的重点也不是“AI 看起来忙不忙”，而是每一轮有没有基于上一轮证据做出不同决策。</p>
+<p>如果没有，问题大概率不在模型，而在你的循环设计里：验证器太模糊、状态没有留下、工具给得不对，或者目标本身根本无法被机器判定。</p>
+<p>我认为，这才是 Agent 时代最值得练的第一项能力：<strong>别再只做那个不停提醒 AI 下一步的人。把你脑子里的任务流程，第一次认真地画出来。</strong></p>
+<h2 id="Agent-循环专题"><a href="#Agent-循环专题" class="headerlink" title="Agent 循环专题"></a>Agent 循环专题</h2><ul>
+<li><a href="/articles/agent-loop-verification-and-stop-rules/">中篇：验收与停止条件</a></li>
+<li><a href="/articles/agent-loop-understanding-debt/">下篇：理解债务与责任</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-11-13。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/v_XPIrJSx_IAkaT2m7PlMg">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/Agent/">#Agent</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/agent-loop-verification-and-stop-rules/"><span>← 较新</span><strong>中｜让 AI 通宵干活前，先给它装上裁判和刹车</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-agent-and-microservices/"><span>较早 →</span><strong>AI Agent 很像微服务，但关键区别在这里</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

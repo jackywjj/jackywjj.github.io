@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>会议纪要写完以后，工作才刚开始 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="纪要写得很顺，大家看完也没有意见。可过了几天，会上说“尽快处理”的事仍然没人推进，谁来做、何时完成、怎样算结束，都没有落下来。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/meeting-notes-to-action-items/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-10-23T00:00:00.000Z">2026.10.23</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>会议纪要写完以后，工作才刚开始</h1>
+  </header>
+  <div class="prose"><p>纪要写得很顺，大家看完也没有意见。可过了几天，会上说“尽快处理”的事仍然没人推进，谁来做、何时完成、怎样算结束，都没有落下来。</p>
+<span id="more"></span>
+
+<p>把讨论、决议和行动项分开。先确定会上真正说了什么，再把明确承诺转成任务，缺少的信息留给人确认。</p>
+<h2 id="留下原文位置，别只给一份摘要"><a href="#留下原文位置，别只给一份摘要" class="headerlink" title="留下原文位置，别只给一份摘要"></a>留下原文位置，别只给一份摘要</h2><p>保存<code>input/meeting.txt</code>。加上段落编号，是为了让每项任务能回到原文，不代表实际录音时间。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[01] 主持：接口开发完成了，但联调还没通过。</span><br><span class="line">[02] 小林：我明天下班前提供重复同步问题的复现记录。</span><br><span class="line">[03] 小周：可以考虑增加一次测试窗口，具体时间还要和测试确认。</span><br><span class="line">[04] 主持：先让小林交复现记录，再由小周协调测试窗口。</span><br><span class="line">[05] 小周：我尽快联系，截止时间暂时没定。</span><br></pre></td></tr></table></figure>
+
+<p>由于没有会议日期，“明天下班前”不能直接转换为某个日历日期，必须先确认会议时间。</p>
+<p>材料若来自真实会议，先处理授权和敏感信息。音频转写还要标记识别不清的位置，不能为了让句子完整而补出未听到的承诺。</p>
+<h2 id="第一轮只分类，不创建任务"><a href="#第一轮只分类，不创建任务" class="headerlink" title="第一轮只分类，不创建任务"></a>第一轮只分类，不创建任务</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">读取meeting.txt，按讨论、明确决议、行动项三类整理。</span><br><span class="line">每项注明段落编号，保留原意。</span><br><span class="line">没有明确承诺的建议，不写成已经决定。</span><br><span class="line">相对日期保留原文，列出需要确认的会议日期。</span><br><span class="line">本轮不生成外部任务，不发送任何消息。</span><br></pre></td></tr></table></figure>
+
+<p>第三段提出“可以考虑”，只是建议。第四段说明先后顺序，才形成一项明确安排。第五段确认愿意协调，但截止时间仍然未知。</p>
+<p>这一轮看工具有没有把“增加一次测试窗口”写成已批准，以及把“尽快”改成一个自猜的日期。语言更明确，不代表事实可以被补全。</p>
+<h2 id="行动项至少写清五个字段"><a href="#行动项至少写清五个字段" class="headerlink" title="行动项至少写清五个字段"></a>行动项至少写清五个字段</h2><p>负责人、动作、交付、截止、依据，是本次任务表的核心字段。还可以增加状态与前置依赖，但别为了表格整齐填入无依据的信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">owner,action,deliverable,due,source,dependency</span><br><span class="line">小林,提供问题复现记录,复现记录,明天下班前具体日期待确认,[02],无</span><br><span class="line">小周,协调测试窗口,确认结果,待确认,[04][05],小林先交复现记录</span><br></pre></td></tr></table></figure>
+
+<p>这是一份人工参考表达，不是客户端返回结果。它把小周的行动定义为“协调”，没有擅自承诺一定拿到测试窗口。</p>
+<p>等待某项条件满足才能开始，也要写进表中。否则AI生成两条任务，读者可能误以为可以同时进行，失去会议中约定的顺序。</p>
+<p><img src="/images/articles/meeting-notes-to-action-items/illustration-01.png" alt="从会议原文、事项分类到行动项复核的流程"></p>
+<h2 id="确认分类后，生成本地任务包"><a href="#确认分类后，生成本地任务包" class="headerlink" title="确认分类后，生成本地任务包"></a>确认分类后，生成本地任务包</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">按确认后的分类生成output/minutes.md和output/action-items.csv。</span><br><span class="line">minutes区分讨论、决议、行动项与未决问题。</span><br><span class="line">行动表包含负责人、动作、交付、截止、原文位置、依赖和状态。</span><br><span class="line">没有依据的负责人或日期标待确认，不补猜测。</span><br><span class="line">在checks/open-questions.md列会后需要确认的问题。</span><br><span class="line">仅保存本地文件，不向任何平台创建任务或通知他人。</span><br></pre></td></tr></table></figure>
+
+<p>打开CSV时检查中文与分隔是否正常。动作描述含逗号时需要正确引用，不能把一项行动拆成多列。确认两个人的任务没有被合并成一条模糊事项。</p>
+<p>待确认问题应当具体，例如“这次会议是哪天”“小周协调窗口的截止时间是什么”。“请完善项目资料”太宽，难以直接回答。</p>
+<h2 id="看三种常见错法，再限定修改"><a href="#看三种常见错法，再限定修改" class="headerlink" title="看三种常见错法，再限定修改"></a>看三种常见错法，再限定修改</h2><p>第一种，把建议写成决议：“已决定追加测试窗口”。原文没有这个决定，就退回建议或待确认事项。</p>
+<p>第二种，把交付写成动作：“沟通一下”。改成需要留下的确认记录，同时保留是否成功仍未知。</p>
+<p>第三种，把相对日期写死。先确定会议日期和时区，再转换；如果跨地区协作，还要确认“下班前”的具体截止规则。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">纪要把“可以考虑增加测试窗口”写成已批准，与[03]不符。</span><br><span class="line">请恢复为建议；小周的任务仍是协调并记录确认结果。</span><br><span class="line">保留截止时间待确认，不推定会议日期。</span><br><span class="line">另存minutes-v2.md与action-items-v2.csv，记录修改依据。</span><br></pre></td></tr></table></figure>
+
+<p>修改后读回两份文件，确认纪要与行动表一致。只改纪要却留下错误任务表，会把同一个错误带到执行阶段。</p>
+<h2 id="再谈任务平台和跟踪"><a href="#再谈任务平台和跟踪" class="headerlink" title="再谈任务平台和跟踪"></a>再谈任务平台和跟踪</h2><p>只有负责人、日期、内容和权限明确以后，才考虑连接任务平台。连接成功不等于可以替别人派单；本地任务包、平台创建、消息通知都要区分状态。</p>
+<p>后续跟踪也要用实际进展更新。没有新材料时写“尚未收到确认”，不能因为到了截止日期就推断任务已完成。</p>
+<p>把原文、纪要、任务表和确认记录留在同一项目。会议整理的价值，是让讨论能接上有依据的行动，同时让缺失的决定仍然由人来作出。</p>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><ul>
+<li><a href="/articles/workbuddy-practical-workflows/">WorkBuddy 的几个最佳实践</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-10-23。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/R2iBIsFdsyUANw2I_Ktemw">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+        <li><a class="tag" href="/tags/%E4%BC%9A%E8%AE%AE%E7%BA%AA%E8%A6%81/">#会议纪要</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/first-reusable-skill/"><span>← 较新</span><strong>怎样把跑通的流程做成自己的第一个 Skill</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-number-reconciliation/"><span>较早 →</span><strong>AI 算出的数字，怎样确认它没有算错</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

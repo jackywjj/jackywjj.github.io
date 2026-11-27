@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI工具买了不少，为什么业务没变化 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="AI项目的起点不是采购工具，而是选择一个有业务价值、可以验收、风险可控的具体场景。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/choose-ai-pilot-by-business-outcome/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-08-26T00:30:00.000Z">2026.08.26</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>AI工具买了不少，为什么业务没变化</h1>
+  </header>
+  <div class="prose"><p>这两年，很多团队走过相似的路径：公司买了几个大模型账号，市场部学了提示词，开会时也开始讨论“这个能不能用AI做”。几个月以后，生成的文案确实多了，业务指标却看不出变化。</p>
+<span id="more"></span>
+
+<p>问题通常不在工具数量，而在起点。团队先决定“要用AI”，然后才四处找任务。顺序反了。</p>
+<p>先看一个价值与障碍的四象限：价值高、障碍低的场景优先做；价值低、障碍高的场景可以放弃。这个思路很实用。不过站在技术人员的角度，我还想再加三个变量：结果能不能验证，出错代价有多大，谁对最终结果负责。</p>
+<p><img src="/images/articles/choose-ai-pilot-by-business-outcome/illustration-01.jpg" alt="AI 营销试点的五项场景评估因素"></p>
+<p>— AI营销场景评估：价值、障碍、可验证性、错误成本与责任共同决定试点优先级</p>
+<h2 id="先找到可以验收的任务"><a href="#先找到可以验收的任务" class="headerlink" title="先找到可以验收的任务"></a>先找到可以验收的任务</h2><p>根据 <a target="_blank" rel="noopener" href="https://www.bbva.com/en/innovation/bbva-expands-its-agreement-with-openai-to-11000-chatgpt-licences-for-the-banks-employees/">BBVA 2025 年 5 月的公告</a>，该行拟将 ChatGPT Enterprise 许可从最初的 3,300 个扩大至 11,000 个。公告称，当时 83% 的获授权用户每天至少使用一次，用 ChatGPT 自动化任务的员工自报平均每周节省 2.8 小时。员工还创建了 3,000 多个专用助手，用途包括提高营销活动的可见度。</p>
+<p>这些数字来自BBVA自身，不是独立审计，也不能直接证明收入增长。但它至少展示了一条比较完整的试点路径：先给有限人群使用，再观察使用率、时间节省和具体任务，配合培训、实践社区和内部助手库，最后才扩大范围。</p>
+<p>反过来看，很多AI项目从一开始就没法验收。“提高品牌影响力”“增强用户体验”“赋能营销团队”，听起来都对，却没有基线，也没有人能说清什么结果算完成。这样的项目上线后，只能统计调用量和生成量。它们证明工具在运行，证明不了业务变好了。</p>
+<h2 id="我会先问五个问题"><a href="#我会先问五个问题" class="headerlink" title="我会先问五个问题"></a>我会先问五个问题</h2><p>如果让我为一个AI营销场景做立项判断，我会先写清五件事：它准备改变哪个业务结果；输入是否稳定、合法且可获得；输出能否由人或数据检查；错误会造成返工、投诉还是更严重的损失；现有流程中谁负责验收和纠错。</p>
+<p>例如“根据已经审核的产品资料生成不同渠道的初稿”，输入清楚，输出可复核，也容易和人工耗时比较，适合先试。让模型自动回应高风险客诉，或者直接决定面向个人的价格，错误成本和责任边界就完全不同。</p>
+<p>好的第一个场景不一定最惊艳。它应该足够具体，重复发生，能建立基线，并且出错后还有恢复办法。</p>
+<p>我现在判断一个AI工具有没有价值，不再先问它能生成什么，而是问：如果把它关掉，哪个业务指标会变差？如果暂时答不上来，那就先别急着扩大采购。把场景选对，比让更多人学会一套提示词重要得多。</p>
+<h2 id="场景评估清单"><a href="#场景评估清单" class="headerlink" title="场景评估清单"></a>场景评估清单</h2><ol>
+<li><p>业务指标是什么，当前基线是多少？</p>
+</li>
+<li><p>输入和参考资料由谁维护？</p>
+</li>
+<li><p>输出怎样验收，错误怎样恢复？</p>
+</li>
+<li><p>数据、品牌与合规风险能否承受？</p>
+</li>
+<li><p>试点成功后，怎样进入现有流程？</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><ul>
+<li><a href="/articles/ai-marketing-accountability/">市场、技术、法务，谁该为AI结果负责</a></li>
+<li><a href="/articles/why-enterprise-ai-projects-fail/">AI 项目失败，换模型也没有用</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-08-26。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/86YUJtIDJOr5q_B6RgsHiQ">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/%E6%8A%80%E6%9C%AF%E8%BF%90%E8%90%A5/">#技术运营</a></li>
+      
+        <li><a class="tag" href="/tags/AI%E8%AF%95%E7%82%B9/">#AI试点</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/prompt-to-team-workflow/"><span>← 较新</span><strong>怎样把一条好提示词变成团队生产流程</strong></a>
+    
+    
+      <a class="panel" href="/articles/why-enterprise-ai-projects-fail/"><span>较早 →</span><strong>AI 项目失败，换模型也没有用</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

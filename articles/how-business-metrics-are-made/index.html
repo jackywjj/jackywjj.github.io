@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>从埋点到洞察：一个数据指标怎样产生 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="数据不会自动成为事实；口径、采集、加工、上下文和因果判断共同决定一个数字能否支持决策。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/how-business-metrics-are-made/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-08-05T00:30:00.000Z">2026.08.05</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>从埋点到洞察：一个数据指标怎样产生</h1>
+  </header>
+  <div class="prose"><p>公司里最容易制造“已经掌握情况”错觉的东西，是一块漂亮的数据大屏。</p>
+<span id="more"></span>
+
+<p>数字实时跳动，曲线不断刷新，领导一眼能看到用户、收入和转化。可一旦追问某个指标如何计算、为什么变化、能采取什么行动，会议很快又回到经验和猜测。</p>
+<p>把数据工作拆成采集、定义、处理、分析和洞察。技术人员对此应该很熟悉：日志存在不代表系统可观测，字段很多也不代表能定位问题。数据不是自动出现的事实，而是一条经过设计、采集、加工和解释的生产链。</p>
+<h2 id="一个数字是怎样被生产出来的"><a href="#一个数字是怎样被生产出来的" class="headerlink" title="一个数字是怎样被生产出来的"></a>一个数字是怎样被生产出来的</h2><p><img src="/images/articles/how-business-metrics-are-made/illustration-01.jpg" alt="从业务定义到报表的数据生产链"></p>
+<p>— 从业务定义到报表的数据生产链</p>
+<p>以“日活跃用户”为例，看起来很简单，实际要先定义什么叫活跃。打开App算不算？必须停留多久？后台唤醒是否排除？同一用户在手机和电脑上如何去重？机器人和测试账号怎样过滤？按哪个时区切日？</p>
+<p>定义之后，还要保证事件真的被采集。版本升级是否漏埋点，弱网是否重复上报，客户端时间是否可信，数据延迟多久到达。接下来是清洗、去重、关联和聚合，最后才进入报表。</p>
+<p>链路任何一处变化，都可能让曲线上涨或下跌，而真实用户行为没有变化。运营看到异常后如果立即调整活动，可能是在响应一次数据故障。</p>
+<p>所以每个核心指标至少要有口径说明、数据来源、负责人、更新时间和质量检查。没有这些元数据，数字越精确，误导越有说服力。</p>
+<h2 id="维度决定我们能看见什么"><a href="#维度决定我们能看见什么" class="headerlink" title="维度决定我们能看见什么"></a>维度决定我们能看见什么</h2><p>整体平均值很容易掩盖结构变化。</p>
+<p>总留存没有变化，可能是老用户改善、新用户恶化；收入上涨，可能来自少数高价值用户，也可能来自用户普遍小幅增加；内容阅读下降，可能只发生在某个渠道或某类主题。</p>
+<p>分析的关键，是选择与决策相关的维度。用户来源、首次使用场景、版本、地区、内容类型和生命周期阶段，都可能揭示不同问题。但维度也不是越多越好，切得太细会产生大量小样本和偶然波动。</p>
+<p>我会先从业务假设出发选择维度：如果怀疑新手引导有问题，就比较版本与首次任务；如果怀疑渠道人群不匹配，就比较来源、激活和后续留存。先有问题，再切数据，比在几十张报表里寻找故事可靠。</p>
+<h2 id="快手的一组数字可以有多少种解释"><a href="#快手的一组数字可以有多少种解释" class="headerlink" title="快手的一组数字可以有多少种解释"></a>快手的一组数字可以有多少种解释</h2><p><img src="/images/articles/how-business-metrics-are-made/illustration-02.jpg" alt="公开事实、公司解释与作者推断的区别"></p>
+<p>— 公开事实、公司解释与作者推断的边界</p>
+<p>快手在 <a target="_blank" rel="noopener" href="https://ir.kuaishou.com/zh-hans/news-releases/news-release-details/kuaishoukejifabu2026niandiyijiduweijingshenhecaiwuyeji/">2026 年第一季度未经审核财务业绩</a>中披露，快手应用平均日活约 4.127 亿、平均月活约 7.717 亿，快手季度总收入约 337 亿元，可灵 AI 季度收入超过 6.5 亿元。公司还披露生成式推荐与智能出价、AI搜索、AIGC广告素材等多项业务进展。</p>
+<p>这些数字支持的事实，是公司在其公开口径下报告了相应规模和增长。它们并不能单独证明“AI导致全部增长”，也不能告诉我们每个用户质量、每项投入成本以及各业务之间的精确因果。</p>
+<p>同一个日活数字，可以被解释为用户覆盖稳定，也可能需要结合人均使用、内容供给和获取成本判断质量；AI收入增长可以说明市场需求扩大，也要结合客户集中、产品成本和可持续性观察。公开财报适合了解结果和管理层叙述，不适合替代内部经营数据。</p>
+<p>当我们引用平台数据时，应该把“公司披露的事实”“公司给出的解释”和“我基于资料的推断”分开。三者混在一起，很容易把观点包装成证据。</p>
+<h2 id="相关性最擅长制造好故事"><a href="#相关性最擅长制造好故事" class="headerlink" title="相关性最擅长制造好故事"></a>相关性最擅长制造好故事</h2><p>活动上线后收入提高，不代表活动造成了提高。同期可能有节假日、渠道变化、产品更新、竞争对手缺货或统计口径调整。</p>
+<p>运营复盘常见一句话：“通过这次活动，我们带来了多少增长。”如果没有对照、基线和其他变量控制，更诚实的说法应该是“活动期间观察到增长，但因果仍需进一步验证”。这不会削弱专业性，反而说明团队知道证据边界。</p>
+<p>因果验证可以采用随机实验、分阶段灰度、相似人群对照、前后趋势比较和用户访谈。方法不必追求完美，但要与决策风险匹配。一次低成本内容实验可以接受弱证据，涉及大额预算和长期策略时，就需要更强验证。</p>
+<h2 id="数据系统也有自己的技术债"><a href="#数据系统也有自己的技术债" class="headerlink" title="数据系统也有自己的技术债"></a>数据系统也有自己的技术债</h2><p>业务快速变化时，旧埋点可能继续沿用，字段含义却已经改变；不同团队为同一概念建立多个口径；报表依赖某个人手工处理；历史数据无法回溯。短期都能凑出数字，长期却越来越没人敢用。</p>
+<p>这种债务会产生一个危险后果：团队只使用最容易获取的数据，而不是最重要的数据。点击和曝光随手可得，用户是否真正解决问题却需要访谈和任务分析，于是前者占满会议。</p>
+<p>治理不等于一次性建设数据中台。可以从最关键的十个指标开始，统一定义、清理重复、增加质量报警、记录变更。每当产品流程变化，都检查埋点和口径是否同步。稳定可信的小指标集，比庞大但互相矛盾的报表库更有用。</p>
+<h2 id="从数据走到洞察，还差一个行动假设"><a href="#从数据走到洞察，还差一个行动假设" class="headerlink" title="从数据走到洞察，还差一个行动假设"></a>从数据走到洞察，还差一个行动假设</h2><p><img src="/images/articles/how-business-metrics-are-made/illustration-03.jpg" alt="发现异常、验证假设、执行行动和回写的闭环"></p>
+<p>— 从异常发现到验证和回写的行动闭环</p>
+<p>“新用户留存下降”只是发现，不是洞察。洞察需要说明下降集中在哪里、可能原因是什么、如何验证，以及验证后准备采取什么行动。</p>
+<p>例如，数据发现某版本新用户首次任务失败率上升，客服记录又集中出现文件解析问题。团队可以提出假设：解析失败破坏首次价值，优先修复并增加明确错误提示，观察任务成功与次周留存是否恢复。这样，数字、上下文和行动形成了闭环。</p>
+<p>如果数据不能改变决策，它可能只是汇报材料。真正的数据能力，不是能回答多少临时查询，而是能更快发现异常、排除错误解释、形成可验证行动，并把结果再次写回系统。</p>
+<p>我还建议保留简短的决策日志：在某个时间点看到了哪些数据，采用了什么口径，排除了哪些解释，最后为什么选择某个行动。几个月后回看，团队才能判断当时是证据不足、执行偏差，还是环境已经改变。没有日志，复盘很容易用今天的信息重新编写昨天的理由。</p>
+<p>决策日志也能防止“数据权威”压制讨论。报表只是证据之一，前线员工、用户访谈和异常案例可能暴露平均数据看不到的问题。真正的数据驱动不是谁拿出数字谁就赢，而是所有证据都能被检查，结论也允许在新信息出现时更新。</p>
+<p>我现在看到一张增长曲线，会先问五件事：指标如何定义，数据怎样产生，与哪个基线比较，还有哪些可能解释，下一步能验证什么。这些问题有点扫兴，却能防止团队为了一个好故事做出坏决定。</p>
+<p>数据的价值不在于让我们显得客观，而在于帮助我们更诚实地面对未知。</p>
+<h2 id="个人OPC实战：用最小数据集观察个人业务"><a href="#个人OPC实战：用最小数据集观察个人业务" class="headerlink" title="个人OPC实战：用最小数据集观察个人业务"></a>个人OPC实战：用最小数据集观察个人业务</h2><p>个人 OPC 不需要先上复杂数据平台。一个客户表、一张内容表和一份交付记录已经能回答多数早期问题。重点是口径稳定、能回到行动，而不是报表漂亮。</p>
+<ul>
+<li><p>客户表记录来源、核心问题、购买和复购，不收集无关隐私。</p>
+</li>
+<li><p>内容表记录主题、有效阅读、咨询和后续复用。</p>
+</li>
+<li><p>每周让 AI 找异常与重复模式，再亲自抽查原始记录后决定行动。</p>
+</li>
+</ul>
+<h2 id="写给自己的问题"><a href="#写给自己的问题" class="headerlink" title="写给自己的问题"></a>写给自己的问题</h2><ol>
+<li><p>我真正依赖的三个数字是怎样产生的？</p>
+</li>
+<li><p>当前异常来自用户变化，还是记录方式变化？</p>
+</li>
+<li><p>AI给出的相关性解释，有没有被我误当成因果？</p>
+</li>
+<li><p>哪些数据收集了却从未影响决策？</p>
+</li>
+<li><p>下周哪项行动会验证一个数据判断？</p>
+</li>
+</ol>
+<h2 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h2><ul>
+<li><a href="/articles/choose-ai-pilot-by-business-outcome/">用五个问题筛选 AI 试点</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-08-05。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0G_5PN80WUzGBRrfWn8F-Q">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/%E6%8A%80%E6%9C%AF%E8%BF%90%E8%90%A5/">#技术运营</a></li>
+      
+        <li><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87/">#数据指标</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/why-enterprise-ai-projects-fail/"><span>← 较新</span><strong>AI 项目失败，换模型也没有用</strong></a>
+    
+    
+      <a class="panel" href="/articles/just-for-fun-linux-reading-notes/"><span>较早 →</span><strong>因为好玩，所以认真：读《只是为了好玩》有感</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

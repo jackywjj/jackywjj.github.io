@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>中｜让 AI 通宵干活前，先给它装上裁判和刹车 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="Agent 能连续工作，不等于它会持续进步。一个可靠循环至少需要验证器、状态、预算、停止条件和人工升级点。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/agent-loop-verification-and-stop-rules/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-14T00:00:00.000Z">2026.11.14</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>中｜让 AI 通宵干活前，先给它装上裁判和刹车</h1>
+  </header>
+  <div class="prose"><p>一个 Agent 可以不停地产出，并不代表它在进步。没有裁判，它只是在反复证明自己是对的；没有刹车，它会把错误、成本和改动范围一起放大。</p>
+<span id="more"></span>
+
+<p>“让 AI 晚上自己跑，第二天早上收结果。”</p>
+<p>这句话太有吸引力了。人去睡觉，Agent 继续查资料、改代码、跑实验、写报告，听起来像突然多了一支不休息的团队。</p>
+<p>但从工程角度看，我第一反应不是兴奋，而是追问：<strong>谁来判断它真的变好了？失败记录放在哪里？它最多能试几次？什么情况下必须叫醒人？</strong></p>
+<p>如果这些问题没有答案，所谓“通宵干活”，很可能只是一个模型在昂贵地自言自语。</p>
+<p>Karpathy 的 AutoResearch 之所以值得看，不是因为它展示了 AI 可以熬夜，而是因为它把一个自主循环压缩得足够小，也足够清楚。</p>
+<h2 id="AutoResearch-真正厉害的地方，是边界清楚"><a href="#AutoResearch-真正厉害的地方，是边界清楚" class="headerlink" title="AutoResearch 真正厉害的地方，是边界清楚"></a>AutoResearch 真正厉害的地方，是边界清楚</h2><p>Karpathy 的 <a target="_blank" rel="noopener" href="https://github.com/karpathy/autoresearch">AutoResearch 仓库</a>把分工集中在三个文件。</p>
+<p><code>prepare.py</code> 提供固定常量、数据准备和评估工具，实验中不由 Agent 修改。<code>train.py</code> 是 Agent 可以改动的实验对象。<code>program.md</code> 由人维护，说明目标、约束和运行方式。</p>
+<p>每次正式训练使用固定的 5 分钟预算，启动和编译时间另计，再用统一的验证集每字节比特数 <code>val_bpb</code> 比较结果，数值越低越好。指标更好，就保留改动；没有变好，就丢弃，再进入下一轮。</p>
+<p>它的魅力不在于“代码很少”，而在于每一个角色都很清晰：</p>
+<ul>
+<li><p>人负责定义研究组织和约束；</p>
+</li>
+<li><p>Agent 负责提出并实施改动；</p>
+</li>
+<li><p>训练负责产生真实结果；</p>
+</li>
+<li><p>评估器负责裁决；</p>
+</li>
+<li><p>版本记录负责保留或回退。</p>
+</li>
+</ul>
+<p>官方 README 写得很直白：</p>
+<blockquote>
+<p>“It modifies the code, trains for 5 minutes, checks if the result improved, keeps or discards, and repeats.”</p>
+</blockquote>
+<p>注意这里的顺序。先改，后跑，再检查，然后才决定保留还是丢弃。<strong>不是 Agent 说“我优化了”，系统就相信它优化了。</strong></p>
+<p>这句话看似常识，却是很多 Agent 工作流最容易偷懒的地方。</p>
+<p><img src="/images/articles/agent-loop-verification-and-stop-rules/illustration-01.jpg" alt="Agent 循环的验证、状态、停止和人工升级机制"></p>
+<p>— 一个可控 Agent Loop：目标、执行、验证、状态、停止与人工升级</p>
+<h2 id="Verifier：没有裁判，重复不会自动变成进步"><a href="#Verifier：没有裁判，重复不会自动变成进步" class="headerlink" title="Verifier：没有裁判，重复不会自动变成进步"></a>Verifier：没有裁判，重复不会自动变成进步</h2><p>验证器是循环里最重要、也最容易被低估的部件。</p>
+<p>普通对话里，我们习惯让模型自己检查自己：“请审查上面的答案，如果有问题就修正。”这有一定作用，但它仍然可能在同一套认知偏差里打转。模型既是运动员，又是裁判，最后很容易得到一句熟悉的结论：“经过检查，结果正确。”</p>
+<p>真正有用的验证器，应该尽可能站在模型之外。</p>
+<p>代码任务可以用单元测试、集成测试、构建结果、静态检查和性能基准；数据任务可以用行数、唯一性、范围、交叉汇总和抽样比对；内容任务也可以检查事实来源、必备章节、禁用表达、链接状态和结构完整性。</p>
+<p>但要承认，验证器也有能力边界。测试通过，只能说明覆盖到的行为符合预期；指标上升，也可能是系统钻了指标的空子。我们一旦把“成功”压缩成一个数字，就同时打开了 Goodhart 定律的那扇门：指标成为目标之后，它可能不再是一个好指标。</p>
+<p>所以我的原则是：<strong>让机器验证可验证的部分，让人保留对目标本身的解释权。</strong></p>
+<h2 id="State：循环必须记得自己为什么失败"><a href="#State：循环必须记得自己为什么失败" class="headerlink" title="State：循环必须记得自己为什么失败"></a>State：循环必须记得自己为什么失败</h2><p>第二个部件是状态。</p>
+<p>如果 Agent 每一轮只看到当前任务，不知道前面试过哪些办法，它很可能反复走回同一个死胡同。更隐蔽的问题是，它可能记得“做过什么”，却没有记下“为什么没用”。结果日志越来越长，知识却没有积累。</p>
+<p>一个实用的状态记录，不需要做得很复杂，至少包含四类信息：</p>
+<p><code>protocol.txt</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">attempt: 本轮尝试了什么</span><br><span class="line">evidence: 得到了哪些可复核证据</span><br><span class="line">decision: 保留、回滚、换方向还是升级给人</span><br><span class="line">next: 下一轮要验证哪个假设</span><br></pre></td></tr></table></figure>
+
+<p>我尤其看重 decision。很多运行日志只有过程，没有判断。它告诉你执行了十条命令，却没有说明为什么接受这个结果。这样的日志适合追踪，不适合学习。</p>
+<p>状态真正的价值，是让下一轮不再从“猜一个办法”开始，而是从“上一轮已经排除了什么”开始。</p>
+<h2 id="Stop：刹车不是限制能力，而是定义责任"><a href="#Stop：刹车不是限制能力，而是定义责任" class="headerlink" title="Stop：刹车不是限制能力，而是定义责任"></a>Stop：刹车不是限制能力，而是定义责任</h2><p>第三个部件是停止条件。</p>
+<p>很多人给 Agent 写成功条件，却忘了写失败条件。于是它只知道“做到为止”，不知道“什么时候承认当前方法不行”。这就像给一辆车装了油门，却告诉司机不要担心刹车。</p>
+<p>一个完整的停止设计，至少要有四种出口：</p>
+<ol>
+<li><p>成功停止：明确证据全部通过。</p>
+</li>
+<li><p>预算停止：达到最大轮数、时间、费用或调用量。</p>
+</li>
+<li><p>风险停止：将触及敏感数据、生产环境、外部沟通或不可逆动作。</p>
+</li>
+<li><p>不确定停止：证据相互冲突，或验证器本身不再可信。</p>
+</li>
+</ol>
+<p>其中第三、第四种必须连接人工升级点。<strong>人工介入不是自动化失败，而是系统提前承认责任边界。</strong></p>
+<p>这也是企业场景与个人玩具最大的区别。个人项目跑坏了可以重来；企业里的错误可能影响客户、财务、合规和品牌。Agent 越能行动，升级机制越不能只写一句“必要时询问用户”。要明确什么叫必要、需要提交哪些证据、谁有权继续。</p>
+<h2 id="一套能落地的-Loop，需要六个控制面"><a href="#一套能落地的-Loop，需要六个控制面" class="headerlink" title="一套能落地的 Loop，需要六个控制面"></a>一套能落地的 Loop，需要六个控制面</h2><p>如果把 AutoResearch 的思想从模型训练迁移到普通工作，我会把循环拆成六个控制面。</p>
+<p>目标面：到底要改善什么</p>
+<p>目标必须指向结果，而不是动作。“分析日志”是动作，“定位导致支付失败的首要原因，并给出可复核证据”才是结果。</p>
+<p>工具面：它能在真实环境里做什么</p>
+<p>只会生成文字的 Agent 很难形成闭环。它至少要能读取目标对象、执行必要动作、获取反馈。但工具权限要遵循最小化原则，能只读就别先给写入，能在沙箱里试就别直接碰生产。</p>
+<p>验证面：谁来宣布完成</p>
+<p>把成功标准写成测试、指标、规则和人工确认的组合。越重要的任务，越不能只依赖一种验证信号。</p>
+<p>状态面：上一轮留下什么</p>
+<p>记录尝试、证据、决策和下一步，让失败成为搜索空间的缩小，而不是成本的重复。</p>
+<p>预算面：最多付出多少</p>
+<p>轮数、时间、Token、外部 API 费用、计算资源和改动文件数，都可以成为预算。预算不是财务附注，它会直接塑造 Agent 的策略。</p>
+<p>治理面：何时停，何时找人</p>
+<p>这里定义权限、敏感动作、回滚策略、审计记录和人工升级点。很多工作流把治理放到最后补，我认为应该一开始就写。</p>
+<h2 id="让-AI-值夜班之前，先跑一次白天演习"><a href="#让-AI-值夜班之前，先跑一次白天演习" class="headerlink" title="让 AI 值夜班之前，先跑一次白天演习"></a>让 AI 值夜班之前，先跑一次白天演习</h2><p>我不建议第一次就让一个新循环无人值守跑八小时。更稳妥的方法，是先让它在白天完成一个缩小版任务，而且把每一轮的输入、动作、证据和决策都展示出来。</p>
+<p>你可以用下面这张清单做验收：</p>
+<ul>
+<li><p>它是否只在允许范围内行动？</p>
+</li>
+<li><p>每一轮是否调用了真实验证器？</p>
+</li>
+<li><p>失败后是否改变了假设，而不是换个说法重来？</p>
+</li>
+<li><p>是否能恢复到上一个已知好状态？</p>
+</li>
+<li><p>到达预算后是否真的停止？</p>
+</li>
+<li><p>触及外部写入前是否会升级给人？</p>
+</li>
+<li><p>人能否在十分钟内看懂它为什么这么做？</p>
+</li>
+</ul>
+<p>最后一条很关键。一个循环即便结果不错，但没人能解释它的轨迹，后续维护仍然会变得非常危险。</p>
+<p>我的判断是：<strong>Agent 的竞争力，不在于它能连续运行多久，而在于它能否把每一次自主行动都变成有证据、有边界、可回退的工程过程。</strong></p>
+<h2 id="Agent-循环专题"><a href="#Agent-循环专题" class="headerlink" title="Agent 循环专题"></a>Agent 循环专题</h2><ul>
+<li><a href="/articles/agent-loop-task-design/">上篇：任务设计</a></li>
+<li><a href="/articles/agent-loop-understanding-debt/">下篇：理解债务与责任</a></li>
+</ul>
+<p>原载于「玩AI的杰克」微信公众号，2026-11-14。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/5YNfpYTE0zG_nrQQwH9Nuw">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI%E6%9E%B6%E6%9E%84/">#AI架构</a></li>
+      
+        <li><a class="tag" href="/tags/Agent/">#Agent</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/agent-loop-understanding-debt/"><span>← 较新</span><strong>下｜AI 越能自己进化，团队越不能放弃理解</strong></a>
+    
+    
+      <a class="panel" href="/articles/agent-loop-task-design/"><span>较早 →</span><strong>上｜你以为在用 Agent，其实自己才是那个工作流</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>
