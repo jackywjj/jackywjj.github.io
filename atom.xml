@@ -16,146 +16,6 @@
       <name>Jacky Wu</name>
     </author>
     <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
-    <category term="工作流" scheme="https://jackywjj.github.io/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/"/>
-    <id>https://jackywjj.github.io/articles/automation-run-checks/</id>
-    <link href="https://jackywjj.github.io/articles/automation-run-checks/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>手动点一次，结果成功了。第二天定时运行，输入还没到；第三天又重复触发，生成两份同名报告。自动化的难处，常在这些第一次演示没有遇到的情况里。</summary>
-    <title>自动化跑通一次以后，还要补哪些检查</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
-    <category term="MCP" scheme="https://jackywjj.github.io/tags/MCP/"/>
-    <id>https://jackywjj.github.io/articles/skill-connector-api-mcp/</id>
-    <link href="https://jackywjj.github.io/articles/skill-connector-api-mcp/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>一个任务既要查数据，又要整理报告，常会同时出现Skill、连接器、API和MCP几个词。名字放在一起，很容易以为装一个Skill就能访问企业系统。</summary>
-    <title>Skill、连接器、API 和 MCP 怎么分工？</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
-    <category term="Skill" scheme="https://jackywjj.github.io/tags/Skill/"/>
-    <id>https://jackywjj.github.io/articles/first-reusable-skill/</id>
-    <link href="https://jackywjj.github.io/articles/first-reusable-skill/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>有一条提示词，第一次成功了，第二次换个文件就漏字段。想把它做成Skill之前，先要知道哪些步骤必须保留、参数在哪里，以及失败时该停在哪一步。</summary>
-    <title>怎样把跑通的流程做成自己的第一个 Skill</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
-    <category term="数据核对" scheme="https://jackywjj.github.io/tags/%E6%95%B0%E6%8D%AE%E6%A0%B8%E5%AF%B9/"/>
-    <id>https://jackywjj.github.io/articles/ai-number-reconciliation/</id>
-    <link href="https://jackywjj.github.io/articles/ai-number-reconciliation/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>两张清单的总金额都等于600，就能说明对得上吗？不能。有可能一边多了一笔，另一边少了一笔，差额恰好互相抵消。</summary>
-    <title>AI 算出的数字，怎样确认它没有算错</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
-    <category term="AI 成本" scheme="https://jackywjj.github.io/tags/AI-%E6%88%90%E6%9C%AC/"/>
-    <id>https://jackywjj.github.io/articles/ai-cost-per-successful-task/</id>
-    <link href="https://jackywjj.github.io/articles/ai-cost-per-successful-task/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>模型便宜，不代表任务便宜。从模型调用、工具与数据到人工复核，算清每件合格任务的真实成本，再决定优化哪里。</summary>
-    <title>AI 成本怎么算？先算每件合格任务的成本</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
-    <category term="Excel" scheme="https://jackywjj.github.io/tags/Excel/"/>
-    <id>https://jackywjj.github.io/articles/excel-merge-data-rules/</id>
-    <link href="https://jackywjj.github.io/articles/excel-merge-data-rules/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>三张表合成一张，文件能打开，行数也看起来正常。可金额一汇总，就有人问：“这一列到底含不含税？”这时才发现，合并动作完成了，业务口径还没确认。</summary>
-    <title>合并多张 Excel 表以前，先核对哪些口径？</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
-    <category term="RAG" scheme="https://jackywjj.github.io/tags/RAG/"/>
-    <id>https://jackywjj.github.io/articles/rag-indexing-and-serving/</id>
-    <link href="https://jackywjj.github.io/articles/rag-indexing-and-serving/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>RAG包含离线索引与在线问答两条链路，检索质量和生成质量必须分开测量。</summary>
-    <title>RAG 的两条链路：离线索引和在线问答</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
-    <category term="验收" scheme="https://jackywjj.github.io/tags/%E9%AA%8C%E6%94%B6/"/>
-    <id>https://jackywjj.github.io/articles/model-score-and-release-criteria/</id>
-    <link href="https://jackywjj.github.io/articles/model-score-and-release-criteria/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>把业务KPI翻译成质量、延迟、吞吐、成本和人工介入边界，才能判断一个高分模型是否真的能上线。</summary>
-    <title>模型分数很高，怎么判断业务能否上线？</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
-    <category term="Agent" scheme="https://jackywjj.github.io/tags/Agent/"/>
-    <id>https://jackywjj.github.io/articles/rules-prediction-generation-agent/</id>
-    <link href="https://jackywjj.github.io/articles/rules-prediction-generation-agent/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>AI路线不是从传统模型一路升级到Agent，而要看任务确定性、知识边界、工具执行和自主决策是否真的必要。</summary>
-    <title>预测、生成还是 Agent？先看任务怎么做</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
-    <category term="软件架构" scheme="https://jackywjj.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/"/>
-    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
-    <id>https://jackywjj.github.io/articles/ai-architecture-define-the-problem/</id>
-    <link href="https://jackywjj.github.io/articles/ai-architecture-define-the-problem/"/>
-    <published>2026-11-26T16:00:00.000Z</published>
-    <summary>AI项目真正的起点不是模型排行榜，而是把问题、输入、输出、约束、失败代价和业务指标写成一份可检查的系统契约。</summary>
-    <title>AI架构01｜别急着选模型，先把问题说清楚</title>
-    <updated>2026-11-26T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Jacky Wu</name>
-    </author>
-    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
     <category term="AI 搜索" scheme="https://jackywjj.github.io/tags/AI-%E6%90%9C%E7%B4%A2/"/>
     <category term="GEO" scheme="https://jackywjj.github.io/tags/GEO/"/>
     <id>https://jackywjj.github.io/articles/geo-ai-search-validation/</id>
@@ -192,6 +52,104 @@
     <summary>从系统架构师的视角看，AI Agent 很像一个可以组合、拆分和演进的微服务，但它多了上下文、判断和不确定性。</summary>
     <title>AI Agent 很像微服务，但关键区别在这里</title>
     <updated>2026-11-26T16:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
+    <category term="Skill" scheme="https://jackywjj.github.io/tags/Skill/"/>
+    <id>https://jackywjj.github.io/articles/first-reusable-skill/</id>
+    <link href="https://jackywjj.github.io/articles/first-reusable-skill/"/>
+    <published>2026-10-27T00:00:00.000Z</published>
+    <summary>有一条提示词，第一次成功了，第二次换个文件就漏字段。想把它做成Skill之前，先要知道哪些步骤必须保留、参数在哪里，以及失败时该停在哪一步。</summary>
+    <title>怎样把跑通的流程做成自己的第一个 Skill</title>
+    <updated>2026-10-27T00:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
+    <category term="数据核对" scheme="https://jackywjj.github.io/tags/%E6%95%B0%E6%8D%AE%E6%A0%B8%E5%AF%B9/"/>
+    <id>https://jackywjj.github.io/articles/ai-number-reconciliation/</id>
+    <link href="https://jackywjj.github.io/articles/ai-number-reconciliation/"/>
+    <published>2026-10-21T00:00:00.000Z</published>
+    <summary>两张清单的总金额都等于600，就能说明对得上吗？不能。有可能一边多了一笔，另一边少了一笔，差额恰好互相抵消。</summary>
+    <title>AI 算出的数字，怎样确认它没有算错</title>
+    <updated>2026-10-21T00:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="WorkBuddy" scheme="https://jackywjj.github.io/tags/WorkBuddy/"/>
+    <category term="Excel" scheme="https://jackywjj.github.io/tags/Excel/"/>
+    <id>https://jackywjj.github.io/articles/excel-merge-data-rules/</id>
+    <link href="https://jackywjj.github.io/articles/excel-merge-data-rules/"/>
+    <published>2026-10-20T00:00:00.000Z</published>
+    <summary>三张表合成一张，文件能打开，行数也看起来正常。可金额一汇总，就有人问：“这一列到底含不含税？”这时才发现，合并动作完成了，业务口径还没确认。</summary>
+    <title>合并多张 Excel 表以前，先核对哪些口径？</title>
+    <updated>2026-10-20T00:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
+    <category term="RAG" scheme="https://jackywjj.github.io/tags/RAG/"/>
+    <id>https://jackywjj.github.io/articles/rag-indexing-and-serving/</id>
+    <link href="https://jackywjj.github.io/articles/rag-indexing-and-serving/"/>
+    <published>2026-09-26T00:00:00.000Z</published>
+    <summary>RAG包含离线索引与在线问答两条链路，检索质量和生成质量必须分开测量。</summary>
+    <title>RAG 的两条链路：离线索引和在线问答</title>
+    <updated>2026-09-26T00:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
+    <category term="验收" scheme="https://jackywjj.github.io/tags/%E9%AA%8C%E6%94%B6/"/>
+    <id>https://jackywjj.github.io/articles/model-score-and-release-criteria/</id>
+    <link href="https://jackywjj.github.io/articles/model-score-and-release-criteria/"/>
+    <published>2026-09-12T00:00:00.000Z</published>
+    <summary>把业务KPI翻译成质量、延迟、吞吐、成本和人工介入边界，才能判断一个高分模型是否真的能上线。</summary>
+    <title>模型分数很高，怎么判断业务能否上线？</title>
+    <updated>2026-09-12T00:00:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
+    <category term="Agent" scheme="https://jackywjj.github.io/tags/Agent/"/>
+    <id>https://jackywjj.github.io/articles/rules-prediction-generation-agent/</id>
+    <link href="https://jackywjj.github.io/articles/rules-prediction-generation-agent/"/>
+    <published>2026-09-06T00:30:00.000Z</published>
+    <summary>AI路线不是从传统模型一路升级到Agent，而要看任务确定性、知识边界、工具执行和自主决策是否真的必要。</summary>
+    <title>预测、生成还是 Agent？先看任务怎么做</title>
+    <updated>2026-09-06T00:30:00.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="AI 与软件工程" scheme="https://jackywjj.github.io/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    <category term="软件架构" scheme="https://jackywjj.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/"/>
+    <category term="AI架构" scheme="https://jackywjj.github.io/tags/AI%E6%9E%B6%E6%9E%84/"/>
+    <id>https://jackywjj.github.io/articles/ai-architecture-define-the-problem/</id>
+    <link href="https://jackywjj.github.io/articles/ai-architecture-define-the-problem/"/>
+    <published>2026-09-05T00:30:00.000Z</published>
+    <summary>AI项目真正的起点不是模型排行榜，而是把问题、输入、输出、约束、失败代价和业务指标写成一份可检查的系统契约。</summary>
+    <title>AI架构01｜别急着选模型，先把问题说清楚</title>
+    <updated>2026-09-05T00:30:00.000Z</updated>
   </entry>
   <entry>
     <author>
@@ -297,5 +255,54 @@
     </summary>
     <title>到底先有鸡还是先有蛋-我的哲学观点</title>
     <updated>2016-03-04T09:21:03.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="Java" scheme="https://jackywjj.github.io/categories/Java/"/>
+    <id>https://jackywjj.github.io/2015/04/16/Java%20%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E5%92%8C%E7%BB%84%E5%90%88/</id>
+    <link href="https://jackywjj.github.io/2015/04/16/Java%20%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E5%92%8C%E7%BB%84%E5%90%88/"/>
+    <published>2015-04-15T20:55:22.000Z</published>
+    <summary>
+      <![CDATA[<p>好久没更新Blog了，翻出过往的笔记，决定补充下 Java 部分的文章，鉴于目前的数量还不是很多，还是继续补充基础知识吧。</p>
+<p>今天记录一下Java 中的 继承 和 组合，即 Inheritance VS Composition 。</p>]]>
+    </summary>
+    <title>Java 中的继承和组合</title>
+    <updated>2016-03-04T09:31:26.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="其他" scheme="https://jackywjj.github.io/categories/%E5%85%B6%E4%BB%96/"/>
+    <category term="其他" scheme="https://jackywjj.github.io/tags/%E5%85%B6%E4%BB%96/"/>
+    <id>https://jackywjj.github.io/2014/12/18/%E9%82%A3%E4%B8%80%E5%B9%B4%E7%9A%84%E6%AF%95%E4%B8%9A%E5%AD%A3/</id>
+    <link href="https://jackywjj.github.io/2014/12/18/%E9%82%A3%E4%B8%80%E5%B9%B4%E7%9A%84%E6%AF%95%E4%B8%9A%E5%AD%A3/"/>
+    <published>2014-12-17T18:50:43.000Z</published>
+    <summary>
+      <![CDATA[<p>那一年，走路上学的日子里，路上的风景是聊赖的</p>
+<p>那一年，一起哄散着回家，也不忘记先去杂货店逛一圈，不在乎要买什么</p>
+<p>那一年，光秃秃的球场，灰头土脸的小伙伴还是不顾一切的追着球的</p>
+<p>那一年，仅有的游乐设施，即使只有十分钟的同学们还是趋之若鹜]]>
+    </summary>
+    <title>那一年的毕业季</title>
+    <updated>2016-03-04T09:25:55.000Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Jacky Wu</name>
+    </author>
+    <category term="其他" scheme="https://jackywjj.github.io/categories/%E5%85%B6%E4%BB%96/"/>
+    <category term="其他" scheme="https://jackywjj.github.io/tags/%E5%85%B6%E4%BB%96/"/>
+    <id>https://jackywjj.github.io/2014/10/21/%E8%A7%92%E8%89%B2%E7%9A%84%E6%94%B9%E5%8F%98%E4%BB%8E%E5%90%8D%E5%AD%97%E5%BC%80%E5%A7%8B/</id>
+    <link href="https://jackywjj.github.io/2014/10/21/%E8%A7%92%E8%89%B2%E7%9A%84%E6%94%B9%E5%8F%98%E4%BB%8E%E5%90%8D%E5%AD%97%E5%BC%80%E5%A7%8B/"/>
+    <published>2014-10-21T01:53:41.000Z</published>
+    <summary>
+      <![CDATA[<p>前几天逛facebook，突然看见前老板贴了张2005年的照片，看了一下他贴出来的说明，原来是tudou创业时的最初概况。</p>
+<p>首先说明下，前老板应该是tudou的董事，投钱的金主，10年了，tudou成长得很快，前老板也发达了，租了个游轮到处玩，非常羡慕，很希望]]>
+    </summary>
+    <title>角色的改变从名字开始</title>
+    <updated>2016-03-04T09:25:10.000Z</updated>
   </entry>
 </feed>
