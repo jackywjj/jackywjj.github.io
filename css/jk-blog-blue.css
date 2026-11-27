@@ -11,6 +11,7 @@
   --site-font: Courier, "Courier New", "PingFang SC", "Noto Sans CJK SC",
     "Microsoft YaHei", monospace;
   --radius: 14px;
+  --post-title-size: clamp(1.075rem, 2vw, 1.35rem);
 }
 
 * { box-sizing: border-box; }
@@ -53,7 +54,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   align-items: center;
   min-height: 44px;
   color: var(--ink);
-  font-size: clamp(1.375rem, 2.4vw, 1.5rem);
+  font-size: var(--post-title-size);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -73,10 +74,10 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 .main-nav a { padding: 7px 13px; border-radius: 7px; }
 .main-nav a:hover, .main-nav a[aria-current] { background: var(--blue-light); color: var(--link); text-decoration: none; }
 .site-main { min-height: 65vh; padding-block: 18px 64px; }
-.site-main-home { padding-block-start: 8px; }
+.site-main-home { padding-block-start: 12px; }
 
 .home-hero-banner {
-  height: clamp(10.5rem, 21vw, 15rem);
+  height: clamp(9.375rem, 19vw, 13.5rem);
   margin: 0;
   background: #0a2045;
 }
@@ -137,7 +138,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 
 .post-list > li { padding: 19px 22px; }
 .post-list > li + li { border-top: 1px solid var(--line); }
-.post-list h2 { margin: 8px 0 0; font-size: clamp(1.075rem, 2vw, 1.35rem); letter-spacing: -.013em; }
+.post-list h2 { margin: 8px 0 0; font-size: var(--post-title-size); letter-spacing: -.013em; }
 .post-list h2 a { color: var(--ink); }
 .post-list h2 a:hover { color: var(--link); }
 .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: var(--muted); font: .79rem/1.3 var(--site-font); }
@@ -213,7 +214,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   .main-nav { gap: 3px; }
   .main-nav a { padding-inline: 9px; }
   .site-main { padding-block: 10px 40px; }
-  .site-main-home { padding-block-start: 6px; }
+  .site-main-home { padding-block-start: 8px; }
   .home-grid { gap: 18px; margin-top: 23px; }
   .home-sidebar, .article-neighbors { grid-template-columns: minmax(0, 1fr); }
   .post-list > li { padding: 15px; }
