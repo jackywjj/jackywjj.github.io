@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GEO到底在做什么？从AI搜索原理到效果验证 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="GEO 是什么，和 SEO 有什么关系？用一个软件迁移示例，讲清页面怎么改，以及如何验证 AI 引用、回答准确性和业务结果。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/geo-ai-search-validation/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-26T00:00:00.000Z">2026.11.26</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>GEO到底在做什么？从AI搜索原理到效果验证</h1>
+  </header>
+  <div class="prose"><p>一个 50 人的团队想换项目管理软件。负责人打开 AI 搜索，问的是：“我们现在用 Excel 跟任务，换工具以后，负责人、截止日期和评论能一起导进去吗？”</p>
+<p>在传统搜索结果里，他可能要打开产品页、帮助文档和讨论帖，自己拼出答案。带联网搜索的 AI 可以把这几类资料放到一起，先给出解释，再附上部分来源。软件厂商的页面有没有出现在这个答案里？如果出现了，AI 有没有把导入条件说对？GEO 要处理的就是这些问题。</p>
+<span id="more"></span>
+
+<h2 id="GEO-优化的是答案里的什么？"><a href="#GEO-优化的是答案里的什么？" class="headerlink" title="GEO 优化的是答案里的什么？"></a>GEO 优化的是答案里的什么？</h2><p>GEO 是 Generative Engine Optimization，通常译作“生成式引擎优化”。提出这个术语的研究，把关注点放在内容如何出现在生成式搜索回答里，并尝试测量这种可见性。<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2311.09735">GEO 原始论文</a></p>
+<p>对做网站的人来说，有几个现象很容易混在一起。搜索引擎能抓取一个页面，意味着它可以获取页面内容。把页面收进索引，是平台进一步处理的结果。等用户真的提出某个问题，答案用不用到这个页面，还得看平台这次找到了什么、怎样组织回答。以 Google 的 AI 搜索功能为例，页面进入索引、具备展示搜索摘要的资格，才符合成为支持链接的条件，具体是否出现由系统决定。<a target="_blank" rel="noopener" href="https://developers.google.com/search/docs/appearance/ai-features">Google AI 搜索指南</a></p>
+<p>看答案也得拆开看。出现了品牌名，叫提及。给出了指向某个网页的来源链接，可以记录为引用。点开链接能不能找到答案所说的那条事实，需要另外核对。有时 AI 确实引用了官方文档，正文却把“仅部分版本支持”说成了“所有版本都支持”。如果报表上只记“被引一次”，这个错误就过去了。</p>
+<h2 id="企业具体做哪几件事？"><a href="#企业具体做哪几件事？" class="headerlink" title="企业具体做哪几件事？"></a>企业具体做哪几件事？</h2><p><strong>先找到用户原来怎么问。</strong> 客服收到的“原来的任务评论能不能带过来”，比“协作工具”这几个字多了一个决策条件。产品可能在功能清单里提过导入，用户真正要判断的却是迁移以后会不会丢掉工作记录。把问题放回这个场景，才能决定该更新定价页、功能页还是迁移指南。</p>
+<p><strong>检查回答这个问题的页面。</strong> 网站团队可以从导航、站点地图和页面本身顺着查，看重要页面能不能被发现，打开后有没有正确的正文，有没有更合适的正式入口。站点地图可以告诉搜索引擎页面在哪儿，页面是否进入索引，还要看对应平台的处理结果。这里用的很多是日常 SEO 基础工作。<a target="_blank" rel="noopener" href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview">Google 站点地图说明</a></p>
+<p><strong>把产品条件写成查得回去的事实。</strong> 能导入什么、适用哪个版本、哪天更新，分别由产品团队核对。内容团队把这些条件写进与问题对应的页面，并链接到帮助文档或版本说明。定价页和帮助中心如果用了不同口径，先确认哪个说法有效，再一起修订。用户读得清楚，引用者也能追到原始出处。</p>
+<h2 id="用一页-Excel-迁移指南演示"><a href="#用一页-Excel-迁移指南演示" class="headerlink" title="用一页 Excel 迁移指南演示"></a>用一页 Excel 迁移指南演示</h2><p>假设一家项目管理工具的产品页只有一句话：“支持 Excel 导入。”这句话能说明工具有导入入口，但一个准备换软件的团队，还要知道哪些数据能带过来。</p>
+<p>团队先拿一份示例表，在明确版本的产品里试导入，然后改写已有的迁移指南。在这个虚构案例里，改后的首段会这样写：</p>
+<blockquote>
+<p>通过 Excel 导入任务时，可以映射任务标题、负责人和截止日期。负责人需先加入目标工作区。历史评论需要另行归档。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Excel 里的数据</th>
+<th>迁移指南写什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>任务标题、截止日期</td>
+<td>对应到哪个字段，日期按什么格式填写</td>
+</tr>
+<tr>
+<td>负责人</td>
+<td>需要先加入目标工作区，匹配不到的人要怎么处理</td>
+</tr>
+<tr>
+<td>历史评论</td>
+<td>另行归档，保留和原任务的对应关系</td>
+</tr>
+</tbody></table>
+<p>指南还应注明适用版本。产品同事用同一份示例文件核对导入结果，网站同事打开公开页面检查正文和链接，内容同事把产品页上的“支持 Excel 导入”链接到这份指南。这样，同一个问题有了明确的回答位置，也有了能核对的条件。</p>
+<p><img src="/images/articles/geo-explainer/illustration-01.png" alt="从客户提出导入问题，到改写迁移指南，再到核对页面、答案和业务结果"></p>
+<h2 id="怎么判断改动有没有效果？"><a href="#怎么判断改动有没有效果？" class="headerlink" title="怎么判断改动有没有效果？"></a>怎么判断改动有没有效果？</h2><p>我会先看新页面是不是真的上线了。打开正式网址，核对正文、链接和更新内容，再通过对应站长工具查看索引或页面检查结果。这个环节通过，只能说明网站端或搜索端走到了哪一步。接下来才轮到 AI 答案。</p>
+<p>观察答案时，改版前后保留同一组问题原文，用相同平台、搜索模式和语言，在不同日期复测。每次记下回答和引用链接，再对照迁移指南判断内容对不对。例如，一条答案引用了迁移指南，却说历史评论也能直接导入，这条记录里就应同时记下“有引用”和“有事实错误”。</p>
+<p>访问和业务结果可以再单独看。站点分析能识别出多少 AI 来源的访问？用户落到了迁移指南还是产品首页？其中多少人试用了软件或者发来咨询？这些数字回答的是用户有没有继续行动。</p>
+<p>假设改版前后各收集 20 条有效回答。引用指南的回答从 2 条变成 6 条，准确说出评论限制的回答从 4 条变成 9 条，可识别的试用转化仍然各有 1 次。这组模拟数据可以写成：“本轮样本里，指南被引用的次数和关键信息答对的次数都变多了。试用转化的样本还很少。”如果同期平台更新了搜索方式，或其他网站也加了新资料，简单的前后对比无法判断有多少变化来自页面改版。</p>
+<p>回到一开始那句“原来的任务评论能一起导入吗”，先把答案写到用户找得到的页面，再用证据核对平台怎样引用、用户有没有继续行动。这样，下次有人问“我们做的 GEO 有没有用”，团队能拿出具体页面、回答样本和业务记录来讨论。</p>
+<p>原载于「玩AI的杰克」微信公众号，2026-11-26。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Gtw5GXcSovEuNBAW46O2Cg">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI-%E6%90%9C%E7%B4%A2/">#AI 搜索</a></li>
+      
+        <li><a class="tag" href="/tags/GEO/">#GEO</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+    
+      <a class="panel" href="/articles/workbuddy-practical-workflows/"><span>较早 →</span><strong>最近使用 workbuddy 几个最佳实践</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

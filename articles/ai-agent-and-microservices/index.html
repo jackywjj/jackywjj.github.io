@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Agent 很像微服务，但关键区别在这里 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="从系统架构师的视角看，AI Agent 很像一个可以组合、拆分和演进的微服务，但它多了上下文、判断和不确定性。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/ai-agent-and-microservices/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-03T00:00:00.000Z">2026.11.03</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>AI Agent 很像微服务，但关键区别在这里</h1>
+  </header>
+  <div class="prose"><p>最近我一直在想，应该怎样向做架构的人解释 AI Agent。</p>
+<p>我自己的第一反应是：<strong>它很像一个微服务。</strong></p>
+<span id="more"></span>
+
+<p>一个 Agent 有自己的目标，也有能够调用的工具和资源；它可以独立完成一类任务，也可以继续调用下面的 sub-agent。业务简单时，一个 Agent 可以包住整段流程；业务复杂以后，再把其中的研究、判断、执行和检查拆给不同 Agent。反过来，如果拆得太细，调用成本、上下文传递和协作成本太高，也可以重新合并。</p>
+<p>这和微服务从大到小、再根据成本重新调整颗粒度的过程，确实很像。</p>
+<h2 id="这个类比，为什么是成立的？"><a href="#这个类比，为什么是成立的？" class="headerlink" title="这个类比，为什么是成立的？"></a>这个类比，为什么是成立的？</h2><p>我做系统架构时，设计微服务很少从“我要拆几个服务”开始，而是先看业务能力、职责边界、数据归属和调用关系。Agent 也一样，不应该一上来就画十几个智能体，而要先回答：它负责什么结果，需要什么上下文，可以使用哪些能力，失败以后由谁接住。</p>
+<p><a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/agents/orchestration">OpenAI Agents SDK</a> 已经把多 Agent 分成了两种很典型的模式：一种是管理 Agent 把专门 Agent 当作工具调用，最后仍由管理者汇总结果；另一种是 handoff，把任务和对话交给更合适的 Agent。Anthropic 总结的 orchestrator-workers 模式也很接近：一个协调者动态拆任务，再交给不同的执行者完成。 <a target="_blank" rel="noopener" href="https://www.anthropic.com/research/building-effective-agents">Anthropic 工程文章</a></p>
+<p>这些结构对架构师并不陌生。它们背后仍然是<strong>职责分离、能力复用、组合调用和边界演进</strong>。</p>
+<p>Skill 也可以放进这个模型里理解。不过我会补一句：Skill 不完全等于微服务接口。按照 Anthropic 的定义，一个 Skill 可以同时包含说明、工作流、脚本、模板和参考资料，它更像一个按需加载的“能力包”；真正对外部系统采取动作的，通常还是 tool。这样区分以后，Agent、Skill、Tool 三层就清楚多了。</p>
+<h2 id="但-Agent-不能直接照搬微服务"><a href="#但-Agent-不能直接照搬微服务" class="headerlink" title="但 Agent 不能直接照搬微服务"></a>但 Agent 不能直接照搬微服务</h2><p>微服务通常强调明确契约。相同输入进入一个稳定接口，我们希望得到可预测的结果。</p>
+<p>Agent 不一样。它会结合目标、上下文和当前环境，决定下一步做什么：直接回答、查资料、调用工具、交给另一个 Agent，还是回来向人确认。换句话说，<strong>微服务更多是“能力被调用”，Agent 还多了一层“判断该调用什么”。</strong></p>
+<p>这也是这个类比最关键的边界。</p>
+<p>设计微服务时，我们主要关心吞吐量、数据一致性、依赖和故障隔离；设计 Agent 时，还要增加几件事：上下文由谁持有，权限能开到哪里，结果怎样评估，错误如何恢复，什么时候必须停下来，以及哪些动作一定要让人确认。</p>
+<p>OpenAI 的官方指南一直强调 guardrails、评估和人工介入；Anthropic 也建议先从最简单的方案开始，只有简单调用和固定工作流无法解决问题时，再增加 Agent 和多 Agent 的复杂度。这个建议我很认同。Agent 不是拆得越多越先进，就像微服务也不是拆得越碎越高级。</p>
+<h2 id="Agent-架构，其实是在重新梳理业务"><a href="#Agent-架构，其实是在重新梳理业务" class="headerlink" title="Agent 架构，其实是在重新梳理业务"></a>Agent 架构，其实是在重新梳理业务</h2><p>从这个角度看，我越来越觉得，搭建 Agent 并不只是增加一层 AI 技术，而是在重新回答业务问题。</p>
+<p>过去我们梳理的是系统提供哪些功能、服务之间怎样调用；现在还要继续梳理：哪些判断可以交给 AI，哪些经验应该沉淀成 Skill，哪些动作要封装成 Tool，哪些任务可以交给 sub-agent，哪些责任必须留给人。</p>
+<p>目前行业里已经出现了不同层次的标准。MCP 主要解决 Agent 怎样连接工具、数据和提示资源；A2A 更关注独立 Agent 之间怎样发现能力、交换任务和交付结果。它们还不是一套包打天下的“Agent 设计模式”，但方向已经很清楚：Agent 会越来越模块化，也会越来越需要明确的能力边界和协作契约。</p>
+<p>所以我现在的结论是：<strong>Agent 像微服务，但它服务的不只是功能，而是一段带判断、带上下文、能够行动的业务责任。</strong></p>
+<p>这也引出我最近看的 Harness。在 DeepSeek Harness 的官方架构里，模型适配、工具、会话、Agent Loop、Skill、沙箱和审批策略都可以作为插件组合与替换。它不是给大模型套个 Web 页面，而是让 Agent 被装配、约束并持续运行的那套“马具”。 <a target="_blank" rel="noopener" href="https://github.com/deepseek-ai/DeepSeek-Harness">DeepSeek Harness 官方仓库</a></p>
+<p><img src="/images/articles/ai-agent-microservices-footer-20261030/027_01.jpg" alt="微服务、Agent 与 Harness 的架构对照示意"></p>
+<p>所以我越来越觉得，业界并不是把过去的软件经验推倒重来，而是在继续演绎：把边界、契约、组合、隔离和可观测性带入 Agent 世界，再补上上下文、权限、评估和反馈。微服务曾经重新拆分软件，Agent 与 Harness 可能继续重拆流程、经验和决策。对架构师来说，我们学的不只是一个新框架，而是重新理解业务本身。</p>
+<p>原载于「玩AI的杰克」微信公众号，2026-11-03。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fdRCAXvmC70zqhpJvI70xQ">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI-Agent/">#AI Agent</a></li>
+      
+        <li><a class="tag" href="/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">#软件架构</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/workbuddy-practical-workflows/"><span>← 较新</span><strong>最近使用 workbuddy 几个最佳实践</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-business-impact-levels/"><span>较早 →</span><strong>企业用AI，先分清提效和重做生意</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>最近使用 workbuddy 几个最佳实践 · 玩AI的杰克的IT实验室</title>
+  <meta name="description" content="用虚拟书店和公众号两个项目，讲清工作台、换机迁移、选题防重、云端记忆、工作流和 Skill 的六个具体做法。">
+  <link rel="canonical" href="https://jackywjj.github.io/articles/workbuddy-practical-workflows/index.html">
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+  
+<link rel="stylesheet" href="/css/jk-blog-blue.css">
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="玩AI的杰克的IT实验室" type="application/atom+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+    <nav class="shell header-inner" aria-label="主导航">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span>玩AI的杰克的IT实验室</span>
+      </a>
+      <div class="main-nav">
+        
+          <a href="/">Home</a>
+        
+          <a href="/categories/">Categories</a>
+        
+          <a href="/archives/">Archives</a>
+        
+          <a href="/about/">About Me</a>
+        
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="shell site-main" tabindex="-1">
+    <article class="reader panel">
+  <header class="page-header">
+    <div class="post-meta">
+      <time datetime="2026-11-17T23:30:00.000Z">2026.11.18</time>
+      
+        <a class="tag" href="/categories/AI-%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">AI 与软件工程</a>
+      
+    </div>
+    <h1>最近使用 workbuddy 几个最佳实践</h1>
+  </header>
+  <div class="prose"><p>最近，我做了两件事。一件是给虚拟书店搭一个本地工作台，开业计划、排班和读书会能放到同一个页面里看。另一件是把公众号运营项目从一台 Mac 拷到另一台。文件到了新机器，点开一看，下一篇文章该按哪套规则写、以前写过什么、草稿怎么核对，还是得一项项找。</p>
+<p>这两件事碰到的是同一个问题。今天让 AI 交一份东西容易。过两周换个任务，甚至换台电脑，怎么把这件事接着做？</p>
+<span id="more"></span>
+
+<p><img src="/images/articles/workbuddy-best-practices-20261117/illustration-01.png" alt="虚拟书店工作台概念插图"></p>
+<h2 id="一、建立工作台，先把每天要做的事摆出来"><a href="#一、建立工作台，先把每天要做的事摆出来" class="headerlink" title="一、建立工作台，先把每天要做的事摆出来"></a>一、建立工作台，先把每天要做的事摆出来</h2><p>虚拟书店原本有好几份筹备材料。最典型的是读书会，一份手册把《高效能人士的七个习惯》列为第 1 期，另一份月度方案把《如何对付蠢人》列为第 1 场。遇到这种情况，页面保留两份策划和原始出处，由主理人确定它们的归属和实际日期。只有确定了的活动才进日历。</p>
+<p>我先定下「今日、开业筹备、日常运营、营销与活动、复盘与决策」五个页面。打开首页，先看今天要做什么、哪里卡住、接下来七天有什么安排。开业日期没定时，设备调试还显示为 <code>T-21</code>。演示时把开业日填成 12 月 20 日，这一项就排到 11 月 29 日。</p>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>在 WorkBuddy 新建本地任务，选一个可写的输出目录。书店资料放在另一个目录，只读；页面和说明写到输出目录。若你的版本仍显示开发入口，可以从那里发起。</li>
+<li>给 WorkBuddy 的要求写具体一点。请读开业计划、日常运营和读书会文档，为每条预置事项标出处。开业日期为空时显示相对节点，两份活动方案都保留。有冲突的项目先挂在待确认。最终交付能离线打开的 <code>index.html</code>，并支持 JSON 备份和恢复。</li>
+<li>在访达里双击生成的页面。用一个演示日期检查倒排，再确认读书会仍在待确认区。备份时从页面导出 JSON。换浏览器、挪动页面或换电脑时，用导出的文件恢复记录。</li>
+</ol>
+<p><strong>搭配工具</strong>用访达管理两个目录，用 Chrome 或 Safari 打开页面。浏览器本地存储可用时，页面会保存日常记录；提示临时保存时，要记得导出。跨机器接续以 JSON 备份为准。WorkBuddy 的「项目」可以承接后续对话和项目指令，浏览器打开的是这家书店自己的一张经营页面。</p>
+<h2 id="二、换一台-Mac，按能否接续任务来验收"><a href="#二、换一台-Mac，按能否接续任务来验收" class="headerlink" title="二、换一台 Mac，按能否接续任务来验收"></a>二、换一台 Mac，按能否接续任务来验收</h2><p>我最近做的是把「玩AI的杰克」运营目录从另一台机器拷过来，再盘点这台 Mac 要留下什么。项目规则、工作流、模板和公众号相关配置都值得复用。旧的 WorkBuddy 教程目录在新副本里找不全，公众号发送链路也得在新机器另行回读确认。目录能打开，和某项工作能接着跑，得分别检查。</p>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>在旧机器留一个 <code>HANDOFF.md</code>，记录先读哪几个文件、当前交到哪一步、下一步从哪开始。打包时盘点 <code>AGENTS.md</code>、工作流、模板、选题总纲、仍在使用的内容包和发布所需配置。凭据走自己的安全存放方式。</li>
+<li>用访达、隔空投送或移动硬盘复制本地目录。文本规则和脚本也可以用自己的私有 Git 仓库管理。新机重新选择工作目录，检查硬编码的旧路径、脚本依赖、Skill 安装状态和账号授权。</li>
+<li>有历史任务需要带走，再看 WorkBuddy 设置里的同账号迁移入口。官方更新日志列明可导入任务、空间和定时任务。 <a target="_blank" rel="noopener" href="https://www.codebuddy.cn/docs/workbuddy/Changelog">WorkBuddy 更新日志</a>这个步骤完成后，仍然要逐一检查本地目录、产物和连接器。</li>
+<li>在新机开一个小任务。比如让它按旧模板生成一篇本地审阅稿，检查作者介绍和保存路径。需要验证公众号能力时，先做有授权的只读检查，确认目标账号和草稿回读入口。</li>
+</ol>
+<p><strong>搭配工具</strong>用访达或隔空投送复制资料，用 Git 对照规则和脚本版本，用公众号后台核对目标账号和草稿状态。上面是我整理出的验收顺序，这次已做的是目录拷贝和盘点。</p>
+<h2 id="三、长期记忆，先把写过的主题留在总纲里"><a href="#三、长期记忆，先把写过的主题留在总纲里" class="headerlink" title="三、长期记忆，先把写过的主题留在总纲里"></a>三、长期记忆，先把写过的主题留在总纲里</h2><p>我在另一个内容项目清理「民间故事」系列时，保留了 60 篇的题名和编号。旧稿整理掉以后，总纲还在。换一个对话想下一期，AI 仍有一份能翻的清单。只留题名容易漏掉换标题的重复，我会再加一列「回答了什么问题」。</p>
+<p>拿 WorkBuddy 内容做示例，可以这样记一条。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>主题</th>
+<th>核心问题</th>
+<th>状态</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WB-001</td>
+<td>WorkBuddy 远程办公</td>
+<td>人离开电脑后，怎么继续推进运营或研发任务</td>
+<td>已进草稿</td>
+<td>草稿回读记录</td>
+</tr>
+<tr>
+<td>WB-002</td>
+<td>项目级书店工作台</td>
+<td>如何把开业筹备资料转成可操作的店长页面</td>
+<td>候选</td>
+<td>书店工作台方案</td>
+</tr>
+</tbody></table>
+<p>如果下次又有人提议「如何用手机指挥家里的 WorkBuddy」，这个说法换了标题，核心问题仍和 WB-001 重叠。让 AI 先指出撞上哪条，再判断候选题有没有新场景、新问题或新材料。</p>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>建一份 <code>选题总纲.md</code>，给每个选题写编号、核心问题、状态和证据。已进草稿、已发布、候选分别记；历史信息缺失就写待核。</li>
+<li>在项目规则里写两句。推荐新题前先读总纲，逐条标出与历史主题明显重叠的候选。清理内容前先把题名、角度和状态补回总纲。</li>
+<li>在新任务中用一个换了说法的旧题测试。要求 WorkBuddy 引用命中的编号和问题；读不到总纲时直接报告缺口。</li>
+</ol>
+<p><strong>搭配工具</strong>用 Markdown 保管原始清单，Obsidian 方便人工搜索，Git 可以留修订历史。篇数再多一些，也可以让 Python 先查完全相同的标题，语义相近的部分交给 AI 解释，最后由人定。</p>
+<h2 id="四、云端记忆，适合保留跨会话的个人偏好"><a href="#四、云端记忆，适合保留跨会话的个人偏好" class="headerlink" title="四、云端记忆，适合保留跨会话的个人偏好"></a>四、云端记忆，适合保留跨会话的个人偏好</h2><p>本地总纲记的是项目里发生过什么。WorkBuddy 设置里的记忆，适合让新对话知道我长期怎么工作。官方文档说明，它会从对话里整理有用的信息，也提供手动查看、编辑和导入的入口。 <a target="_blank" rel="noopener" href="https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Memory">WorkBuddy 记忆文档</a>这个做法可以用在我的公众号上，先从一条简短偏好开始。</p>
+<blockquote>
+<p>请记住，我写技术公众号时喜欢用一个实际问题开头，再讲我怎么操作。推荐选题前先读本项目的历史总纲，找不到就问我总纲在哪里。</p>
+</blockquote>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>在头像菜单进入「设置 → 记忆」。有的版本也可以从个人面板的「记忆与进化」进入。用编辑入口明确告诉它要记住什么。</li>
+<li>如果你在 ChatGPT 里已经积累了一套写作习惯，可以让它先整理成几条短句，自己删掉具体账号、内部材料和过期规则，再通过 WorkBuddy 的记忆导入入口粘贴。</li>
+<li>开一条新对话，说「给我的公众号想三个 WorkBuddy 选题」，看它是否沿用口吻、主动索要总纲。若漏了，就回设置检视条目。需要每次执行的规则，也写进项目的 <code>AGENTS.md</code> 或 WorkBuddy 项目指令。</li>
+</ol>
+<p><strong>搭配工具</strong>WorkBuddy 自己就能维护记忆。ChatGPT 可帮忙整理已有偏好，本地 Markdown 继续保留完整选题和出处。想知道这条记忆能不能在换机后用上，就在新机开一条对话，照第三步再测一遍。</p>
+<h2 id="五、沉淀工作流，把一次交付里的检查点写下来"><a href="#五、沉淀工作流，把一次交付里的检查点写下来" class="headerlink" title="五、沉淀工作流，把一次交付里的检查点写下来"></a>五、沉淀工作流，把一次交付里的检查点写下来</h2><p>拿公众号举例。我已有文章工作流，里面规定主稿放在 <code>content.md</code>，作者介绍有固定模板，配图和封面各有自己的用途。换机器时，这些文本和模板就能当作接续入口。</p>
+<p>我会把一次写稿拆成几个能停下来的步骤。一篇文章可能已经写完，却还没选配色。也可能进了草稿箱，但回读还没通过。把当前状态写清楚，下一次开始时就知道该看哪份文件。</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>输入</th>
+<th>可检查的结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>选题</td>
+<td>主题与历史总纲</td>
+<td>新角度和相近旧题</td>
+</tr>
+<tr>
+<td>写稿</td>
+<td>项目材料和官方说明</td>
+<td>一份 <code>content.md</code>，标记待验证的说法</td>
+</tr>
+<tr>
+<td>排版</td>
+<td>已审主稿和确认的样式</td>
+<td>可预览的 HTML，保留模板规定的署名</td>
+</tr>
+<tr>
+<td>草稿</td>
+<td>获得授权的目标账号和最终稿</td>
+<td>草稿记录与回读结果，发布状态单独记录</td>
+</tr>
+</tbody></table>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>找一次已经完成的交付，把真正用过的输入、步骤、输出和检查方法写到 <code>工作流.md</code>。确定哪些步骤需要操作者提供材料或决定。</li>
+<li>把模板、例子和必要脚本放在项目里，工作流用相对路径引用。新任务直接说「按工作流处理这份材料，本次只到本地审稿」，让阶段边界也跟着任务走。</li>
+<li>换一份素材试跑。故意少放一个来源文件，确认它会指出缺什么。再把一半已完成的产物给它，检查它能否识别当前阶段，直接接着做。</li>
+</ol>
+<p><strong>搭配工具</strong>WorkBuddy 推进步骤，Markdown 编辑器看主稿，浏览器看排版。现有检查脚本可以由 Python 执行。微信公众号后台在需要保存或复核草稿时才用得上。</p>
+<h2 id="六、把稳定的重复动作，写成一个小-Skill"><a href="#六、把稳定的重复动作，写成一个小-Skill" class="headerlink" title="六、把稳定的重复动作，写成一个小 Skill"></a>六、把稳定的重复动作，写成一个小 Skill</h2><p>我本地有一个文章配色选择器。给它一篇稿子，它从现有色板里推荐三套，记录最后选中的样式。这个动作输入和输出都清楚，适合做成 Skill。同样的办法可以用在前面那份总纲上，做一个专门检查选题重复的 Skill。</p>
+<p>可以把这段交给 WorkBuddy，作为创建示例。</p>
+<blockquote>
+<p>请创建 <code>jk-topic-check</code>，简介写明这是玩AI的杰克的选题查重 Skill。收到「帮我查重这几个选题」时，读取调用者指定的总纲和候选题。逐条给出「重复」「相近」「可写」或「缺少依据」，指出命中的编号、理由和可区分的新角度。总纲缺失时说明无法查重。只输出本次报告，保持总纲只读。</p>
+</blockquote>
+<p><strong>怎么操作</strong></p>
+<ol>
+<li>在 WorkBuddy 对话里描述这项能力，写明触发语、必需输入、输出和文件权限。可以先让它生成 <code>SKILL.md</code> 和样例，审过后再通过对应的技能入口安装或启用。</li>
+<li>在技能列表确认已发现它，开一条新任务明确调用。先喂一个换标题的旧题，再喂一个真正的新题，最后不提供总纲。检查三个结果是否分别落到预期状态。</li>
+<li>如果以后换成 CSV 总纲，可以加脚本先筛完全相同的条目。语义重复仍要输出依据。整个公众号工作流继续由主任务控制，检查完选题后再进入写稿。</li>
+</ol>
+<p><strong>搭配工具</strong>用 WorkBuddy 创建并调用 Skill，用 VS Code 检查 <code>SKILL.md</code>，用 Git 管理版本。项目已有的例子是配色选择器；这里的查重 Skill 是演示规格，等样例通过后再用于日常选题。</p>
+<h2 id="收个尾"><a href="#收个尾" class="headerlink" title="收个尾"></a>收个尾</h2><p>如果从手头的项目里选一件事开始，我会先写好一页交接，再留一份能查的总纲。下次打开新对话，先看看它能不能说清前面做过什么、接下来做哪一步。书店的看板、公众号的工作流、反复调用的 Skill，都可以从这些已经有材料、也容易验证的动作里长出来。</p>
+<p>原载于「玩AI的杰克」微信公众号，2026-11-18。 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/l_w5bg509Pk9CZz4htasgw">公众号原文</a></p>
+</div>
+  
+    <ul class="social-links post-tags" aria-label="文章标签">
+      
+        <li><a class="tag" href="/tags/AI-%E5%B7%A5%E4%BD%9C%E6%B5%81/">#AI 工作流</a></li>
+      
+        <li><a class="tag" href="/tags/WorkBuddy/">#WorkBuddy</a></li>
+      
+    </ul>
+  
+</article>
+
+  <nav class="article-neighbors" aria-label="相邻文章">
+    
+      <a class="panel" href="/articles/geo-ai-search-validation/"><span>← 较新</span><strong>GEO到底在做什么？从AI搜索原理到效果验证</strong></a>
+    
+    
+      <a class="panel" href="/articles/ai-agent-and-microservices/"><span>较早 →</span><strong>AI Agent 很像微服务，但关键区别在这里</strong></a>
+    
+  </nav>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© 2026 Jacky Wu</span>
+      <a href="/">IT 实验室</a>
+    </div>
+  </footer>
+</body>
+</html>
