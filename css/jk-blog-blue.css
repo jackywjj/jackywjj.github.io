@@ -74,13 +74,12 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 .main-nav a {
   justify-content: center;
   padding: 7px 13px;
-  border: 1px solid #c8d9ef;
   border-radius: 8px;
   background: #f2f6fc;
   white-space: nowrap;
 }
 .main-nav a:hover { background: var(--blue-light); color: var(--link); text-decoration: none; }
-.main-nav a[aria-current="page"] { background: #dcecff; border-color: #a9caee; color: var(--link); }
+.main-nav a[aria-current="page"] { background: #dcecff; color: var(--link); }
 .site-main { min-height: 65vh; padding-block: 18px 64px; }
 .site-main-home { padding-block-start: 12px; }
 
